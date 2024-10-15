@@ -14,6 +14,13 @@ namespace SzamitogepesGrafika
     public partial class Form1 : Form
     {
         Graphics g;
+        DrawingTool currentTool = DrawingTool.None;
+        private enum DrawingTool
+        {
+            None,
+            DDA,
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -24,14 +31,26 @@ namespace SzamitogepesGrafika
         }
         private void dDAToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Pen pen = new Pen(Color.Black);
-            g.DDA(pen, 10.0f, 10.0f, 200.0f, 200.0f);
+            currentTool = DrawingTool.DDA;
+            interface2d.Invalidate();
         }
 
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
+
             g = e.Graphics;
-           
+
+            switch (currentTool)
+            {
+                case DrawingTool.DDA:
+                    g.DDA(new Pen(Color.Black), 10.0f, 10.0f, 200.0f, 200.0f);
+                    break;
+                case DrawingTool.None:
+                default:
+                        //Üres alapból
+                    break;
+            }
+
         }
     }
 }
