@@ -11,12 +11,12 @@ namespace OurGraphics
     {
         public static void DrawPixel(this Graphics g, Pen pen, float x, float y)
         {
-            g.DrawRectangle(pen, x, y, 0.5f, 0.5f);
+            g.DrawRectangle(pen, x, y, 0.5f,0.5f);
         }
-        /*public static void DrawPixel(this Graphics g, Color color, float x, float y)
+        public static void DrawPixel(this Graphics g, Color color, float x, float y)
         {
             g.DrawRectangle(new Pen(color), x, y, 0.5f, 0.5f);
-        }*/
+        }
 
 
     }

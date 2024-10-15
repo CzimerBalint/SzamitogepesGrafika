@@ -13,19 +13,19 @@ namespace SzamitogepesGrafika
 {
     public partial class Form1 : Form
     {
-        Graphics g;
-
 
         public Form1()
         {
             InitializeComponent();
-            
         }
+
 
         private void interface2d_Click(object sender, EventArgs e)
         {
-            Pen pen = new Pen(Brushes.DarkMagenta);
-            OurGraphics.OurGraphics.DrawPixel(g,pen,300,300);
+            using (Graphics g = interface2d.CreateGraphics())
+            {
+                OurGraphics.OurGraphics.DrawPixel(g, Color.Lime, 300f, 300f);
+            }
         }
     }
 }
