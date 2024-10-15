@@ -24,7 +24,7 @@ namespace SzamitogepesGrafika
 
         private void interface2d_Click(object sender, EventArgs e)
         {
-            Pen pen = new Pen(Brushes.AliceBlue);
+            Pen pen = new Pen(Brushes.DarkMagenta);
             OurGraphics.OurGraphics.DrawPixel(g,pen,300,300);
         }
     }
