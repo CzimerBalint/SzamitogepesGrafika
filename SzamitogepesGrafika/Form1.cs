@@ -45,14 +45,14 @@ namespace SzamitogepesGrafika
         private void dDAToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTool = DrawingTool.DDA;
-            CreationLine(drawableObjects, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), treeView1);
+            CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
             interface2d.Invalidate();
         }
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTool = DrawingTool.Vertex;
-            CreationVert(drawableObjects,WorldOrigin,treeView1);
+            CreateVertex(drawableObjects, treeView1, WorldOrigin);
             interface2d.Invalidate();
 
         }

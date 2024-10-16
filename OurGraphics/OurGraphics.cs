@@ -41,7 +41,7 @@ namespace OurGraphics
                 Location = location;
             }
             public abstract void Draw(Graphics g);
-
+            public abstract void Move(int deltaX, int deltaY);
         }
 
         #region Vertex
@@ -58,6 +58,11 @@ namespace OurGraphics
             public override void Draw(Graphics g)
             {
                 g.FillRectangle(Brushes.Black, Location.X-5, Location.Y-5, 10, 10);
+            }
+
+            public override void Move(int deltaX, int deltaY)
+            {
+                Location = new Point(Location.X + deltaX, Location.Y + deltaY);
             }
         }
         #endregion
@@ -81,8 +86,14 @@ namespace OurGraphics
 
             public override void Draw(Graphics g)
             {
-                g.DDA(Pens.Black,Start,End);
+                g.DDA(Pens.Black, Start, End);
             }
+            public override void Move(int deltaX, int deltaY)
+            {
+                Start.Move(deltaX, deltaY);
+                End.Move(deltaX, deltaY);
+            }
+
         }
         #endregion
 
@@ -91,58 +102,45 @@ namespace OurGraphics
         private static int vertexCount = 1; 
         private static int lineCount = 1;
 
-        public static Vertex CreateVertex(Point location)
+        public static Vertex CreateVertex(List<DrawableObject> drawableObjects, TreeView treeView1, Point location, bool isPartOfLine = false)
         {
             Vertex vertex = new Vertex(location);
             vertex.SetName($"Vertex{vertexCount++}");
+            drawableObjects.Add(vertex);
+
+            if (!isPartOfLine)
+            {
+                TreeNode parent = new TreeNode($"{vertex.Name}");
+                treeView1.Nodes.Add(parent);
+            }
+
             return vertex;
         }
 
-        public static void CreationVert(List<DrawableObject> drawableObjects, Point worldOrigin, TreeView treeView1)
+        public static void CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end)
         {
-            var vert = CreateVertex(worldOrigin);
-            drawableObjects.Add(vert);
-            TreeNode parnet = new TreeNode($"{vert.Name}");
-
-            // Itt a treeView1-t is hozzá kell adni, ha szükséges
-            treeView1.Nodes.Add(parnet);
-        }
-
-
-        public static void CreationLine(List<DrawableObject> drawableObjects, Point start, Point end, TreeView treeView1)
-        {
-            var line = CreateLine(start, end); // Létrehozzuk a vonalat
-            drawableObjects.Add(line); // Hozzáadjuk a vonalat a drawableObjects listához
-            drawableObjects.Add(line.Start);
-            drawableObjects.Add(line.End);
-            TreeNode parnet = new TreeNode($"{line.Name}");
-            TreeNode child1 = new TreeNode($"{line.Start.Name}");
-            TreeNode child2 = new TreeNode($"{line.End.Name}");
-            parnet.Nodes.Add(child1);
-            parnet.Nodes.Add(child2);
-
-            // Itt a treeView1-t is hozzá kell adni, ha szükséges
-            treeView1.Nodes.Add(parnet);
-        }
-
-        public static Line CreateLine(Point start, Point end)
-        {
-            var startVertex = CreateVertex(start);
-            var endVertex = CreateVertex(end);
+            var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
+            var endVertex = CreateVertex(drawableObjects, treeView1, end,true);
 
             var line = new Line(startVertex, endVertex);
+            line.SetName($"DDA_Line{lineCount++}");
+            startVertex.SetName($"{line.Name}_Start");
+            endVertex.SetName($"{line.Name}_End");
 
-            startVertex.SetName($"DDA_Line{lineCount}_StartVert");
-            endVertex.SetName($"DDA_Line{lineCount}_EndVert");
-            line.SetName($"DDA_Line{lineCount}");
+            drawableObjects.Add(line);
+            drawableObjects.Add(startVertex);
+            drawableObjects.Add(endVertex);
 
-            lineCount++;
+            
 
-            return line;
+            TreeNode parent = new TreeNode($"{line.Name}");
+            TreeNode child1 = new TreeNode($"{startVertex.Name}");
+            TreeNode child2 = new TreeNode($"{endVertex.Name}");
+            parent.Nodes.Add(child1);
+            parent.Nodes.Add(child2);
+
+            treeView1.Nodes.Add(parent);
         }
-
-       
-
 
 
         public static void DrawPixel(this Graphics g, Pen pen, float x, float y)
