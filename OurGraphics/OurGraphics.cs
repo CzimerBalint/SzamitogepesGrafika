@@ -10,6 +10,11 @@ namespace OurGraphics
 {
     public static class OurGraphics
     {
+        public enum LineDrawingAlgo
+        {
+            DDA,
+            Midpoint, 
+        }
         #region Connvert screenSpace to worldSpace
         public static Point WorldOrigin(this Graphics g,int width, int height)
         {
@@ -47,6 +52,7 @@ namespace OurGraphics
         #region Vertex
         public class Vertex : DrawableObject
         {
+            public bool IsSelected { get; set; }
             public Vertex(Point location) : base($"Vertex", location) { 
             }
 
@@ -54,10 +60,25 @@ namespace OurGraphics
             {
                 Name = name;
             }
+            public void Select()
+            {
+                IsSelected = true;
+            }
+
+            public void Deselect()
+            {
+                IsSelected = false;
+            }
 
             public override void Draw(Graphics g)
             {
-                g.FillRectangle(Brushes.Black, Location.X-5, Location.Y-5, 10, 10);
+                Brush brush = IsSelected ? Brushes.Red : Brushes.Black;
+                g.FillRectangle(brush, Location.X-5, Location.Y-5, 10, 10);
+            }
+
+            public bool Contains(Point p)
+            {
+                return new Rectangle(Location.X - 5, Location.Y - 5, 10, 10).Contains(p);
             }
 
             public override void Move(int deltaX, int deltaY)
@@ -72,12 +93,14 @@ namespace OurGraphics
         {
             public Vertex Start { get; set; }
             public Vertex End { get; set; }
+            private LineDrawingAlgo DrawingAlgo { get; set; }
 
-            public Line(Vertex start, Vertex end) : base($"Line", new Point())
+            public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base($"Line", new Point())
             {
 
                 Start = start;
                 End = end;
+                DrawingAlgo = drawingAlgo;
             }
             public void SetName(string name)
             {
@@ -86,8 +109,21 @@ namespace OurGraphics
 
             public override void Draw(Graphics g)
             {
-                g.DDA(Pens.Black, Start, End);
+                switch (DrawingAlgo)
+                {
+                    case LineDrawingAlgo.DDA:
+                        g.DDA(Pens.Black, Start, End);
+                        break;
+                    case LineDrawingAlgo.Midpoint:
+                        g.MidPoint(Pens.Black, Start, End);
+                        break;
+                    default:
+                        g.DDA(Pens.Black, Start, End);
+                        break;
+                }
             }
+
+             
             public override void Move(int deltaX, int deltaY)
             {
                 Start.Move(deltaX, deltaY);
@@ -99,8 +135,9 @@ namespace OurGraphics
 
         #endregion
 
-        private static int vertexCount = 1; 
-        private static int lineCount = 1;
+        private static int vertexCount = 1;
+        private static int ddalineCount = 1;
+        private static int MPlineCount = 1;
 
         public static Vertex CreateVertex(List<DrawableObject> drawableObjects, TreeView treeView1, Point location, bool isPartOfLine = false)
         {
@@ -117,21 +154,33 @@ namespace OurGraphics
             return vertex;
         }
 
-        public static void CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end)
+        public static void CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end,LineDrawingAlgo currentAlgo)
         {
             var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
             var endVertex = CreateVertex(drawableObjects, treeView1, end,true);
 
-            var line = new Line(startVertex, endVertex);
-            line.SetName($"DDA_Line{lineCount++}");
+            var line = new Line(startVertex, endVertex, currentAlgo);
+
+            int lineCount = 1;
+
+            if (currentAlgo == LineDrawingAlgo.DDA)
+            {
+                lineCount = ddalineCount;
+                ddalineCount++;
+            }
+            else if (currentAlgo == LineDrawingAlgo.Midpoint)
+            {
+                lineCount = MPlineCount;
+                MPlineCount++;
+            }
+
+            line.SetName($"{currentAlgo.ToString()}_Line{lineCount++}");
             startVertex.SetName($"{line.Name}_Start");
             endVertex.SetName($"{line.Name}_End");
 
             drawableObjects.Add(line);
             drawableObjects.Add(startVertex);
-            drawableObjects.Add(endVertex);
-
-            
+            drawableObjects.Add(endVertex);            
 
             TreeNode parent = new TreeNode($"{line.Name}");
             TreeNode child1 = new TreeNode($"{startVertex.Name}");
@@ -152,8 +201,6 @@ namespace OurGraphics
         {
             g.DrawRectangle(new Pen(color), x, y, 0.5f, 0.5f);
         }
-
-
         public static void DDA(this Graphics g, Pen pen, float x0, float y0, float x1, float y1)
         {
             float dx = x1 - x0;
@@ -176,24 +223,68 @@ namespace OurGraphics
         }
         public static void DDA(this Graphics g, Pen pen, Vertex start, Vertex end)
         {
-            float dx = end.Location.X - start.Location.X;
-            float dy = end.Location.Y - start.Location.Y;
-            float length = Math.Abs(dx);
-            if (Math.Abs(dy) > length)
-                length = Math.Abs(dy);
-            float incX = dx / length;
-            float incY = dy / length;
-            float x = start.Location.X;
-            float y = start.Location.Y;
-            g.DrawPixel(pen, x, y);
-            for (int i = 0; i < length; i++)
-            {
-                x += incX;
-                y += incY;
-                g.DrawPixel(pen, x, y);
-            }
+            g.DDA(pen, start.Location.X, start.Location.Y, end.Location.X, end.Location.Y);
 
         }
 
+        public static void MidPoint(this Graphics g, Pen pen, int x0, int y0, int x1, int y1)
+        {
+            bool isSteep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+
+            if (isSteep)
+            {
+                int temp = x0;
+                x0 = y0;
+                y0 = temp;
+
+                temp = x1;
+                x1 = y1;
+                y1 = temp;
+            }
+
+            if (x0 > x1)
+            {
+                int temp = x0;
+                x0 = x1;
+                x1 = temp;
+
+                temp = y0;
+                y0 = y1;
+                y1 = temp;
+            }
+
+            int dx = x1 - x0;
+            int dy = Math.Abs(y1 - y0);
+            int error = dx / 2;  // Initial error term
+
+            int yStep = (y0 < y1) ? 1 : -1;  // Step direction for y
+            int y = y0;
+
+            // Loop through the points from x0 to x1
+            for (int x = x0; x <= x1; x++)
+            {
+                // If the line is steep, we need to swap back the x and y when drawing
+                if (isSteep)
+                {
+                    g.DrawPixel(pen, y, x);  // Draw swapped if steep
+                }
+                else
+                {
+                    g.DrawPixel(pen, x, y);  // Draw normally if not steep
+                }
+
+                error -= dy;
+                if (error < 0)
+                {
+                    y += yStep;  // Move y based on the step direction
+                    error += dx;  // Adjust the error term
+                }
+            }
+
+        }
+        public static void MidPoint(this Graphics g, Pen pen, Vertex start, Vertex end)
+        {
+            g.MidPoint(pen,start.Location.X,start.Location.Y,end.Location.X,end.Location.Y);
+        }
     }
 }
