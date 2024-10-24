@@ -97,7 +97,6 @@ namespace OurGraphics
 
             public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base($"Line", new Point())
             {
-
                 Start = start;
                 End = end;
                 DrawingAlgo = drawingAlgo;
@@ -191,6 +190,32 @@ namespace OurGraphics
             treeView1.Nodes.Add(parent);
         }
 
+        public static void CreateCircle(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end)
+        {
+            // make actual circle and shits currently just renamed line call this in the main form you dumbass
+            var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
+            var endVertex = CreateVertex(drawableObjects, treeView1, end, true);
+
+            var line = new Line(startVertex, endVertex, LineDrawingAlgo.Midpoint);
+            int circleCount = 1;
+
+
+            line.SetName($"Aritmetic_Circle{circleCount++}");
+            startVertex.SetName($"Circle_Center");
+            endVertex.SetName($"Circle_Radius");
+
+            drawableObjects.Add(line);
+            drawableObjects.Add(startVertex);
+            drawableObjects.Add(endVertex);
+
+            TreeNode parent = new TreeNode($"{line.Name}");
+            TreeNode child1 = new TreeNode($"{startVertex.Name}");
+            TreeNode child2 = new TreeNode($"{endVertex.Name}");
+            parent.Nodes.Add(child1);
+            parent.Nodes.Add(child2);
+
+            treeView1.Nodes.Add(parent);
+        }
 
         public static void DrawPixel(this Graphics g, Pen pen, float x, float y)
         {
@@ -285,6 +310,41 @@ namespace OurGraphics
         public static void MidPoint(this Graphics g, Pen pen, Vertex start, Vertex end)
         {
             g.MidPoint(pen,start.Location.X,start.Location.Y,end.Location.X,end.Location.Y);
+        }
+
+        public static void CirclePoints(this Graphics g, Pen pen, int x, int y)
+        {
+            g.DrawPixel(pen, x, y);
+            g.DrawPixel(pen, x, -y);
+            g.DrawPixel(pen, -x, y);
+            g.DrawPixel(pen, -x, -y);
+            g.DrawPixel(pen, y, x);
+            g.DrawPixel(pen, y, -x);
+            g.DrawPixel(pen, -y, x);
+            g.DrawPixel(pen, -y, -x);
+        }
+
+        public static void AritmeticCircle(this Graphics g, Pen pen, int r)
+        {
+            int x = 0;
+            int y = r;
+            float d = 5 / 4 - r;
+
+            g.CirclePoints(pen, x, y);
+            while (y > x)
+            {
+                if (d < 0)
+                {
+                    d += 2 * x + 3;
+                }
+                else
+                {
+                    d += 2 * (x - y) + 5;
+                    y -= 1;
+                }
+                x += 1;
+                g.CirclePoints(pen,x,y);
+            }
         }
     }
 }

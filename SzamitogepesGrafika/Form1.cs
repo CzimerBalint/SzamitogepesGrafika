@@ -50,7 +50,14 @@ namespace SzamitogepesGrafika
             CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.Midpoint);
             interface2d.Invalidate();
         }
+        private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
+        {
+            g.AritmeticCircle(Pens.Black, 100);
+        }
+        private void Option_MidPointCircle_Click(object sender, EventArgs e)
+        {
 
+        }
 
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
@@ -129,6 +136,6 @@ namespace SzamitogepesGrafika
             selectedVertex = null;
         }
 
-        
+       
     }
 }
