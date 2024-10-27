@@ -132,11 +132,54 @@ namespace OurGraphics
         }
         #endregion
 
+        #region Triangle
+
+        public class Triangle : DrawableObject
+        {
+            public Vertex A { get; set; }
+            public Vertex B { get; set; }
+            public Vertex C { get; set; }
+            private LineDrawingAlgo DrawingAlgo { get; set; }
+
+
+
+
+            public Triangle(Vertex a, Vertex b, Vertex c) : base("Triangle",new Point())
+            {
+                A = a;
+                B = b;
+                C = c;
+            }
+
+            public void SetName(string name)
+            {
+                Name = name;
+            }
+
+            public override void Draw(Graphics g)
+            {
+                g.MidPoint(Pens.Black, A, B);
+                g.MidPoint(Pens.Black, A, C);
+                g.MidPoint(Pens.Black, B, C);
+
+            }
+
+            public override void Move(int deltaX, int deltaY)
+            {
+                A.Move(deltaX, deltaY);
+                B.Move(deltaX, deltaY);
+                C.Move(deltaX, deltaY);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         private static int vertexCount = 1;
         private static int ddalineCount = 1;
         private static int MPlineCount = 1;
+        private static int triangleCount = 1;
 
         public static Vertex CreateVertex(List<DrawableObject> drawableObjects, TreeView treeView1, Point location, bool isPartOfLine = false)
         {
@@ -213,6 +256,34 @@ namespace OurGraphics
             TreeNode child2 = new TreeNode($"{endVertex.Name}");
             parent.Nodes.Add(child1);
             parent.Nodes.Add(child2);
+
+            treeView1.Nodes.Add(parent);
+        }
+
+        public static void CreateTriangle(List<DrawableObject> drawableObjects, TreeView treeView1, Point A, Point B, Point C)
+        {
+            var VertexA = CreateVertex(drawableObjects, treeView1, A, true);
+            var VertexB = CreateVertex(drawableObjects, treeView1, B, true);
+            var VertexC = CreateVertex(drawableObjects, treeView1, C, true);
+
+            
+
+            var triangle = new Triangle(VertexA,VertexB,VertexC);
+
+            triangle.SetName($"Midpoint_Triangle{triangleCount++}");
+            VertexA.SetName($"A");
+            VertexB.SetName($"B");
+            VertexC.SetName($"C");
+
+            drawableObjects.Add(triangle);
+
+            TreeNode parent = new TreeNode($"{triangle.Name}");
+            TreeNode child1 = new TreeNode($"{VertexA.Name}");
+            TreeNode child2 = new TreeNode($"{VertexB.Name}");
+            TreeNode child3 = new TreeNode($"{VertexC.Name}");
+            parent.Nodes.Add(child1);
+            parent.Nodes.Add(child2);
+            parent.Nodes.Add(child3);
 
             treeView1.Nodes.Add(parent);
         }
@@ -346,5 +417,52 @@ namespace OurGraphics
                 g.CirclePoints(pen,x,y);
             }
         }
+
+        public static Vertex MergeVertices(List<DrawableObject> drawableObjects, TreeView treeView1, List<Vertex> verticesToMerge)
+        {
+            if (verticesToMerge == null || verticesToMerge.Count < 2)
+                throw new ArgumentException("Legalább két vertekszet kell megadni az egyesítéshez.");
+
+            // Az új vertex helyének kiszámítása (átlag alapján)
+            int avgX = (int)verticesToMerge.Average(v => v.Location.X);
+            int avgY = (int)verticesToMerge.Average(v => v.Location.Y);
+            Point mergedLocation = new Point(avgX, avgY);
+
+            // Új vertex létrehozása és hozzáadása
+            Vertex mergedVertex = CreateVertex(drawableObjects, treeView1, mergedLocation);
+
+            // Frissítsük azokat az objektumokat, amelyek a régi vertekszeket használták (pl. vonalak)
+            foreach (var drawable in drawableObjects.OfType<Line>())
+            {
+                if (verticesToMerge.Contains(drawable.Start))
+                {
+                    drawable.Start = mergedVertex;
+                }
+                if (verticesToMerge.Contains(drawable.End))
+                {
+                    drawable.End = mergedVertex;
+                }
+            }
+
+            // Régi vertekszek eltávolítása
+            foreach (var vertex in verticesToMerge)
+            {
+                drawableObjects.Remove(vertex);
+                // Törlés a TreeView-ból is
+                var node = treeView1.Nodes.Cast<TreeNode>().FirstOrDefault(n => n.Text == vertex.Name);
+                if (node != null)
+                {
+                    treeView1.Nodes.Remove(node);
+                }
+            }
+
+            return mergedVertex;
+        }
+
+
+
+
+
+
     }
 }

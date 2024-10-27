@@ -19,6 +19,7 @@ namespace SzamitogepesGrafika
         public List<DrawableObject> drawableObjects;
         private Vertex selectedVertex = null;
         private Point lastMousePos;
+        private List<Vertex> selectedVertices = new List<Vertex>();
 
         public Form1()
         {
@@ -34,9 +35,28 @@ namespace SzamitogepesGrafika
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
         }
 
-        private void Option_Vertex_Click(object sender, EventArgs e)
+        private void vertexHozzáadásaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateVertex(drawableObjects, treeView1, WorldOrigin);
+            interface2d.Invalidate();
+        }
+
+        private void vertexekEgyesítéseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectedVertices.Count < 2)
+            {
+                MessageBox.Show("Legalább két vertekszet kell kijelölni az egyesítéshez.");
+                return;
+            }
+
+            // Merge the selected vertices
+            var mergedVertex = MergeVertices(drawableObjects, treeView1, selectedVertices);
+            MessageBox.Show($"Egyesítés sikeres: {mergedVertex.Name}");
+
+            // Clear the selected vertices list
+            selectedVertices.Clear();
+
+            // Redraw the form
             interface2d.Invalidate();
         }
 
@@ -122,6 +142,13 @@ namespace SzamitogepesGrafika
                 {
                     vertex.Select();
                     selectedVertex = vertex;
+
+                    // Kiválasztott vertex ellenőrzése hogy tartalmazza-e a lista
+                    if (!selectedVertices.Contains(vertex))
+                    {
+                        selectedVertices.Add(vertex);
+                    }
+
                     lastMousePos = e.Location;  // Remember the initial position of the mouse
                     break;
                 }
@@ -136,6 +163,11 @@ namespace SzamitogepesGrafika
             selectedVertex = null;
         }
 
-       
+        private void midpointTriangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateTriangle(drawableObjects,treeView1,WorldOrigin,new Point(WorldOrigin.X+100,WorldOrigin.Y),new Point(WorldOrigin.X+50,WorldOrigin.Y+100));
+            
+            interface2d.Invalidate();
+        }
     }
 }
