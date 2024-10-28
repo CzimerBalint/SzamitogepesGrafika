@@ -169,5 +169,29 @@ namespace SzamitogepesGrafika
             
             interface2d.Invalidate();
         }
+
+        private void midpointRectangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+
+        private void midpointSquareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+
+        private void midpointDeltoidToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
+            interface2d.Invalidate();
+        }
+
+        private void midpointParallelogramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
     }
 }

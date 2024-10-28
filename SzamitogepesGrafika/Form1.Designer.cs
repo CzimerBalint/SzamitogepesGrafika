@@ -68,13 +68,17 @@
             this.circleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Aritmetic_Circle = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_MidPointCircle = new System.Windows.Forms.ToolStripMenuItem();
+            this.midpointTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.midpointRectangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.midpointTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.midpointSquareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.midpointDeltoidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.midpointParallelogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -381,14 +385,14 @@
             // vertexHozzáadásaToolStripMenuItem
             // 
             this.vertexHozzáadásaToolStripMenuItem.Name = "vertexHozzáadásaToolStripMenuItem";
-            this.vertexHozzáadásaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vertexHozzáadásaToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.vertexHozzáadásaToolStripMenuItem.Text = "Vertex hozzáadása";
             this.vertexHozzáadásaToolStripMenuItem.Click += new System.EventHandler(this.vertexHozzáadásaToolStripMenuItem_Click);
             // 
             // vertexekEgyesítéseToolStripMenuItem
             // 
             this.vertexekEgyesítéseToolStripMenuItem.Name = "vertexekEgyesítéseToolStripMenuItem";
-            this.vertexekEgyesítéseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vertexekEgyesítéseToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.vertexekEgyesítéseToolStripMenuItem.Text = "Vertexek egyesítése";
             this.vertexekEgyesítéseToolStripMenuItem.Click += new System.EventHandler(this.vertexekEgyesítéseToolStripMenuItem_Click);
             // 
@@ -420,7 +424,11 @@
             this.circleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Option_Aritmetic_Circle,
             this.Option_MidPointCircle,
-            this.midpointTriangleToolStripMenuItem});
+            this.midpointTriangleToolStripMenuItem,
+            this.midpointRectangleToolStripMenuItem,
+            this.midpointSquareToolStripMenuItem,
+            this.midpointDeltoidToolStripMenuItem,
+            this.midpointParallelogramToolStripMenuItem});
             this.circleToolStripMenuItem.Name = "circleToolStripMenuItem";
             this.circleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.circleToolStripMenuItem.Text = "&Primitives";
@@ -428,16 +436,30 @@
             // Option_Aritmetic_Circle
             // 
             this.Option_Aritmetic_Circle.Name = "Option_Aritmetic_Circle";
-            this.Option_Aritmetic_Circle.Size = new System.Drawing.Size(159, 22);
+            this.Option_Aritmetic_Circle.Size = new System.Drawing.Size(196, 22);
             this.Option_Aritmetic_Circle.Text = "Aritmetic Circle ";
             this.Option_Aritmetic_Circle.Click += new System.EventHandler(this.Option_Aritmetic_Circle_Click);
             // 
             // Option_MidPointCircle
             // 
             this.Option_MidPointCircle.Name = "Option_MidPointCircle";
-            this.Option_MidPointCircle.Size = new System.Drawing.Size(159, 22);
+            this.Option_MidPointCircle.Size = new System.Drawing.Size(196, 22);
             this.Option_MidPointCircle.Text = "MidpointCircle";
             this.Option_MidPointCircle.Click += new System.EventHandler(this.Option_MidPointCircle_Click);
+            // 
+            // midpointTriangleToolStripMenuItem
+            // 
+            this.midpointTriangleToolStripMenuItem.Name = "midpointTriangleToolStripMenuItem";
+            this.midpointTriangleToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.midpointTriangleToolStripMenuItem.Text = "MidpointTriangle";
+            this.midpointTriangleToolStripMenuItem.Click += new System.EventHandler(this.midpointTriangleToolStripMenuItem_Click);
+            // 
+            // midpointRectangleToolStripMenuItem
+            // 
+            this.midpointRectangleToolStripMenuItem.Name = "midpointRectangleToolStripMenuItem";
+            this.midpointRectangleToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.midpointRectangleToolStripMenuItem.Text = "MidpointRectangle";
+            this.midpointRectangleToolStripMenuItem.Click += new System.EventHandler(this.midpointRectangleToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -454,38 +476,52 @@
             // contentsToolStripMenuItem
             // 
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.contentsToolStripMenuItem.Text = "&Contents";
             // 
             // indexToolStripMenuItem
             // 
             this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.indexToolStripMenuItem.Text = "&Index";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.searchToolStripMenuItem.Text = "&Search";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
-            // midpointTriangleToolStripMenuItem
+            // midpointSquareToolStripMenuItem
             // 
-            this.midpointTriangleToolStripMenuItem.Name = "midpointTriangleToolStripMenuItem";
-            this.midpointTriangleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.midpointTriangleToolStripMenuItem.Text = "MidpointTriangle";
-            this.midpointTriangleToolStripMenuItem.Click += new System.EventHandler(this.midpointTriangleToolStripMenuItem_Click);
+            this.midpointSquareToolStripMenuItem.Name = "midpointSquareToolStripMenuItem";
+            this.midpointSquareToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.midpointSquareToolStripMenuItem.Text = "MidpointSquare";
+            this.midpointSquareToolStripMenuItem.Click += new System.EventHandler(this.midpointSquareToolStripMenuItem_Click);
+            // 
+            // midpointDeltoidToolStripMenuItem
+            // 
+            this.midpointDeltoidToolStripMenuItem.Name = "midpointDeltoidToolStripMenuItem";
+            this.midpointDeltoidToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.midpointDeltoidToolStripMenuItem.Text = "MidpointDeltoid";
+            this.midpointDeltoidToolStripMenuItem.Click += new System.EventHandler(this.midpointDeltoidToolStripMenuItem_Click);
+            // 
+            // midpointParallelogramToolStripMenuItem
+            // 
+            this.midpointParallelogramToolStripMenuItem.Name = "midpointParallelogramToolStripMenuItem";
+            this.midpointParallelogramToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.midpointParallelogramToolStripMenuItem.Text = "MidpointParallelogram";
+            this.midpointParallelogramToolStripMenuItem.Click += new System.EventHandler(this.midpointParallelogramToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -565,6 +601,10 @@
         private System.Windows.Forms.ToolStripMenuItem vertexHozzáadásaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vertexekEgyesítéseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem midpointTriangleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem midpointRectangleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem midpointSquareToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem midpointDeltoidToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem midpointParallelogramToolStripMenuItem;
     }
 }
 
