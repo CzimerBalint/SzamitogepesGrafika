@@ -15,16 +15,16 @@ namespace OurGraphics
         public enum LineDrawingAlgo
         {
             DDA,
-            Midpoint, 
+            Midpoint,
         }
         #region Connvert screenSpace to worldSpace
-        public static Point WorldOrigin(this Graphics g,int width, int height)
+        public static Point WorldOrigin(this Graphics g, int width, int height)
         {
-            return new Point(width/2, height/2);
+            return new Point(width / 2, height / 2);
         }
-        public static Point WorldOrigin(this Graphics g,Point size)
+        public static Point WorldOrigin(this Graphics g, Point size)
         {
-            return new Point(size.X / 2, size.Y/ 2);
+            return new Point(size.X / 2, size.Y / 2);
         }
         public static Point objectToWorldOrigin(this Graphics g, int w, int h, int x, int y)
         {
@@ -55,7 +55,7 @@ namespace OurGraphics
         public class Vertex : DrawableObject
         {
             public bool IsSelected { get; set; }
-            public Vertex(Point location) : base($"Vertex", location) { 
+            public Vertex(Point location) : base($"Vertex", location) {
             }
 
             public void SetName(string name)
@@ -75,7 +75,7 @@ namespace OurGraphics
             public override void Draw(Graphics g)
             {
                 Brush brush = IsSelected ? Brushes.Red : Brushes.Black;
-                g.FillRectangle(brush, Location.X-5, Location.Y-5, 10, 10);
+                g.FillRectangle(brush, Location.X - 5, Location.Y - 5, 10, 10);
             }
 
             public bool Contains(Point p)
@@ -124,7 +124,7 @@ namespace OurGraphics
                 }
             }
 
-             
+
             public override void Move(int deltaX, int deltaY)
             {
                 Start.Move(deltaX, deltaY);
@@ -146,7 +146,7 @@ namespace OurGraphics
 
 
 
-            public Triangle(Vertex a, Vertex b, Vertex c) : base("Triangle",new Point())
+            public Triangle(Vertex a, Vertex b, Vertex c) : base("Triangle", new Point())
             {
                 A = a;
                 B = b;
@@ -223,6 +223,35 @@ namespace OurGraphics
 
         #endregion
 
+        #region Circle
+        public class Circle : DrawableObject
+        {
+            public Line Radius { get; set; }
+
+            public Circle(Line radius) : base($"Circle", new Point())
+            {
+                Radius = radius;
+            }
+
+            public void SetName(string name)
+            {
+                Name = name;
+            }
+
+            public override void Draw(Graphics g)
+            {
+                g.AritmeticCircle(Pens.Black, Radius.Start, Radius.End);
+            }
+
+            public override void Move(int deltaX, int deltaY)
+            {
+                Radius.Start.Move(deltaX, deltaY);
+                Radius.End.Move(deltaX, deltaY);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         private static int vertexCount = 1;
@@ -230,6 +259,8 @@ namespace OurGraphics
         private static int MPlineCount = 1;
         private static int triangleCount = 1;
         private static int rectangleCount = 1;
+        private static int circleCount = 1;
+
 
         public static Vertex CreateVertex(List<DrawableObject> drawableObjects, TreeView treeView1, Point location, bool isPartOfLine = false)
         {
@@ -246,10 +277,10 @@ namespace OurGraphics
             return vertex;
         }
 
-        public static void CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end,LineDrawingAlgo currentAlgo)
+        public static Line CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end, LineDrawingAlgo currentAlgo)
         {
             var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
-            var endVertex = CreateVertex(drawableObjects, treeView1, end,true);
+            var endVertex = CreateVertex(drawableObjects, treeView1, end, true);
 
             var line = new Line(startVertex, endVertex, currentAlgo);
 
@@ -272,7 +303,7 @@ namespace OurGraphics
 
             drawableObjects.Add(line);
             drawableObjects.Add(startVertex);
-            drawableObjects.Add(endVertex);            
+            drawableObjects.Add(endVertex);
 
             TreeNode parent = new TreeNode($"{line.Name}");
             TreeNode child1 = new TreeNode($"{startVertex.Name}");
@@ -281,29 +312,34 @@ namespace OurGraphics
             parent.Nodes.Add(child2);
 
             treeView1.Nodes.Add(parent);
+
+            return line;
         }
 
-        public static void CreateCircle(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end)
+        public static void CreateCircle(List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
         {
-            // make actual circle and shits currently just renamed line call this in the main form you dumbass
-            var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
-            var endVertex = CreateVertex(drawableObjects, treeView1, end, true);
+            //Vertex centerPoint = CreateVertex(drawableObjects, treeView1, center, true);
+            //Vertex r = CreateVertex(drawableObjects, treeView1, radius, true);
 
-            var line = new Line(startVertex, endVertex, LineDrawingAlgo.Midpoint);
-            int circleCount = 1;
+            Line rad = CreateLine(drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint);
 
+            Circle circle = new Circle(rad);
 
-            line.SetName($"Aritmetic_Circle{circleCount++}");
-            startVertex.SetName($"Circle_Center");
-            endVertex.SetName($"Circle_Radius");
+            circle.SetName($"Aritmetic_Circle{circleCount++}");
+            rad.SetName("Circle_lenght");
+            rad.Start.SetName($"Circle_Center");
+            rad.End.SetName($"Circle_Radius");
 
-            drawableObjects.Add(line);
-            drawableObjects.Add(startVertex);
-            drawableObjects.Add(endVertex);
+            drawableObjects.Add(circle);
+           
 
-            TreeNode parent = new TreeNode($"{line.Name}");
-            TreeNode child1 = new TreeNode($"{startVertex.Name}");
-            TreeNode child2 = new TreeNode($"{endVertex.Name}");
+            TreeNode parent = new TreeNode($"{circle.Name}");
+
+            TreeNode child0 = new TreeNode($"{rad.Name}");
+            TreeNode child1 = new TreeNode($"{rad.Start.Name}");
+            TreeNode child2 = new TreeNode($"{rad.End.Name}");
+
+            parent.Nodes.Add(child0);
             parent.Nodes.Add(child1);
             parent.Nodes.Add(child2);
 
@@ -316,9 +352,9 @@ namespace OurGraphics
             var VertexB = CreateVertex(drawableObjects, treeView1, B, true);
             var VertexC = CreateVertex(drawableObjects, treeView1, C, true);
 
-            
 
-            var triangle = new Triangle(VertexA,VertexB,VertexC);
+
+            var triangle = new Triangle(VertexA, VertexB, VertexC);
 
             triangle.SetName($"Midpoint_Triangle{triangleCount++}");
             VertexA.SetName($"A");
@@ -338,7 +374,7 @@ namespace OurGraphics
             treeView1.Nodes.Add(parent);
         }
 
-        public static void CreateRectangle(List<DrawableObject> drawableObjects, TreeView treeView1,string name, Point A, Point B, Point C, Point D)
+        public static void CreateRectangle(List<DrawableObject> drawableObjects, TreeView treeView1, string name, Point A, Point B, Point C, Point D)
         {
             var VertexA = CreateVertex(drawableObjects, treeView1, A, true);
             var VertexB = CreateVertex(drawableObjects, treeView1, B, true);
@@ -464,28 +500,29 @@ namespace OurGraphics
         }
         public static void MidPoint(this Graphics g, Pen pen, Vertex start, Vertex end)
         {
-            g.MidPoint(pen,start.Location.X,start.Location.Y,end.Location.X,end.Location.Y);
+            g.MidPoint(pen, start.Location.X, start.Location.Y, end.Location.X, end.Location.Y);
         }
 
-        public static void CirclePoints(this Graphics g, Pen pen, int x, int y)
+        public static void CirclePoints(this Graphics g, Pen pen, Point center, int x, int y)
         {
-            g.DrawPixel(pen, x, y);
-            g.DrawPixel(pen, x, -y);
-            g.DrawPixel(pen, -x, y);
-            g.DrawPixel(pen, -x, -y);
-            g.DrawPixel(pen, y, x);
-            g.DrawPixel(pen, y, -x);
-            g.DrawPixel(pen, -y, x);
-            g.DrawPixel(pen, -y, -x);
+            g.DrawPixel(pen, center.X + x, center.Y + y);
+            g.DrawPixel(pen, center.X + x, center.Y - y);
+            g.DrawPixel(pen, center.X - x, center.Y + y);
+            g.DrawPixel(pen, center.X - x, center.Y - y);
+            g.DrawPixel(pen, center.X + y, center.Y + x);
+            g.DrawPixel(pen, center.X + y, center.Y - x);
+            g.DrawPixel(pen, center.X - y, center.Y + x);
+            g.DrawPixel(pen, center.X - y, center.Y - x);
         }
 
-        public static void AritmeticCircle(this Graphics g, Pen pen, int r)
+        public static void AritmeticCircle(this Graphics g, Pen pen, Point center, Point r)
         {
+            int radius = (int)Math.Sqrt(Math.Pow(r.X - center.X, 2) + Math.Pow(r.Y - center.Y, 2));
             int x = 0;
-            int y = r;
-            float d = 5 / 4 - r;
+            int y = radius;
+            float d = 5 / 4 - radius;
 
-            g.CirclePoints(pen, x, y);
+            g.CirclePoints(pen, center, x, y);
             while (y > x)
             {
                 if (d < 0)
@@ -498,10 +535,14 @@ namespace OurGraphics
                     y -= 1;
                 }
                 x += 1;
-                g.CirclePoints(pen,x,y);
+                g.CirclePoints(pen, center, x, y);
             }
         }
 
+        public static void AritmeticCircle(this Graphics g, Pen pen, Vertex center, Vertex r)
+        {
+            g.AritmeticCircle(pen, center.Location, r.Location);
+        }
         public static Vertex MergeVertices(List<DrawableObject> drawableObjects, TreeView treeView1, List<Vertex> verticesToMerge)
         {
             if (verticesToMerge == null || verticesToMerge.Count < 2)

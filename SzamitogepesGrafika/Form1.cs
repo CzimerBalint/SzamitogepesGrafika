@@ -72,7 +72,8 @@ namespace SzamitogepesGrafika
         }
         private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
         {
-            g.AritmeticCircle(Pens.Black, 100);
+            CreateCircle(drawableObjects,treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            interface2d.Invalidate();
         }
         private void Option_MidPointCircle_Click(object sender, EventArgs e)
         {
