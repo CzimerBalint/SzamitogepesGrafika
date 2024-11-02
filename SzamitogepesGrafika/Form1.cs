@@ -4,6 +4,7 @@ using System.Drawing;
 using OurGraphics;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
+using PopUpWindows;
 
 namespace SzamitogepesGrafika
 {
@@ -33,6 +34,8 @@ namespace SzamitogepesGrafika
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
         {
+           BaseForm baseForm = new BaseForm("Vertex hozzáadása");
+            baseForm.ShowDialog();
             CreateVertex(drawableObjects, treeView1, WorldOrigin);
             interface2d.Invalidate();
         }
