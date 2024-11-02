@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
 
 namespace OurGraphics
 {
-    public static partial class OurGraphics
+    public static partial class GraphicsExtension
     {
         #region Lines Class
         public class Line : DrawableObject
@@ -59,12 +56,12 @@ namespace OurGraphics
         private static int MPlineCount = 1;
 
 
-        public static Line CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end, LineDrawingAlgo currentAlgo)
+        public static Line CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end, LineDrawingAlgo currentAlgo, bool isPartOfCircle = false)
         {
-            var startVertex = CreateVertex(drawableObjects, treeView1, start, true);
-            var endVertex = CreateVertex(drawableObjects, treeView1, end, true);
+            Vertex startVertex = CreateVertex(drawableObjects, treeView1, start, true);
+            Vertex endVertex = CreateVertex(drawableObjects, treeView1, end, true);
 
-            var line = new Line(startVertex, endVertex, currentAlgo);
+            Line line = new Line(startVertex, endVertex, currentAlgo);
 
             int lineCount = 1;
 
@@ -87,13 +84,20 @@ namespace OurGraphics
             drawableObjects.Add(startVertex);
             drawableObjects.Add(endVertex);
 
-            TreeNode parent = new TreeNode($"{line.Name}");
-            TreeNode child1 = new TreeNode($"{startVertex.Name}");
-            TreeNode child2 = new TreeNode($"{endVertex.Name}");
-            parent.Nodes.Add(child1);
-            parent.Nodes.Add(child2);
+            if (!isPartOfCircle)
+            {
+                TreeNode parent = new TreeNode($"{line.Name}");
+                treeView1.Nodes.Add(parent);
 
-            treeView1.Nodes.Add(parent);
+                TreeNode child1 = new TreeNode($"{startVertex.Name}");
+                TreeNode child2 = new TreeNode($"{endVertex.Name}");
+                parent.Nodes.Add(child1);
+                parent.Nodes.Add(child2);
+
+                treeView1.Nodes.Add(parent);
+            }
+
+            
 
             return line;
         }

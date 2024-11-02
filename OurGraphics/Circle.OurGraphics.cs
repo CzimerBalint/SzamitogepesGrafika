@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OurGraphics
 {
-    public static partial class OurGraphics
+    public static partial class GraphicsExtension
     {
         #region Circle Class
         public class Circle : DrawableObject
@@ -46,12 +42,12 @@ namespace OurGraphics
         public static void CreateCircle(List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
         {
 
-            Line rad = CreateLine(drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint);
+            Line rad = CreateLine(drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
 
             Circle circle = new Circle(rad);
 
             circle.SetName($"Aritmetic_Circle{circleCount++}");
-            rad.SetName("Circle_lenght");
+            rad.SetName("Circle_Lenght");
             rad.Start.SetName($"Circle_Center");
             rad.End.SetName($"Circle_Radius");
 
@@ -65,8 +61,8 @@ namespace OurGraphics
             TreeNode child2 = new TreeNode($"{rad.End.Name}");
 
             parent.Nodes.Add(child0);
-            parent.Nodes.Add(child1);
-            parent.Nodes.Add(child2);
+            child0.Nodes.Add(child1);
+            child0.Nodes.Add(child2);
 
             treeView1.Nodes.Add(parent);
         }

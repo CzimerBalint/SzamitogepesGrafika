@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using OurGraphics;
-using static OurGraphics.OurGraphics;
+using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
 
 namespace SzamitogepesGrafika
 {
@@ -35,13 +30,14 @@ namespace SzamitogepesGrafika
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
         }
 
-        private void vertexHozzáadásaToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Vertex
+        private void Option_Add_Vertex_Click(object sender, EventArgs e)
         {
             CreateVertex(drawableObjects, treeView1, WorldOrigin);
             interface2d.Invalidate();
         }
 
-        private void vertexekEgyesítéseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Option_Merge_Vertex_Click(object sender, EventArgs e)
         {
             if (selectedVertices.Count < 2)
             {
@@ -59,7 +55,9 @@ namespace SzamitogepesGrafika
             // Redraw the form
             interface2d.Invalidate();
         }
+        #endregion
 
+        #region Lines
         private void Option_DDA_Click(object sender, EventArgs e)
         {
             CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.DDA);
@@ -67,36 +65,79 @@ namespace SzamitogepesGrafika
         }
         private void Option_MidPoint_Click(object sender, EventArgs e)
         {
+            
             CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.Midpoint);
             interface2d.Invalidate();
         }
-        private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Triangles
+        private void Option_Triangle_Click(object sender, EventArgs e)
         {
-            CreateCircle(drawableObjects,treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            CreateTriangle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), new Point(WorldOrigin.X + 50, WorldOrigin.Y + 100));
+
             interface2d.Invalidate();
         }
-        private void Option_MidPointCircle_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Rectangles
+
+        private void Option_Rectangle_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+
+        private void Option_Square_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+
+        private void Option_Deltoid_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
+            interface2d.Invalidate();
+        }
+
+        private void Option_Parallelogram_Click(object sender, EventArgs e)
+        {
+            CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+        
+        #endregion
+
+        #region Circles
+        private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
+        {
+            CreateCircle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            interface2d.Invalidate();
+        }
+        private void Option_MidPointCircle_Click(object sender, EventArgs e) // yet to implement
         {
 
         }
+        #endregion
 
+        #region Drawing to the interface
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
 
             g = e.Graphics;
-           
+
             foreach (var drawable in drawableObjects)
             {
                 drawable.Draw(g);
             }
-               
+
 
         }
 
         private void interface2d_MouseMove(object sender, MouseEventArgs e)
         {
             toolStripStatusLabel1.Text = $"ScreenSpace: {e.Location}";
-            toolStripStatusLabel2.Text = $"Worldspace: {g.objectToWorldOrigin(WorldOrigin,e.Location)}";
+            toolStripStatusLabel2.Text = $"Worldspace: {g.objectToWorldOrigin(WorldOrigin, e.Location)}";
 
             if (selectedVertex != null)
             {
@@ -164,35 +205,11 @@ namespace SzamitogepesGrafika
             selectedVertex = null;
         }
 
-        private void midpointTriangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateTriangle(drawableObjects,treeView1,WorldOrigin,new Point(WorldOrigin.X+100,WorldOrigin.Y),new Point(WorldOrigin.X+50,WorldOrigin.Y+100));
-            
-            interface2d.Invalidate();
-        }
 
-        private void midpointRectangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
-            interface2d.Invalidate();
-        }
 
-        private void midpointSquareToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
-            interface2d.Invalidate();
-        }
 
-        private void midpointDeltoidToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
-            interface2d.Invalidate();
-        }
+        #endregion
 
-        private void midpointParallelogramToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
-            interface2d.Invalidate();
-        }
+       
     }
 }

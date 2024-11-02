@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static OurGraphics.OurGraphics;
 
 namespace OurGraphics
 {
-    public static partial class OurGraphics
+    public static partial class GraphicsExtension
     {
-    #region Vertex class
+        #region Vertex class
         public class Vertex : DrawableObject
         {
             public bool IsSelected { get; set; }
@@ -51,7 +48,7 @@ namespace OurGraphics
         }
         #endregion
 
-    #region Create Vertex
+        #region Create Vertex
         private static int vertexCount = 1;
 
         public static Vertex CreateVertex(List<DrawableObject> drawableObjects, TreeView treeView1, Point location, bool isPartOfLine = false)
@@ -68,7 +65,49 @@ namespace OurGraphics
 
             return vertex;
         }
-     #endregion
+        #endregion
 
+        #region Merge Vertecies
+        public static Vertex MergeVertices(List<DrawableObject> drawableObjects, TreeView treeView1, List<Vertex> verticesToMerge)
+        {
+            if (verticesToMerge == null || verticesToMerge.Count < 2)
+                throw new ArgumentException("Legalább két vertekszet kell megadni az egyesítéshez.");
+
+            // Az új vertex helyének kiszámítása (átlag alapján)
+            int avgX = (int)verticesToMerge.Average(v => v.Location.X);
+            int avgY = (int)verticesToMerge.Average(v => v.Location.Y);
+            Point mergedLocation = new Point(avgX, avgY);
+
+            // Új vertex létrehozása és hozzáadása
+            Vertex mergedVertex = CreateVertex(drawableObjects, treeView1, mergedLocation);
+
+            // Frissítsük azokat az objektumokat, amelyek a régi vertekszeket használták (pl. vonalak)
+            foreach (var drawable in drawableObjects.OfType<Line>())
+            {
+                if (verticesToMerge.Contains(drawable.Start))
+                {
+                    drawable.Start = mergedVertex;
+                }
+                if (verticesToMerge.Contains(drawable.End))
+                {
+                    drawable.End = mergedVertex;
+                }
+            }
+
+            // Régi vertekszek eltávolítása
+            foreach (var vertex in verticesToMerge)
+            {
+                drawableObjects.Remove(vertex);
+                // Törlés a TreeView-ból is
+                var node = treeView1.Nodes.Cast<TreeNode>().FirstOrDefault(n => n.Text == vertex.Name);
+                if (node != null)
+                {
+                    treeView1.Nodes.Remove(node);
+                }
+            }
+
+            return mergedVertex;
+        }
+        #endregion
     }
 }

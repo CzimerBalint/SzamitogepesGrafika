@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace OurGraphics
 {
-    public static partial class OurGraphics
+    public static partial class GraphicsExtension
     {
         #region Connvert screenSpace to worldSpace
         public static Point WorldOrigin(this Graphics g, int width, int height)
