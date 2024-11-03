@@ -75,6 +75,14 @@
             this.Option_Deltoid = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Parallelogram = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.hScrollBar2 = new System.Windows.Forms.HScrollBar();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -90,7 +98,14 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.Move_tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -162,8 +177,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 15, 0);
             this.splitContainer1.Size = new System.Drawing.Size(1067, 500);
-            this.splitContainer1.SplitterDistance = 430;
+            this.splitContainer1.SplitterDistance = 609;
             this.splitContainer1.SplitterWidth = 13;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -174,7 +190,7 @@
             this.interface2d.Location = new System.Drawing.Point(0, 0);
             this.interface2d.Margin = new System.Windows.Forms.Padding(4);
             this.interface2d.Name = "interface2d";
-            this.interface2d.Size = new System.Drawing.Size(430, 500);
+            this.interface2d.Size = new System.Drawing.Size(609, 500);
             this.interface2d.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.interface2d.TabIndex = 0;
             this.interface2d.TabStop = false;
@@ -199,8 +215,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer2.Size = new System.Drawing.Size(624, 500);
-            this.splitContainer2.SplitterDistance = 184;
+            this.splitContainer2.Size = new System.Drawing.Size(430, 500);
+            this.splitContainer2.SplitterDistance = 186;
             this.splitContainer2.SplitterWidth = 10;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -210,7 +226,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(624, 184);
+            this.treeView1.Size = new System.Drawing.Size(430, 186);
             this.treeView1.TabIndex = 0;
             // 
             // tabControl1
@@ -222,15 +238,17 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(624, 306);
+            this.tabControl1.Size = new System.Drawing.Size(430, 304);
             this.tabControl1.TabIndex = 0;
             // 
             // Move_tabPage1
             // 
+            this.Move_tabPage1.Controls.Add(this.groupBox2);
+            this.Move_tabPage1.Controls.Add(this.groupBox1);
             this.Move_tabPage1.Location = new System.Drawing.Point(4, 25);
             this.Move_tabPage1.Name = "Move_tabPage1";
-            this.Move_tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.Move_tabPage1.Size = new System.Drawing.Size(616, 277);
+            this.Move_tabPage1.Padding = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.Move_tabPage1.Size = new System.Drawing.Size(422, 275);
             this.Move_tabPage1.TabIndex = 0;
             this.Move_tabPage1.Text = "Move";
             this.Move_tabPage1.UseVisualStyleBackColor = true;
@@ -521,6 +539,96 @@
             this.AboutMenuItem.Size = new System.Drawing.Size(55, 24);
             this.AboutMenuItem.Text = "&Help";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(20, 5);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(382, 100);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.tableLayoutPanel2);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(20, 105);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(382, 100);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.hScrollBar1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.91139F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 67.08861F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(376, 79);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.hScrollBar2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.numericUpDown2, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(376, 79);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // numericUpDown1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.numericUpDown1, 2);
+            this.numericUpDown1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(370, 22);
+            this.numericUpDown1.TabIndex = 1;
+            // 
+            // numericUpDown2
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.numericUpDown2, 2);
+            this.numericUpDown2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.numericUpDown2.Location = new System.Drawing.Point(3, 3);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(370, 22);
+            this.numericUpDown2.TabIndex = 1;
+            // 
+            // hScrollBar1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.hScrollBar1, 2);
+            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 58);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(376, 21);
+            this.hScrollBar1.TabIndex = 2;
+            // 
+            // hScrollBar2
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.hScrollBar2, 2);
+            this.hScrollBar2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.hScrollBar2.Location = new System.Drawing.Point(0, 58);
+            this.hScrollBar2.Name = "hScrollBar2";
+            this.hScrollBar2.Size = new System.Drawing.Size(376, 21);
+            this.hScrollBar2.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -551,8 +659,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.Move_tabPage1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -605,6 +720,14 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage Move_tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.HScrollBar hScrollBar2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
     }
 }
 

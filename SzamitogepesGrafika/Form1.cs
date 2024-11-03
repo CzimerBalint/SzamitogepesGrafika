@@ -27,8 +27,6 @@ namespace SzamitogepesGrafika
         {
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
-            megoldas();
-            megoldas2();//ez a fainabb
             
         }
 
@@ -213,106 +211,6 @@ namespace SzamitogepesGrafika
 
         #endregion
 
-       private void megoldas()
-        {
-            
-
-            // FlowLayoutPanel beállítása
-            FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.TopDown,
-                AutoSize = true
-            };
-            Move_tabPage1.Controls.Add(flowLayoutPanel);
-
-            // Első Panel szett létrehozása
-            Panel panel1 = new Panel { AutoSize = true };
-            Label label1 = new Label { Text = "Label 1", AutoSize = true };
-            NumericUpDown numericUpDown1 = new NumericUpDown();
-            HScrollBar hScrollBar1 = new HScrollBar { Width = 150 };
-
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(numericUpDown1);
-            panel1.Controls.Add(hScrollBar1);
-
-            label1.Location = new Point(0, 0);
-            numericUpDown1.Location = new Point(80, 0);
-            hScrollBar1.Location = new Point(0, 30);
-
-            // Második Panel szett létrehozása
-            Panel panel2 = new Panel { AutoSize = true };
-            Label label2 = new Label { Text = "Label 2", AutoSize = true };
-            NumericUpDown numericUpDown2 = new NumericUpDown();
-            HScrollBar hScrollBar2 = new HScrollBar { Width = 150 };
-
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(numericUpDown2);
-            panel2.Controls.Add(hScrollBar2);
-
-            label2.Location = new Point(0, 0);
-            numericUpDown2.Location = new Point(80, 0);
-            hScrollBar2.Location = new Point(0, 30);
-
-            // Panelek hozzáadása a FlowLayoutPanel-hez
-            flowLayoutPanel.Controls.Add(panel1);
-            flowLayoutPanel.Controls.Add(panel2);
-
-        }
-
-        private void megoldas2()
-        {
-
-
-            
-
-            // Első GroupBox és TableLayoutPanel
-            GroupBox groupBox1 = new GroupBox { Text = "Group 1", AutoSize = true, Dock = DockStyle.Top };
-            TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel
-            {
-                RowCount = 2,
-                ColumnCount = 2,
-                Dock = DockStyle.Fill,
-                AutoSize = true
-            };
-
-            Label label1 = new Label { Text = "Label 1", Anchor = AnchorStyles.Left };
-            NumericUpDown numericUpDown1 = new NumericUpDown { Anchor = AnchorStyles.Left };
-            HScrollBar hScrollBar1 = new HScrollBar { Dock = DockStyle.Fill };
-
-            tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(numericUpDown1, 1, 0);
-            tableLayoutPanel1.Controls.Add(hScrollBar1, 0, 1);
-            tableLayoutPanel1.SetColumnSpan(hScrollBar1, 2);  // Két oszlopra kiterjed
-
-            groupBox1.Controls.Add(tableLayoutPanel1);
-
-            // Második GroupBox és TableLayoutPanel
-            GroupBox groupBox2 = new GroupBox { Text = "Group 2", AutoSize = true, Dock = DockStyle.Top };
-            TableLayoutPanel tableLayoutPanel2 = new TableLayoutPanel
-            {
-                RowCount = 2,
-                ColumnCount = 2,
-                Dock = DockStyle.Fill,
-                AutoSize = true
-            };
-
-            Label label2 = new Label { Text = "Label 2", Anchor = AnchorStyles.Left };
-            NumericUpDown numericUpDown2 = new NumericUpDown { Anchor = AnchorStyles.Left };
-            HScrollBar hScrollBar2 = new HScrollBar { Dock = DockStyle.Fill };
-
-            tableLayoutPanel2.Controls.Add(label2, 0, 0);
-            tableLayoutPanel2.Controls.Add(numericUpDown2, 1, 0);
-            tableLayoutPanel2.Controls.Add(hScrollBar2, 0, 1);
-            tableLayoutPanel2.SetColumnSpan(hScrollBar2, 2);  // Két oszlopra kiterjed
-
-            groupBox2.Controls.Add(tableLayoutPanel2);
-
-            // GroupBox-ok hozzáadása a TabPage-hez
-            tabPage2.Controls.Add(groupBox2);
-            tabPage2.Controls.Add(groupBox1);
-
-
-        }
+      
     }
 }
