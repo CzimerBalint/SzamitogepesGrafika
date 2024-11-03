@@ -36,7 +36,11 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.interface2d = new System.Windows.Forms.PictureBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Move_tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +85,11 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.interface2d)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -144,7 +153,6 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
-            this.splitContainer1.MinimumSize = new System.Drawing.Size(400, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -153,9 +161,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.treeView1);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1067, 500);
-            this.splitContainer1.SplitterDistance = 790;
+            this.splitContainer1.SplitterDistance = 430;
             this.splitContainer1.SplitterWidth = 13;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -166,7 +174,7 @@
             this.interface2d.Location = new System.Drawing.Point(0, 0);
             this.interface2d.Margin = new System.Windows.Forms.Padding(4);
             this.interface2d.Name = "interface2d";
-            this.interface2d.Size = new System.Drawing.Size(790, 500);
+            this.interface2d.Size = new System.Drawing.Size(430, 500);
             this.interface2d.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.interface2d.TabIndex = 0;
             this.interface2d.TabStop = false;
@@ -176,14 +184,66 @@
             this.interface2d.MouseUp += new System.Windows.Forms.MouseEventHandler(this.interface2d_MouseUp);
             this.interface2d.Resize += new System.EventHandler(this.interface2d_Resize);
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.MinimumSize = new System.Drawing.Size(264, 500);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.treeView1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer2.Size = new System.Drawing.Size(624, 500);
+            this.splitContainer2.SplitterDistance = 184;
+            this.splitContainer2.SplitterWidth = 10;
+            this.splitContainer2.TabIndex = 0;
+            // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(264, 500);
+            this.treeView1.Size = new System.Drawing.Size(624, 184);
             this.treeView1.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.Move_tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(624, 306);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // Move_tabPage1
+            // 
+            this.Move_tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.Move_tabPage1.Name = "Move_tabPage1";
+            this.Move_tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.Move_tabPage1.Size = new System.Drawing.Size(616, 277);
+            this.Move_tabPage1.TabIndex = 0;
+            this.Move_tabPage1.Text = "Move";
+            this.Move_tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(616, 277);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Modifiers";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -220,7 +280,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // openToolStripMenuItem
@@ -229,13 +289,13 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.openToolStripMenuItem.Text = "&Open";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(178, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -243,25 +303,25 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // editToolStripMenuItem
@@ -352,7 +412,7 @@
             this.Option_Add_Vertex,
             this.Option_Merge_Vertex});
             this.Option_Vertex.Name = "Option_Vertex";
-            this.Option_Vertex.Size = new System.Drawing.Size(224, 26);
+            this.Option_Vertex.Size = new System.Drawing.Size(156, 26);
             this.Option_Vertex.Text = "&Vertex";
             // 
             // Option_Add_Vertex
@@ -375,7 +435,7 @@
             this.Option_DDA,
             this.Option_MidPoint});
             this.Option_Lines.Name = "Option_Lines";
-            this.Option_Lines.Size = new System.Drawing.Size(224, 26);
+            this.Option_Lines.Size = new System.Drawing.Size(156, 26);
             this.Option_Lines.Text = "&Line";
             // 
             // Option_DDA
@@ -403,7 +463,7 @@
             this.Option_Deltoid,
             this.Option_Parallelogram});
             this.Option_Primitives.Name = "Option_Primitives";
-            this.Option_Primitives.Size = new System.Drawing.Size(224, 26);
+            this.Option_Primitives.Size = new System.Drawing.Size(156, 26);
             this.Option_Primitives.Text = "&Primitives";
             // 
             // Option_Aritmetic_Circle
@@ -486,6 +546,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.interface2d)).EndInit();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -536,6 +601,10 @@
         private System.Windows.Forms.ToolStripMenuItem Option_Square;
         private System.Windows.Forms.ToolStripMenuItem Option_Deltoid;
         private System.Windows.Forms.ToolStripMenuItem Option_Parallelogram;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage Move_tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 

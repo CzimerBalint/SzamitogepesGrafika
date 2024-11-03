@@ -36,9 +36,6 @@
     <Reference Include="OurGraphics">
       <HintPath>..\OurGraphics\bin\Debug\OurGraphics.dll</HintPath>
     </Reference>
-    <Reference Include="PopUpWindows">
-      <HintPath>..\PopUpWindows\bin\Debug\PopUpWindows.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
