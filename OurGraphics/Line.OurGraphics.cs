@@ -87,7 +87,6 @@ namespace OurGraphics
             if (!isPartOfCircle)
             {
                 TreeNode parent = new TreeNode($"{line.Name}");
-                treeView1.Nodes.Add(parent);
 
                 TreeNode child1 = new TreeNode($"{startVertex.Name}");
                 TreeNode child2 = new TreeNode($"{endVertex.Name}");
