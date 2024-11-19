@@ -56,12 +56,11 @@ namespace OurGraphics
         private static int MPlineCount = 1;
 
 
-        public static Line CreateLine(List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end, LineDrawingAlgo currentAlgo, bool isPartOfCircle = false)
+        public static Line CreateLine(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point start, Point end, LineDrawingAlgo currentAlgo, bool isPartOfCircle = false)
         {
-            Vertex startVertex = CreateVertex(drawableObjects, treeView1, start, true);
-            Vertex endVertex = CreateVertex(drawableObjects, treeView1, end, true);
 
-            Line line = new Line(startVertex, endVertex, currentAlgo);
+            Line line = new Line(g.CreateVertex(drawableObjects, treeView1, start, true), g.CreateVertex(drawableObjects, treeView1, end, true), currentAlgo);
+            
 
             int lineCount = 1;
 
@@ -77,21 +76,20 @@ namespace OurGraphics
             }
 
             line.SetName($"{currentAlgo.ToString()}_Line{lineCount++}");
-            startVertex.SetName($"{line.Name}_Start");
-            endVertex.SetName($"{line.Name}_End");
+            //startVertex.SetName($"{line.Name}_Start");
+            //endVertex.SetName($"{line.Name}_End");
 
             drawableObjects.Add(line);
-            drawableObjects.Add(startVertex);
-            drawableObjects.Add(endVertex);
+           
 
             if (!isPartOfCircle)
             {
                 TreeNode parent = new TreeNode($"{line.Name}");
 
-                TreeNode child1 = new TreeNode($"{startVertex.Name}");
-                TreeNode child2 = new TreeNode($"{endVertex.Name}");
-                parent.Nodes.Add(child1);
-                parent.Nodes.Add(child2);
+                //TreeNode child1 = new TreeNode($"{startVertex.Name}");
+                //TreeNode child2 = new TreeNode($"{endVertex.Name}");
+                //parent.Nodes.Add(child1);
+                //parent.Nodes.Add(child2);
 
                 treeView1.Nodes.Add(parent);
             }

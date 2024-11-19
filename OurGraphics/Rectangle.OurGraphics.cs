@@ -57,12 +57,12 @@ namespace OurGraphics
 
         private static int rectangleCount = 1;
 
-        public static void CreateRectangle(List<DrawableObject> drawableObjects, TreeView treeView1, string name, Point A, Point B, Point C, Point D)
+        public static void CreateRectangle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, string name, Point A, Point B, Point C, Point D)
         {
-            var VertexA = CreateVertex(drawableObjects, treeView1, A, true);
-            var VertexB = CreateVertex(drawableObjects, treeView1, B, true);
-            var VertexC = CreateVertex(drawableObjects, treeView1, C, true);
-            var VertexD = CreateVertex(drawableObjects, treeView1, D, true);
+            var VertexA = CreateVertex(g, drawableObjects, treeView1, A, true);
+            var VertexB = CreateVertex(g, drawableObjects, treeView1, B, true);
+            var VertexC = CreateVertex(g, drawableObjects, treeView1, C, true);
+            var VertexD = CreateVertex(g, drawableObjects, treeView1, D, true);
 
 
             var rectangle = new Rect(VertexA, VertexB, VertexC, VertexD);

@@ -39,10 +39,10 @@ namespace OurGraphics
 
         private static int circleCount = 1;
 
-        public static void CreateCircle(List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
+        public static void CreateCircle(this Graphics g,List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
         {
 
-            Line rad = CreateLine(drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
+            Line rad = CreateLine(g,drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
 
             Circle circle = new Circle(rad);
 

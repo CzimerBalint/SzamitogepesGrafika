@@ -4,12 +4,13 @@ using System.Drawing;
 using OurGraphics;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
+using System.Diagnostics;
 
 namespace SzamitogepesGrafika
 {
     public partial class Form1 : Form
     {
-        Graphics g;
+        public Graphics g;
         public Point WorldOrigin;
         public List<DrawableObject> drawableObjects;
         private Vertex selectedVertex = null;
@@ -27,28 +28,30 @@ namespace SzamitogepesGrafika
         {
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
-            
+            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Invalidate();
+
+
         }
+
+
 
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
         {
-           
-            CreateVertex(drawableObjects, treeView1, WorldOrigin);
+            
+             g.CreateVertex(drawableObjects, treeView1, WorldOrigin);
+
+            
             interface2d.Invalidate();
         }
 
         private void Option_Merge_Vertex_Click(object sender, EventArgs e)
         {
-            if (selectedVertices.Count < 2)
-            {
-                MessageBox.Show("Legalább két vertekszet kell kijelölni az egyesítéshez.");
-                return;
-            }
-
+           
             // Merge the selected vertices
-            var mergedVertex = MergeVertices(drawableObjects, treeView1, selectedVertices);
-            MessageBox.Show($"Egyesítés sikeres: {mergedVertex.Name}");
+            MergeVertices(drawableObjects, treeView1);
+            MessageBox.Show($"Égetés sikeres:");
 
             // Clear the selected vertices list
             selectedVertices.Clear();
@@ -61,13 +64,13 @@ namespace SzamitogepesGrafika
         #region Lines
         private void Option_DDA_Click(object sender, EventArgs e)
         {
-            CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.DDA);
+            g.CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.DDA);
             interface2d.Invalidate();
         }
         private void Option_MidPoint_Click(object sender, EventArgs e)
         {
             
-            CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.Midpoint);
+            g.CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.Midpoint);
             interface2d.Invalidate();
         }
         #endregion
@@ -75,7 +78,7 @@ namespace SzamitogepesGrafika
         #region Triangles
         private void Option_Triangle_Click(object sender, EventArgs e)
         {
-            CreateTriangle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), new Point(WorldOrigin.X + 50, WorldOrigin.Y + 100));
+            g.CreateTriangle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), new Point(WorldOrigin.X + 50, WorldOrigin.Y + 100));
 
             interface2d.Invalidate();
         }
@@ -85,25 +88,25 @@ namespace SzamitogepesGrafika
 
         private void Option_Rectangle_Click(object sender, EventArgs e)
         {
-            CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
+            g.CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
             interface2d.Invalidate();
         }
 
         private void Option_Square_Click(object sender, EventArgs e)
         {
-            CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            g.CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
             interface2d.Invalidate();
         }
 
         private void Option_Deltoid_Click(object sender, EventArgs e)
         {
-            CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
+            g.CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
             interface2d.Invalidate();
         }
 
         private void Option_Parallelogram_Click(object sender, EventArgs e)
         {
-            CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
+            g.CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
             interface2d.Invalidate();
         }
         
@@ -112,7 +115,7 @@ namespace SzamitogepesGrafika
         #region Circles
         private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
         {
-            CreateCircle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            g.CreateCircle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
             interface2d.Invalidate();
         }
         private void Option_MidPointCircle_Click(object sender, EventArgs e) // yet to implement
@@ -122,16 +125,28 @@ namespace SzamitogepesGrafika
         #endregion
 
         #region Drawing to the interface
+
+        private Bitmap CreateImage(int w, int h)
+        {
+            Bitmap bitmap = new Bitmap(w, h);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.Clear(Color.White);
+            }
+            return bitmap;
+        }
+
+
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
 
             g = e.Graphics;
-
+            Debug.WriteLine($"{drawableObjects.Count}, {drawableObjects.Capacity}");
             foreach (var drawable in drawableObjects)
             {
+                Debug.WriteLine($"{drawable.Name}, {drawable.Location}");
                 drawable.Draw(g);
             }
-
 
         }
 
@@ -162,6 +177,7 @@ namespace SzamitogepesGrafika
         {
             WorldOrigin = g.WorldOrigin(interface2d.Width, interface2d.Height);
             toolStripStatusLabel3.Text = WorldOrigin.ToString();
+            
         }
 
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
@@ -209,8 +225,19 @@ namespace SzamitogepesGrafika
 
 
 
+
         #endregion
 
-      
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Invalidate();
+        }
+
+        private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
+        {
+            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Invalidate();
+        }
     }
 }

@@ -102,11 +102,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(800, 404);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(976, 404);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(800, 450);
+            this.toolStripContainer1.Size = new System.Drawing.Size(976, 450);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -124,7 +124,7 @@
             this.toolStripStatusLabel3});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(976, 22);
             this.statusStrip1.TabIndex = 0;
             // 
             // toolStripStatusLabel1
@@ -154,13 +154,14 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.interface2d);
+            this.splitContainer1.Panel1.Resize += new System.EventHandler(this.splitContainer1_Panel1_Resize);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 11, 0);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 404);
-            this.splitContainer1.SplitterDistance = 456;
+            this.splitContainer1.Size = new System.Drawing.Size(976, 404);
+            this.splitContainer1.SplitterDistance = 582;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -170,8 +171,7 @@
             this.interface2d.Dock = System.Windows.Forms.DockStyle.Fill;
             this.interface2d.Location = new System.Drawing.Point(0, 0);
             this.interface2d.Name = "interface2d";
-            this.interface2d.Size = new System.Drawing.Size(456, 404);
-            this.interface2d.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.interface2d.Size = new System.Drawing.Size(582, 404);
             this.interface2d.TabIndex = 0;
             this.interface2d.TabStop = false;
             this.interface2d.Paint += new System.Windows.Forms.PaintEventHandler(this.interface2d_Paint);
@@ -196,7 +196,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer2.Size = new System.Drawing.Size(323, 406);
+            this.splitContainer2.Size = new System.Drawing.Size(373, 406);
             this.splitContainer2.SplitterDistance = 151;
             this.splitContainer2.SplitterWidth = 8;
             this.splitContainer2.TabIndex = 0;
@@ -206,7 +206,7 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(323, 151);
+            this.treeView1.Size = new System.Drawing.Size(373, 151);
             this.treeView1.TabIndex = 0;
             // 
             // tabControl1
@@ -218,7 +218,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(323, 247);
+            this.tabControl1.Size = new System.Drawing.Size(373, 247);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage2
@@ -227,7 +227,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(315, 221);
+            this.tabPage2.Size = new System.Drawing.Size(365, 221);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Modifiers";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -243,7 +243,7 @@
             this.AboutMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(976, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -512,12 +512,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(976, 450);
             this.Controls.Add(this.toolStripContainer1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Számítógépes Grafik";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
