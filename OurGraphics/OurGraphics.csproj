@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Circle.OurGraphics.cs" />
+    <Compile Include="CustomTypes.OurGraphics.cs" />
     <Compile Include="Line.OurGraphics.cs" />
     <Compile Include="Object.OurGraphics.cs" />
     <Compile Include="OurGraphics.cs" />

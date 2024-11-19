@@ -33,7 +33,8 @@ namespace OurGraphics
             public override void Draw(Graphics g)
             {
                 Brush brush = IsSelected ? Brushes.Red : Brushes.Black;
-                g.FillRectangle(brush, Location.X - 5, Location.Y - 5, 10, 10);
+                g.FillEllipse(brush, new RectangleF(Location.X - 5, Location.Y - 5, 10, 10));
+                //g.FillRectangle(brush, new Rect(Location.X - 5, Location.Y - 5, 10, 10));
             }
 
             public bool Contains(Point p)
