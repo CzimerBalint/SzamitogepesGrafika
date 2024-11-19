@@ -141,10 +141,10 @@ namespace SzamitogepesGrafika
         {
 
             g = e.Graphics;
-            Debug.WriteLine($"{drawableObjects.Count}, {drawableObjects.Capacity}");
+            //Debug.WriteLine($"{drawableObjects.Count}, {drawableObjects.Capacity}");
             foreach (var drawable in drawableObjects)
             {
-                Debug.WriteLine($"{drawable.Name}, {drawable.Location}");
+                //Debug.WriteLine($"{drawable.Name}, {drawable.Location}");
                 drawable.Draw(g);
             }
 

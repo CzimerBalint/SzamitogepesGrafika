@@ -76,8 +76,8 @@ namespace OurGraphics
             }
 
             line.SetName($"{currentAlgo.ToString()}_Line{lineCount++}");
-            //startVertex.SetName($"{line.Name}_Start");
-            //endVertex.SetName($"{line.Name}_End");
+            line.Start.SetName($"{line.Name}_Start");
+            line.End.SetName($"{line.Name}_End");
 
             drawableObjects.Add(line);
            
@@ -86,10 +86,10 @@ namespace OurGraphics
             {
                 TreeNode parent = new TreeNode($"{line.Name}");
 
-                //TreeNode child1 = new TreeNode($"{startVertex.Name}");
-                //TreeNode child2 = new TreeNode($"{endVertex.Name}");
-                //parent.Nodes.Add(child1);
-                //parent.Nodes.Add(child2);
+                TreeNode child1 = new TreeNode($"{line.Start.Name}");
+                TreeNode child2 = new TreeNode($"{line.End.Name}");
+                parent.Nodes.Add(child1);
+                parent.Nodes.Add(child2);
 
                 treeView1.Nodes.Add(parent);
             }
