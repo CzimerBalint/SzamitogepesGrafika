@@ -51,11 +51,11 @@ namespace OurGraphics
         #region Create Triangle
         private static int triangleCount = 1;
 
-        public static void CreateTriangle(List<DrawableObject> drawableObjects, TreeView treeView1, Point A, Point B, Point C)
+        public static void CreateTriangle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point A, Point B, Point C)
         {
-            var VertexA = CreateVertex(drawableObjects, treeView1, A, true);
-            var VertexB = CreateVertex(drawableObjects, treeView1, B, true);
-            var VertexC = CreateVertex(drawableObjects, treeView1, C, true);
+            var VertexA = CreateVertex(g, drawableObjects, treeView1, A, true);
+            var VertexB = CreateVertex(g, drawableObjects, treeView1, B, true);
+            var VertexC = CreateVertex(g, drawableObjects, treeView1, C, true);
 
 
 
