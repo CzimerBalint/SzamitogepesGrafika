@@ -288,7 +288,20 @@ namespace OurGraphics
                 res.W = m[3, 0] * v.X + m[3, 1] * v.Y + m[3, 2] * v.Z + m[3, 3] * v.W;
                 return res;
             }
+            public Matrix4 Transpose(Matrix4 matrix)
+            {
+                Matrix4 result = new Matrix4();
 
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        result[j,i] = Values[i,j];
+                    }
+                }
+
+                return result;
+            }
 
         }
 
