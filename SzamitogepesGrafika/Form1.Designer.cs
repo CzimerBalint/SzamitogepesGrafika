@@ -399,7 +399,7 @@
             this.Option_Add_Vertex,
             this.Burn_Shape});
             this.Option_Vertex.Name = "Option_Vertex";
-            this.Option_Vertex.Size = new System.Drawing.Size(126, 22);
+            this.Option_Vertex.Size = new System.Drawing.Size(180, 22);
             this.Option_Vertex.Text = "&Vertex";
             // 
             // Option_Add_Vertex
@@ -422,7 +422,7 @@
             this.Option_DDA,
             this.Option_MidPoint});
             this.Option_Lines.Name = "Option_Lines";
-            this.Option_Lines.Size = new System.Drawing.Size(126, 22);
+            this.Option_Lines.Size = new System.Drawing.Size(180, 22);
             this.Option_Lines.Text = "&Line";
             // 
             // Option_DDA
@@ -450,7 +450,7 @@
             this.Option_Deltoid,
             this.Option_Parallelogram});
             this.Option_Primitives.Name = "Option_Primitives";
-            this.Option_Primitives.Size = new System.Drawing.Size(126, 22);
+            this.Option_Primitives.Size = new System.Drawing.Size(180, 22);
             this.Option_Primitives.Text = "&Primitives";
             // 
             // Option_Aritmetic_Circle

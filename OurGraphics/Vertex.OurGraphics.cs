@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
 
 namespace OurGraphics
 {
@@ -73,22 +74,25 @@ namespace OurGraphics
         #endregion
 
         #region Burn Shape
-        public static void BurnShape(List<DrawableObject> drawableObjects, TreeView treeView1)
+        public static void BurnShape(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Bitmap bitmap)
         {
             // Tárolja az eltávolítandó elemeket
             var verticesToRemove = drawableObjects.OfType<Vertex>().ToList();
+            Graphics bitmapGraphics = Graphics.FromImage(bitmap);
 
             // Az eltávolítandó vertekszeket kiszedjük
             foreach (var vertex in verticesToRemove)
             {
+
+                treeView1.Nodes.Clear();
                 drawableObjects.Remove(vertex);
 
                 // Törlés a TreeView-ból is
-                var node = treeView1.Nodes.Cast<TreeNode>().FirstOrDefault(n => n.Text == vertex.Name);
-                if (node != null)
-                {
-                    treeView1.Nodes.Remove(node);
-                }
+            }
+
+            foreach (var item in drawableObjects)
+            {
+                item.Draw(bitmapGraphics);
             }
 
 

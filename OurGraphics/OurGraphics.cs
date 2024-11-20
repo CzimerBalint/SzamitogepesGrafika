@@ -93,6 +93,7 @@ namespace OurGraphics
                 else
                 {
                     g.DrawPixel(pen, x, y);  // Draw normally if not steep
+
                 }
 
                 error -= dy;
@@ -101,6 +102,7 @@ namespace OurGraphics
                     y += yStep;  // Move y based on the step direction
                     error += dx;  // Adjust the error term
                 }
+                
             }
 
         }

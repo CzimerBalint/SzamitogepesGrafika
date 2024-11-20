@@ -57,7 +57,7 @@ namespace SzamitogepesGrafika
             else
             {
                 // Merge the selected vertices
-                BurnShape(drawableObjects, treeView1);
+                g.BurnShape(drawableObjects, treeView1, bmp);
                 MessageBox.Show($"Égetés sikeres!");
 
                 // Clear the selected vertices list
@@ -130,7 +130,7 @@ namespace SzamitogepesGrafika
         }
         private void Option_MidPointCircle_Click(object sender, EventArgs e) // yet to implement
         {
-
+            bmp.Save("kaka.jpg");
         }
         #endregion
 
@@ -155,8 +155,9 @@ namespace SzamitogepesGrafika
             {
                 //Debug.WriteLine($"{drawable.Name}, {drawable.Location}");
                 drawable.Draw(g);
+                
             }
-
+                
         }
 
         private void interface2d_MouseMove(object sender, MouseEventArgs e)
