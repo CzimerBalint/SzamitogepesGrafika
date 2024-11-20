@@ -149,7 +149,29 @@ namespace OurGraphics
         {
             g.AritmeticCircle(pen, center.Location, r.Location);
         }
-       
+
+        public static void FillS4(this Bitmap bmp, int x, int y, Color background, Color fillColor)
+        {
+            int[] array = new int[4] { 0, 1, 0, -1 };
+            int[] array2 = new int[4] { 1, 0, -1, 0 };
+            Stack<Point> stack = new Stack<Point>();
+            stack.Push(new Point(x, y));
+            while (stack.Count != 0)
+            {
+                Point point = stack.Pop();
+                bmp.SetPixel(point.X, point.Y, fillColor);
+                for (int i = 0; i < array.Length; i++)
+                {
+                    Point item = new Point(point.X + array[i], point.Y + array2[i]);
+                    Color pixel = bmp.GetPixel(item.X, item.Y);
+
+                    if (pixel.R == background.R && pixel.G == background.G && pixel.B == background.B)
+                    {
+                        stack.Push(item);
+                    }
+                }
+            }
+        }
 
     }
 }

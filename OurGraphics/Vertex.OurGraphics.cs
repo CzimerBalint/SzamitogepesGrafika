@@ -72,15 +72,17 @@ namespace OurGraphics
         }
         #endregion
 
-        #region Merge Vertecies
-        public static void MergeVertices(List<DrawableObject> drawableObjects, TreeView treeView1)
+        #region Burn Shape
+        public static void BurnShape(List<DrawableObject> drawableObjects, TreeView treeView1)
         {
-            
+            // Tárolja az eltávolítandó elemeket
+            var verticesToRemove = drawableObjects.OfType<Vertex>().ToList();
 
-            // Régi vertekszek eltávolítása
-            foreach (Vertex vertex in drawableObjects)
+            // Az eltávolítandó vertekszeket kiszedjük
+            foreach (var vertex in verticesToRemove)
             {
                 drawableObjects.Remove(vertex);
+
                 // Törlés a TreeView-ból is
                 var node = treeView1.Nodes.Cast<TreeNode>().FirstOrDefault(n => n.Text == vertex.Name);
                 if (node != null)
@@ -89,8 +91,14 @@ namespace OurGraphics
                 }
             }
 
-            
+
         }
+
+
+
+
+
+
         #endregion
     }
 }

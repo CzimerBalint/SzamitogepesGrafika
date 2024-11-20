@@ -61,7 +61,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Vertex = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Add_Vertex = new System.Windows.Forms.ToolStripMenuItem();
-            this.Option_Merge_Vertex = new System.Windows.Forms.ToolStripMenuItem();
+            this.Burn_Shape = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Lines = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_DDA = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_MidPoint = new System.Windows.Forms.ToolStripMenuItem();
@@ -397,7 +397,7 @@
             // 
             this.Option_Vertex.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Option_Add_Vertex,
-            this.Option_Merge_Vertex});
+            this.Burn_Shape});
             this.Option_Vertex.Name = "Option_Vertex";
             this.Option_Vertex.Size = new System.Drawing.Size(126, 22);
             this.Option_Vertex.Text = "&Vertex";
@@ -405,16 +405,16 @@
             // Option_Add_Vertex
             // 
             this.Option_Add_Vertex.Name = "Option_Add_Vertex";
-            this.Option_Add_Vertex.Size = new System.Drawing.Size(175, 22);
+            this.Option_Add_Vertex.Size = new System.Drawing.Size(185, 22);
             this.Option_Add_Vertex.Text = "Vertex hozzáadása";
             this.Option_Add_Vertex.Click += new System.EventHandler(this.Option_Add_Vertex_Click);
             // 
-            // Option_Merge_Vertex
+            // Burn_Shape
             // 
-            this.Option_Merge_Vertex.Name = "Option_Merge_Vertex";
-            this.Option_Merge_Vertex.Size = new System.Drawing.Size(175, 22);
-            this.Option_Merge_Vertex.Text = "Vertexek egyesítése";
-            this.Option_Merge_Vertex.Click += new System.EventHandler(this.Option_Merge_Vertex_Click);
+            this.Burn_Shape.Name = "Burn_Shape";
+            this.Burn_Shape.Size = new System.Drawing.Size(185, 22);
+            this.Burn_Shape.Text = "Alakzat véglegesítése";
+            this.Burn_Shape.Click += new System.EventHandler(this.Burn_Shape_Click);
             // 
             // Option_Lines
             // 
@@ -582,7 +582,7 @@
         private System.Windows.Forms.ToolStripMenuItem Option_Aritmetic_Circle;
         private System.Windows.Forms.ToolStripMenuItem Option_MidPointCircle;
         private System.Windows.Forms.ToolStripMenuItem Option_Add_Vertex;
-        private System.Windows.Forms.ToolStripMenuItem Option_Merge_Vertex;
+        private System.Windows.Forms.ToolStripMenuItem Burn_Shape;
         private System.Windows.Forms.ToolStripMenuItem Option_Triangle;
         private System.Windows.Forms.ToolStripMenuItem Option_Rectangle;
         private System.Windows.Forms.ToolStripMenuItem Option_Square;

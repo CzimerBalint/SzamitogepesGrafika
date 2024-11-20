@@ -15,6 +15,7 @@ namespace SzamitogepesGrafika
         public List<DrawableObject> drawableObjects;
         private Vertex selectedVertex = null;
         private Point lastMousePos;
+        public Bitmap bmp;
         private List<Vertex> selectedVertices = new List<Vertex>();
        
         public Form1()
@@ -28,7 +29,8 @@ namespace SzamitogepesGrafika
         {
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
-            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Image = bmp;
             interface2d.Invalidate();
 
 
@@ -45,19 +47,27 @@ namespace SzamitogepesGrafika
             
             interface2d.Invalidate();
         }
-
-        private void Option_Merge_Vertex_Click(object sender, EventArgs e)
+        private void Burn_Shape_Click(object sender, EventArgs e)
         {
-           
-            // Merge the selected vertices
-            MergeVertices(drawableObjects, treeView1);
-            MessageBox.Show($"Égetés sikeres:");
 
-            // Clear the selected vertices list
-            selectedVertices.Clear();
+            if (drawableObjects.Count == 0)
+            {
+                MessageBox.Show("Nem lehet mit véglegesíteni!");
+            }
+            else
+            {
+                // Merge the selected vertices
+                BurnShape(drawableObjects, treeView1);
+                MessageBox.Show($"Égetés sikeres!");
 
-            // Redraw the form
-            interface2d.Invalidate();
+                // Clear the selected vertices list
+                selectedVertices.Clear();
+
+                // Redraw the form
+                interface2d.Invalidate();
+            }
+        
+
         }
         #endregion
 
@@ -126,14 +136,13 @@ namespace SzamitogepesGrafika
 
         #region Drawing to the interface
 
-        private Bitmap CreateImage(int w, int h)
+        private void CreateImage(int w, int h)
         {
-            Bitmap bitmap = new Bitmap(w, h);
-            using (Graphics g = Graphics.FromImage(bitmap))
+            bmp = new Bitmap(w, h);
+            using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.White);
             }
-            return bitmap;
         }
 
 
@@ -182,39 +191,54 @@ namespace SzamitogepesGrafika
 
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
         {
-            selectedVertex = null;
-
-
-            // Deselect all vertices
-            foreach (DrawableObject obj in drawableObjects)
+            switch (e.Button)
             {
-                if (obj is Vertex vertex)
-                {
-                    vertex.Deselect();
-                }
-            }
+                case MouseButtons.Left:
 
-            // Check if any vertex is clicked
-            foreach (DrawableObject obj in drawableObjects)
-            {
-                if (obj is Vertex vertex && vertex.Contains(e.Location))
-                {
-                    vertex.Select();
-                    selectedVertex = vertex;
+                    selectedVertex = null;
 
-                    // Kiválasztott vertex ellenőrzése hogy tartalmazza-e a lista
-                    if (!selectedVertices.Contains(vertex))
+                    // Deselect all vertices
+                    foreach (DrawableObject obj in drawableObjects)
                     {
-                        selectedVertices.Add(vertex);
+                        if (obj is Vertex vertex)
+                        {
+                            vertex.Deselect();
+                        }
                     }
 
-                    lastMousePos = e.Location;  // Remember the initial position of the mouse
+                    // Check if any vertex is clicked
+                    foreach (DrawableObject obj in drawableObjects)
+                    {
+                        if (obj is Vertex vertex && vertex.Contains(e.Location))
+                        {
+                            vertex.Select();
+                            selectedVertex = vertex;
+
+                            // Kiválasztott vertex ellenőrzése hogy tartalmazza-e a lista
+                            if (!selectedVertices.Contains(vertex))
+                            {
+                                selectedVertices.Add(vertex);
+                            }
+
+                            lastMousePos = e.Location;  // Remember the initial position of the mouse
+                            break;
+                        }
+                    }
+
+                    // Redraw the form
+                    interface2d.Invalidate();
                     break;
-                }
+
+                case MouseButtons.Right:
+                    bmp.FillS4(e.Location.X, e.Location.Y, bmp.GetPixel(e.X, e.Y), Color.Aqua);
+                    interface2d.Invalidate();
+                    break;
+
+                default:
+                    break;
             }
 
-            // Redraw the form
-            interface2d.Invalidate();
+           
         }
 
         private void interface2d_MouseUp(object sender, MouseEventArgs e)
@@ -230,14 +254,18 @@ namespace SzamitogepesGrafika
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Image = bmp;
             interface2d.Invalidate();
         }
 
         private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
         {
-            interface2d.Image = CreateImage(interface2d.Width, interface2d.Height);
+            CreateImage(interface2d.Width, interface2d.Height);
+            interface2d.Image = bmp;
             interface2d.Invalidate();
         }
+
+
     }
 }
