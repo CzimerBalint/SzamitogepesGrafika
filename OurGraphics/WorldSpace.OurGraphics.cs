@@ -22,5 +22,11 @@ namespace OurGraphics
             return new Point((size.X - location.X) * -1, size.Y - location.Y);
         }
         #endregion
+
+
     }
+
+    
+
+
 }

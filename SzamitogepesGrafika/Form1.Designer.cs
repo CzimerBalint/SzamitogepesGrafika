@@ -40,6 +40,7 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.chk_LiveFill = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +90,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -223,6 +225,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.chk_LiveFill);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
@@ -231,6 +234,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Modifiers";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // chk_LiveFill
+            // 
+            this.chk_LiveFill.AutoSize = true;
+            this.chk_LiveFill.Location = new System.Drawing.Point(5, 5);
+            this.chk_LiveFill.Name = "chk_LiveFill";
+            this.chk_LiveFill.Size = new System.Drawing.Size(61, 17);
+            this.chk_LiveFill.TabIndex = 0;
+            this.chk_LiveFill.Text = "Live Fill";
+            this.chk_LiveFill.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -399,7 +412,7 @@
             this.Option_Add_Vertex,
             this.Burn_Shape});
             this.Option_Vertex.Name = "Option_Vertex";
-            this.Option_Vertex.Size = new System.Drawing.Size(180, 22);
+            this.Option_Vertex.Size = new System.Drawing.Size(126, 22);
             this.Option_Vertex.Text = "&Vertex";
             // 
             // Option_Add_Vertex
@@ -422,7 +435,7 @@
             this.Option_DDA,
             this.Option_MidPoint});
             this.Option_Lines.Name = "Option_Lines";
-            this.Option_Lines.Size = new System.Drawing.Size(180, 22);
+            this.Option_Lines.Size = new System.Drawing.Size(126, 22);
             this.Option_Lines.Text = "&Line";
             // 
             // Option_DDA
@@ -450,7 +463,7 @@
             this.Option_Deltoid,
             this.Option_Parallelogram});
             this.Option_Primitives.Name = "Option_Primitives";
-            this.Option_Primitives.Size = new System.Drawing.Size(180, 22);
+            this.Option_Primitives.Size = new System.Drawing.Size(126, 22);
             this.Option_Primitives.Text = "&Primitives";
             // 
             // Option_Aritmetic_Circle
@@ -538,6 +551,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -591,6 +606,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox chk_LiveFill;
     }
 }
 

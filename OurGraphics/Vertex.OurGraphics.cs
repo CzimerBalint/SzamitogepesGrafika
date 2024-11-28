@@ -40,12 +40,12 @@ namespace OurGraphics
 
             public bool Contains(Point p)
             {
-                return new Rectangle(Location.X - 5, Location.Y - 5, 10, 10).Contains(p);
+                return new Rectangle((int)Location.X - 5, (int)Location.Y - 5, 10, 10).Contains(p);
             }
 
             public override void Move(int deltaX, int deltaY)
             {
-                Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+                Location = new Point((int)Location.X + deltaX, (int)Location.Y + deltaY);
             }
         }
         #endregion

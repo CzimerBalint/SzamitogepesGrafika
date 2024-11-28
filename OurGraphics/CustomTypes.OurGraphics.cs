@@ -10,13 +10,14 @@ namespace OurGraphics
 {
     public static partial class GraphicsExtension
     {
+       
 
         public class Vector2
         {
-            public double X { get; set; }
-            public double Y { get; set; }
+            public float X { get; set; }
+            public float Y { get; set; }
 
-            public Vector2(double x, double y)
+            public Vector2(float x, float y)
             {
                 X = x;
                 Y = y;
@@ -33,7 +34,7 @@ namespace OurGraphics
                 return new Vector2(v1.X+v2.X, v1.Y+v2.Y);
             }
 
-            public static Vector2 operator +(Vector2 v1, double scalar)
+            public static Vector2 operator +(Vector2 v1, float scalar)
             {
                 return new Vector2(v1.X + scalar, v1.Y + scalar);
             }
@@ -43,12 +44,12 @@ namespace OurGraphics
                 return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
             }
 
-            public static double operator *(Vector2 v1, Vector2 v2)
+            public static float operator *(Vector2 v1, Vector2 v2)
             {
                 return (v1.X * v2.X) + (v1.Y * v2.Y);
             }
 
-            public static Vector2 operator *(Vector2 v1, double scalar)
+            public static Vector2 operator *(Vector2 v1, float scalar)
             {
                 return new Vector2(v1.X * scalar, v1.Y * scalar);
             }
@@ -83,11 +84,11 @@ namespace OurGraphics
         public class Vector3
         {
 
-            public double X { get; set; }
-            public double Y { get; set; }
-            public double Z { get; set; }
+            public float X { get; set; }
+            public float Y { get; set; }
+            public float Z { get; set; }
 
-            public Vector3(double x, double y, double z)
+            public Vector3(float x, float y, float z)
             {
                 X = x;
                 Y = y;
@@ -105,7 +106,7 @@ namespace OurGraphics
                 return new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
             }
 
-            public static Vector3 operator +(Vector3 v1, double scalar)
+            public static Vector3 operator +(Vector3 v1, float scalar)
             {
                 return new Vector3(v1.X + scalar, v1.Y + scalar, v1.Z + scalar);
             }
@@ -115,27 +116,51 @@ namespace OurGraphics
                 return new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
             }
 
-            public static double operator *(Vector3 v1, Vector3 v2)
+            public static float operator *(Vector3 v1, Vector3 v2)
             {
                 return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z);
             }
 
-            public static Vector3 operator *(Vector3 v1, double scalar)
+            public static Vector3 operator *(Vector3 v1, float scalar)
             {
                 return new Vector3(v1.X * scalar, v1.Y * scalar, v1.Z * scalar);
             }
+            #endregion
+
+            #region impicit konverzió
+
+            public static implicit operator Point(Vector3 v)
+            {
+                return new Point((int)v.X, (int)v.Y);
+            }
+
+            public static implicit operator PointF(Vector3 v)
+            {
+                return new PointF((float)v.X, (float)v.Y);
+            }
+
+            public static implicit operator Vector3(Point p)
+            {
+                return new Vector3(p.X, p.Y, 0);
+            }
+
+            public static implicit operator Vector3(PointF p)
+            {
+                return new Vector3(p.X, p.Y, 0);
+            }
+
             #endregion
         }
 
         public class Vector4
         {
 
-            public double X { get; set; }
-            public double Y { get; set; }
-            public double Z { get; set; }
-            public double W { get; set; }
+            public float X { get; set; }
+            public float Y { get; set; }
+            public float Z { get; set; }
+            public float W { get; set; }
 
-            public Vector4(double x, double y, double z, double w)
+            public Vector4(float x, float y, float z, float w)
             {
                 X = x;
                 Y = y;
@@ -154,7 +179,7 @@ namespace OurGraphics
                 return new Vector4(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z, v1.W + v2.W);
             }
 
-            public static Vector4 operator +(Vector4 v1, double scalar)
+            public static Vector4 operator +(Vector4 v1, float scalar)
             {
                 return new Vector4(v1.X + scalar, v1.Y + scalar, v1.Z + scalar, v1.W + scalar);
             }
@@ -164,25 +189,49 @@ namespace OurGraphics
                 return new Vector4(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z, v1.W - v2.W);
             }
 
-            public static double operator *(Vector4 v1, Vector4 v2)
+            public static float operator *(Vector4 v1, Vector4 v2)
             {
                 return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z) + (v1.W * v2.W);
             }
 
-            public static Vector4 operator *(Vector4 v1, double scalar)
+            public static Vector4 operator *(Vector4 v1, float scalar)
             {
                 return new Vector4(v1.X * scalar, v1.Y * scalar, v1.Z * scalar, v1.W * scalar);
             }
+            #endregion
+
+            #region impicit konverzió
+
+            public static implicit operator Point(Vector4 v)
+            {
+                return new Point((int)v.X, (int)v.Y);
+            }
+
+            public static implicit operator PointF(Vector4 v)
+            {
+                return new PointF((float)v.X, (float)v.Y);
+            }
+
+            public static implicit operator Vector4(Point p)
+            {
+                return new Vector4(p.X, p.Y, 0,0);
+            }
+
+            public static implicit operator Vector4(PointF p)
+            {
+                return new Vector4(p.X, p.Y, 0,0);
+            }
+
             #endregion
         }
 
         public class Matrix4
         {
-            private double[,] Values;
+            private float[,] Values;
 
             public Matrix4() 
             {
-                this.Values = new double[4,4];
+                this.Values = new float[4,4];
                 for (int i = 0; i < 4; i++)
                 {
                     for(int j = 0; j < 4; j++)
@@ -194,7 +243,7 @@ namespace OurGraphics
 
             public Matrix4(Matrix4 matrix)
             {
-                this.Values = new double[4, 4];
+                this.Values = new float[4, 4];
 
                 for (int i = 0; i < Values.GetLength(0); i++)
                 {
@@ -225,7 +274,7 @@ namespace OurGraphics
             }
 
 
-            public double this[int row, int col]
+            public float this[int row, int col]
             {
                 get { return Values[row, col]; }
                 set { Values[row, col] = value; }
@@ -251,7 +300,7 @@ namespace OurGraphics
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        double temp = 0;
+                        float temp = 0;
                         for (int k = 0; k < 4; k++)
                         {
                             temp += a[i, k] * b[k, j];
@@ -263,7 +312,7 @@ namespace OurGraphics
                 return result;
             }
 
-            public static Matrix4 operator *(Matrix4 a, double scalar)
+            public static Matrix4 operator *(Matrix4 a, float scalar)
             {
 
                 Matrix4 result = new Matrix4();

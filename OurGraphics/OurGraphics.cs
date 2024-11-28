@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace OurGraphics
 {
@@ -23,6 +25,7 @@ namespace OurGraphics
         {
             g.DrawRectangle(new Pen(color), x, y, 0.5f, 0.5f);
         }
+
         public static void DDA(this Graphics g, Pen pen, float x0, float y0, float x1, float y1)
         {
             float dx = x1 - x0;
@@ -108,7 +111,7 @@ namespace OurGraphics
         }
         public static void MidPoint(this Graphics g, Pen pen, Vertex start, Vertex end)
         {
-            g.MidPoint(pen, start.Location.X, start.Location.Y, end.Location.X, end.Location.Y);
+            g.MidPoint(pen, (int)start.Location.X, (int)start.Location.Y, (int)end.Location.X, (int)end.Location.Y);
         }
 
         public static void CirclePoints(this Graphics g, Pen pen, Point center, int x, int y)
@@ -174,6 +177,10 @@ namespace OurGraphics
                 }
             }
         }
+
+       
+
+
 
     }
 }

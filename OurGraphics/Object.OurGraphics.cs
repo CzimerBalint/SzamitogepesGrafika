@@ -8,9 +8,9 @@ namespace OurGraphics
         public abstract class DrawableObject
         {
             public string Name { get; set; }
-            public Point Location { get; set; }
+            public Vector3 Location { get; set; }
 
-            public DrawableObject(string name, Point location)
+            public DrawableObject(string name, Vector3 location)
             {
                 Name = name;
                 Location = location;

@@ -5,6 +5,7 @@ using OurGraphics;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SzamitogepesGrafika
 {
@@ -17,7 +18,13 @@ namespace SzamitogepesGrafika
         private Point lastMousePos;
         public Bitmap bmp;
         private List<Vertex> selectedVertices = new List<Vertex>();
+
+
+        private bool MBM_isDown = false; //MBM mouse button Middle
+        private Point MBM_first;
+        private Point MBM_last;
        
+
         public Form1()
         {
             InitializeComponent();
@@ -35,8 +42,6 @@ namespace SzamitogepesGrafika
 
 
         }
-
-
 
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
@@ -154,11 +159,17 @@ namespace SzamitogepesGrafika
             foreach (var drawable in drawableObjects)
             {
                 //Debug.WriteLine($"{drawable.Name}, {drawable.Location}");
+               
                 drawable.Draw(g);
-                
+
+
             }
-                
+
         }
+
+        
+
+
 
         private void interface2d_MouseMove(object sender, MouseEventArgs e)
         {
@@ -181,6 +192,13 @@ namespace SzamitogepesGrafika
                 interface2d.Invalidate();
             }
 
+            if (MBM_isDown) 
+            {
+                
+            }
+
+
+
         }
 
         private void interface2d_Resize(object sender, EventArgs e)
@@ -194,8 +212,9 @@ namespace SzamitogepesGrafika
         {
             switch (e.Button)
             {
-                case MouseButtons.Left:
 
+                case MouseButtons.Left:
+                    
                     selectedVertex = null;
 
                     // Deselect all vertices
@@ -226,6 +245,7 @@ namespace SzamitogepesGrafika
                         }
                     }
 
+                    
                     // Redraw the form
                     interface2d.Invalidate();
                     break;
@@ -234,6 +254,14 @@ namespace SzamitogepesGrafika
                     bmp.FillS4(e.Location.X, e.Location.Y, bmp.GetPixel(e.X, e.Y), Color.Aqua);
                     interface2d.Invalidate();
                     break;
+
+                case MouseButtons.Middle:
+                    MBM_first = new Point(e.X, e.Y);
+                    Debug.WriteLine("First: "+MBM_first);
+
+                    MBM_isDown = true;
+                    break;
+
 
                 default:
                     break;
@@ -245,6 +273,12 @@ namespace SzamitogepesGrafika
         private void interface2d_MouseUp(object sender, MouseEventArgs e)
         {
             selectedVertex = null;
+
+            MBM_last = new Point(e.X, e.Y); //worldOrigint használni
+            Debug.WriteLine("Last: "+MBM_last);
+            MBM_isDown = false;
+           
+           
         }
 
 
