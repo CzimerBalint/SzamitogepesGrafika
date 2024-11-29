@@ -15,7 +15,7 @@ namespace OurGraphics
             public bool IsSelected { get; set; }
             
 
-            public Vertex(Point location) : base($"Vertex", location)
+            public Vertex(Vector3 location) : base($"Vertex", location)
             {
                
             }

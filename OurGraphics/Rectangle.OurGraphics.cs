@@ -14,7 +14,7 @@ namespace OurGraphics
             public Vertex B { get; set; }
             public Vertex C { get; set; }
             public Vertex D { get; set; }
-            private LineDrawingAlgo DrawingAlgo { get; set; }
+            //private LineDrawingAlgo DrawingAlgo { get; set; }
 
 
             public Rect(Vertex a, Vertex b, Vertex c, Vertex d) : base("Rectangle", new Point())

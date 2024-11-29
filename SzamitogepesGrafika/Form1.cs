@@ -23,7 +23,11 @@ namespace SzamitogepesGrafika
         private bool MBM_isDown = false; //MBM mouse button Middle
         private Point MBM_first;
         private Point MBM_last;
-       
+
+
+        //kamera
+        private Matrix4 projectionMatrix;
+
 
         public Form1()
         {
@@ -38,6 +42,7 @@ namespace SzamitogepesGrafika
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
             CreateImage(interface2d.Width, interface2d.Height);
             interface2d.Image = bmp;
+            InitializeProjectionMatrix();
             interface2d.Invalidate();
 
 
@@ -150,11 +155,63 @@ namespace SzamitogepesGrafika
             }
         }
 
+        private void InitializeProjectionMatrix()
+        {
+            float fov = (float)(Math.PI / 2); // 90 fok
+            float aspectRatio = (float)interface2d.Width / interface2d.Height;
+            float near = 0.1f;
+            float far = 1f;
+
+            projectionMatrix = CentralProjection.CreatePojectionMat(fov, aspectRatio, near, far);
+        }
+
 
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
 
             g = e.Graphics;
+
+            List<Vector3> points = new List<Vector3>
+            {
+                new Vector3(0, 1, 5),   // P1
+                new Vector3(-1, -1, 6), // P2
+                new Vector3(1, -1, 6),  // P3
+                new Vector3(0, -1.2f, 4)   // P4
+            };
+
+            // Tetraéder élei (indexek a pontok listájára)
+            List<(int, int)> edges = new List<(int, int)>
+            {
+                (0, 1), (0, 2), (0, 3), // Csúcsból bázisokba
+                (1, 2), (1, 3), (2, 3)  // Bázis élek
+            };
+
+            // Skálázás mértéke
+            float scale = 1f; // Ennyivel nagyobb méretű lesz a tetraéder
+
+            // Élek kirajzolása
+            foreach (var edge in edges)
+            {
+                // Az él kezdő- és végpontja
+                Vector3 start3D = points[edge.Item1];
+                Vector3 end3D = points[edge.Item2];
+
+                // Pontok kivetítése 2D-re
+                Vector2 start2D = CentralProjection.ProjectPoint(start3D, projectionMatrix);
+                Vector2 end2D = CentralProjection.ProjectPoint(end3D, projectionMatrix);
+
+                // Skálázás és eltolás középre
+                float startX = start2D.X * (interface2d.Width / 2) * scale + (interface2d.Width / 2);
+                float startY = -start2D.Y * (interface2d.Height / 2) * scale + (interface2d.Height / 2);
+                float endX = end2D.X * (interface2d.Width / 2) * scale + (interface2d.Width / 2);
+                float endY = -end2D.Y * (interface2d.Height / 2) * scale + (interface2d.Height / 2);
+
+                // Él rajzolása
+                g.DrawLine(Pens.Black, (int)startX, (int)startY, (int)endX, (int)endY);
+            }
+
+
+
             //Debug.WriteLine($"{drawableObjects.Count}, {drawableObjects.Capacity}");
             foreach (var drawable in drawableObjects)
             {
@@ -164,6 +221,9 @@ namespace SzamitogepesGrafika
 
 
             }
+
+
+
 
         }
 
@@ -301,6 +361,26 @@ namespace SzamitogepesGrafika
             interface2d.Invalidate();
         }
 
+        private void AddCube_Click(object sender, EventArgs e)
+        {
 
+
+
+
+            Vertex[] vertices = new Vertex[]
+            {
+                new Vertex(new Point(WorldOrigin.X, WorldOrigin.Y)),               // A
+                new Vertex(new Point(WorldOrigin.X + 100, WorldOrigin.Y)),         // B
+                new Vertex(new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100)),   // C
+                new Vertex(new Point(WorldOrigin.X, WorldOrigin.Y + 100)),         // D
+                new Vertex(new Point(WorldOrigin.X, WorldOrigin.Y - 100)),         // E
+                new Vertex(new Point(WorldOrigin.X + 100, WorldOrigin.Y - 100)),   // F
+                new Vertex(new Point(WorldOrigin.X + 100, WorldOrigin.Y)),         // G
+                new Vertex(new Point(WorldOrigin.X, WorldOrigin.Y - 100))          // H
+            };
+
+            g.CreateCube(drawableObjects, treeView1, "Cube", vertices);
+            interface2d.Invalidate();
+        }
     }
 }

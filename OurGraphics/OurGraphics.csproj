@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CentralProjection.OurGraphics.cs" />
     <Compile Include="Circle.OurGraphics.cs" />
+    <Compile Include="Cube.OurGraphics.cs" />
     <Compile Include="CustomTypes.OurGraphics.cs" />
     <Compile Include="Line.OurGraphics.cs" />
     <Compile Include="Object.OurGraphics.cs" />
