@@ -14,12 +14,13 @@ namespace OurGraphics
             public Vertex End { get; set; }
             private LineDrawingAlgo DrawingAlgo { get; set; }
 
-            public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base($"Line", new Point())
+            public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base("Line", start.Location)
             {
                 Start = start;
                 End = end;
                 DrawingAlgo = drawingAlgo;
             }
+
             public void SetName(string name)
             {
                 Name = name;
@@ -41,13 +42,18 @@ namespace OurGraphics
                 }
             }
 
-
-            public override void Move(int deltaX, int deltaY)
+            public override void Move(float deltaX, float deltaY, float deltaZ)
             {
-                Start.Move(deltaX, deltaY);
-                End.Move(deltaX, deltaY);
+                Start.Move(deltaX, deltaY, deltaZ);
+                End.Move(deltaX, deltaY, deltaZ);
             }
 
+            // Új transzformációs metódus
+            public override void Transform(Matrix4 transformation)
+            {
+                Start.Transform(transformation);
+                End.Transform(transformation);
+            }
         }
         #endregion
 

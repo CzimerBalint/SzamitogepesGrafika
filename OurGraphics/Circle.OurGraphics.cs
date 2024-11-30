@@ -11,7 +11,7 @@ namespace OurGraphics
         {
             public Line Radius { get; set; }
 
-            public Circle(Line radius) : base($"Circle", new Point())
+            public Circle(Line radius) : base("Circle", radius.Start.Location)
             {
                 Radius = radius;
             }
@@ -26,33 +26,36 @@ namespace OurGraphics
                 g.AritmeticCircle(Pens.Black, Radius.Start, Radius.End);
             }
 
-            public override void Move(int deltaX, int deltaY)
+            public override void Move(float deltaX, float deltaY, float deltaZ)
             {
-                Radius.Start.Move(deltaX, deltaY);
-                Radius.End.Move(deltaX, deltaY);
+                Radius.Start.Move(deltaX, deltaY, deltaZ);
+                Radius.End.Move(deltaX, deltaY, deltaZ);
+            }
+
+            // Új transzformációs metódus
+            public override void Transform(Matrix4 transformation)
+            {
+                Radius.Start.Transform(transformation);
+                Radius.End.Transform(transformation);
             }
         }
-
         #endregion
 
         #region Create Circle
-
         private static int circleCount = 1;
 
-        public static void CreateCircle(this Graphics g,List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
+        public static void CreateCircle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
         {
-
-            Line rad = CreateLine(g,drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
+            Line rad = CreateLine(g, drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
 
             Circle circle = new Circle(rad);
 
             circle.SetName($"Aritmetic_Circle{circleCount++}");
-            rad.SetName("Circle_Lenght");
+            rad.SetName("Circle_Length");
             rad.Start.SetName($"Circle_Center");
             rad.End.SetName($"Circle_Radius");
 
             drawableObjects.Add(circle);
-
 
             TreeNode parent = new TreeNode($"{circle.Name}");
 
@@ -66,7 +69,6 @@ namespace OurGraphics
 
             treeView1.Nodes.Add(parent);
         }
-
         #endregion
     }
 }

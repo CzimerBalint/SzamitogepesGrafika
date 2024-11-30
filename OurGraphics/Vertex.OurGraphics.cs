@@ -13,11 +13,9 @@ namespace OurGraphics
         public class Vertex : DrawableObject
         {
             public bool IsSelected { get; set; }
-            
 
-            public Vertex(Vector3 location) : base($"Vertex", location)
+            public Vertex(Vector3 location) : base("Vertex", location)
             {
-               
             }
 
             public void SetName(string name)
@@ -25,17 +23,13 @@ namespace OurGraphics
                 Name = name;
             }
             public void Select() => IsSelected = true;
-            
             public void Deselect() => IsSelected = false;
-
 
             public override void Draw(Graphics g)
             {
-                
                 Brush brush = IsSelected ? Brushes.Red : Brushes.Black;
                 RectangleF rect = new RectangleF(Location.X - 5, Location.Y - 5, 10, 10);
                 g.FillEllipse(brush, rect);
-
             }
 
             public bool Contains(Point p)
@@ -43,9 +37,9 @@ namespace OurGraphics
                 return new Rectangle((int)Location.X - 5, (int)Location.Y - 5, 10, 10).Contains(p);
             }
 
-            public override void Move(int deltaX, int deltaY)
+            public override void Move(float deltaX, float deltaY, float deltaZ)
             {
-                Location = new Point((int)Location.X + deltaX, (int)Location.Y + deltaY);
+                Location = new Vector3(Location.X + deltaX, Location.Y + deltaY, Location.Z + deltaZ);
             }
         }
         #endregion
