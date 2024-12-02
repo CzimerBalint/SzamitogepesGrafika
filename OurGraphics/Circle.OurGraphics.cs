@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
 
 namespace OurGraphics
 {
@@ -16,11 +17,6 @@ namespace OurGraphics
                 Radius = radius;
             }
 
-            public void SetName(string name)
-            {
-                Name = name;
-            }
-
             public override void Draw(Graphics g)
             {
                 g.AritmeticCircle(Pens.Black, Radius.Start, Radius.End);
@@ -32,7 +28,6 @@ namespace OurGraphics
                 Radius.End.Move(deltaX, deltaY, deltaZ);
             }
 
-            // Új transzformációs metódus
             public override void Transform(Matrix4 transformation)
             {
                 Radius.Start.Transform(transformation);
@@ -44,16 +39,14 @@ namespace OurGraphics
         #region Create Circle
         private static int circleCount = 1;
 
-        public static void CreateCircle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point center, Point radius)
+        public static Circle CreateCircle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Vertex center, Vertex radius)
         {
-            Line rad = CreateLine(g, drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint, true);
+            Line rad = CreateLine(g, drawableObjects, treeView1, center, radius, LineDrawingAlgo.Midpoint);
 
-            Circle circle = new Circle(rad);
-
-            circle.SetName($"Aritmetic_Circle{circleCount++}");
-            rad.SetName("Circle_Length");
-            rad.Start.SetName($"Circle_Center");
-            rad.End.SetName($"Circle_Radius");
+            Circle circle = new Circle(rad)
+            {
+                Name = $"Circle{circleCount++}"
+            };
 
             drawableObjects.Add(circle);
 
@@ -68,6 +61,8 @@ namespace OurGraphics
             child0.Nodes.Add(child2);
 
             treeView1.Nodes.Add(parent);
+
+            return circle;
         }
         #endregion
     }

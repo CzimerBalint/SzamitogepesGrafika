@@ -1,11 +1,11 @@
-﻿using System;
+﻿using OurGraphics;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using OurGraphics;
+using System.Linq;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
-using System.Diagnostics;
-using System.Linq;
 
 namespace SzamitogepesGrafika
 {
@@ -13,39 +13,49 @@ namespace SzamitogepesGrafika
     {
         public Graphics g;
         public Point WorldOrigin;
+        public Prefabs prefabs;
         public List<DrawableObject> drawableObjects;
         private Vertex selectedVertex = null;
         private Point lastMousePos;
         public Bitmap bmp;
         private List<Vertex> selectedVertices = new List<Vertex>();
 
-        private bool MBM_isDown = false; //MBM mouse button Middle
+        private bool MBM_isDown = false; // MBM mouse button Middle
         private Point MBM_first;
         private Point MBM_last;
 
-       
+
 
         public Form1()
         {
             InitializeComponent();
-            WorldOrigin = g.WorldOrigin(interface2d.Width, interface2d.Height);
-            CreateImage(interface2d.Width, interface2d.Height);
-            interface2d.Image = bmp;
-            interface2d.Invalidate();
-            drawableObjects = new List<DrawableObject>(); // Lista inicializálása
+
+            WorldOrigin = new Point(interface2d.Width / 2, interface2d.Height / 2);
+
+            drawableObjects = new List<DrawableObject>();
+
+            prefabs = new Prefabs(drawableObjects,treeView1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            CreateImage(splitContainer1.Panel1.Size);
+            interface2d.Image = bmp;
+
+
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
-
         }
 
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
         {
-            g.CreateVertex(drawableObjects, treeView1, WorldOrigin);
+            Vertex vertex = new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 0))
+            {
+                Name = $"Vertex{drawableObjects.Count + 1}"
+            };
+            drawableObjects.Add(vertex);
+            treeView1.Nodes.Add(new TreeNode(vertex.Name));
             interface2d.Invalidate();
         }
 
@@ -57,14 +67,9 @@ namespace SzamitogepesGrafika
             }
             else
             {
-                // Merge the selected vertices
                 g.BurnShape(drawableObjects, treeView1, bmp);
                 MessageBox.Show($"Égetés sikeres!");
-
-                // Clear the selected vertices list
                 selectedVertices.Clear();
-
-                // Redraw the form
                 interface2d.Invalidate();
             }
         }
@@ -73,13 +78,19 @@ namespace SzamitogepesGrafika
         #region Lines
         private void Option_DDA_Click(object sender, EventArgs e)
         {
-            g.CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.DDA);
+            Vertex start = new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 0));
+            Vertex end = new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y, 0));
+            Line line = g.CreateLine(drawableObjects, treeView1, start, end, LineDrawingAlgo.DDA);
+            drawableObjects.Add(line);
             interface2d.Invalidate();
         }
 
         private void Option_MidPoint_Click(object sender, EventArgs e)
         {
-            g.CreateLine(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), LineDrawingAlgo.Midpoint);
+            Vertex start = new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 0));
+            Vertex end = new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y, 0));
+            Line line = g.CreateLine(drawableObjects, treeView1, start, end, LineDrawingAlgo.Midpoint);
+            drawableObjects.Add(line);
             interface2d.Invalidate();
         }
         #endregion
@@ -87,7 +98,7 @@ namespace SzamitogepesGrafika
         #region Triangles
         private void Option_Triangle_Click(object sender, EventArgs e)
         {
-            g.CreateTriangle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y), new Point(WorldOrigin.X + 50, WorldOrigin.Y + 100));
+            Triangle triangle = prefabs.CreateTriangle(WorldOrigin);
             interface2d.Invalidate();
         }
         #endregion
@@ -95,25 +106,29 @@ namespace SzamitogepesGrafika
         #region Rectangles
         private void Option_Rectangle_Click(object sender, EventArgs e)
         {
-            g.CreateRectangle(drawableObjects, treeView1, "Rectangle", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 200, WorldOrigin.Y));
+            Rect rectangle = prefabs.CreateRectangle(WorldOrigin);
             interface2d.Invalidate();
         }
 
         private void Option_Square_Click(object sender, EventArgs e)
-        {
-            g.CreateRectangle(drawableObjects, treeView1, "Square", WorldOrigin, new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y + 100), new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+        {   
+            Rect square = prefabs.CreateSquare(WorldOrigin);
+            drawableObjects.Add(square);
             interface2d.Invalidate();
         }
 
         private void Option_Deltoid_Click(object sender, EventArgs e)
         {
-            g.CreateRectangle(drawableObjects, treeView1, "Deltoid", new Point(WorldOrigin.X + 25, WorldOrigin.Y + 25), new Point(WorldOrigin.X, WorldOrigin.Y + 100), new Point(WorldOrigin.X - 25, WorldOrigin.Y + 25), WorldOrigin);
+            
+            Rect deltoid = prefabs.CreateDeltoid(WorldOrigin);
+            drawableObjects.Add(deltoid);
             interface2d.Invalidate();
         }
 
         private void Option_Parallelogram_Click(object sender, EventArgs e)
         {
-            g.CreateRectangle(drawableObjects, treeView1, "Parallelogram", WorldOrigin, new Point(WorldOrigin.X + 25, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 75, WorldOrigin.Y + 50), new Point(WorldOrigin.X + 50, WorldOrigin.Y));
+            Rect parallelogram = prefabs.CreateParallelogram(WorldOrigin);
+            drawableObjects.Add(parallelogram);
             interface2d.Invalidate();
         }
         #endregion
@@ -121,27 +136,25 @@ namespace SzamitogepesGrafika
         #region Circles
         private void Option_Aritmetic_Circle_Click(object sender, EventArgs e)
         {
-            g.CreateCircle(drawableObjects, treeView1, WorldOrigin, new Point(WorldOrigin.X + 100, WorldOrigin.Y));
+            Vertex center = new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 0));
+            Vertex radius = new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y, 0));
+            Circle circle = g.CreateCircle(drawableObjects, treeView1, center, radius);
+            drawableObjects.Add(circle);
             interface2d.Invalidate();
-        }
-
-        private void Option_MidPointCircle_Click(object sender, EventArgs e) // yet to implement
-        {
-            bmp.Save("kaka.jpg");
         }
         #endregion
 
         #region Drawing to the interface
-        private void CreateImage(int w, int h)
+        private void CreateImage(Size size)
         {
-            bmp = new Bitmap(w, h);
+            bmp = new Bitmap(size.Width, size.Height);
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.White);
             }
+
         }
 
-       
         private void interface2d_Paint(object sender, PaintEventArgs e)
         {
             g = e.Graphics;
@@ -169,14 +182,41 @@ namespace SzamitogepesGrafika
 
             if (MBM_isDown)
             {
-                // Handle middle mouse button behavior here
-            }
-        }
+                if (Control.ModifierKeys == Keys.Shift)
+                {
+                    // Mozgatás jobbra/balra/le/fel, ha a Shift lenyomva van
+                    int deltaX = e.Location.X - MBM_first.X;
+                    int deltaY = e.Location.Y - MBM_first.Y;
 
-        private void interface2d_Resize(object sender, EventArgs e)
-        {
-            WorldOrigin = g.WorldOrigin(interface2d.Width, interface2d.Height);
-            toolStripStatusLabel3.Text = WorldOrigin.ToString();
+                    foreach (var drawable in drawableObjects)
+                    {
+                        drawable.Move(deltaX, deltaY, 0);
+                    }
+
+                    MBM_first = e.Location;
+                }                
+                else
+                {
+                    int deltaX = e.Location.X - MBM_first.X;
+                    int deltaY = e.Location.Y - MBM_first.Y;
+
+                    float angleX = deltaY * 0.005f;
+                    float angleY = deltaX * 0.005f;
+
+                    Matrix4 rotationX = Matrix4.CreateRotationX(angleX);
+                    Matrix4 rotationY = Matrix4.CreateRotationY(angleY);
+                    Matrix4 rotation = rotationX * rotationY;
+
+                    foreach (var drawable in drawableObjects)
+                    {
+                        drawable.Transform(rotation);
+                    }
+
+                    MBM_first = e.Location;
+                }
+
+                interface2d.Invalidate();
+            }
         }
 
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
@@ -221,7 +261,6 @@ namespace SzamitogepesGrafika
 
                 case MouseButtons.Middle:
                     MBM_first = new Point(e.X, e.Y);
-                    Debug.WriteLine("First: " + MBM_first);
                     MBM_isDown = true;
                     break;
             }
@@ -236,37 +275,40 @@ namespace SzamitogepesGrafika
         }
         #endregion
 
+        private void Option_MidPointCircle_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("MidPointCircle function is yet to be implemented.");
+        }
+
+        private void interface2d_Resize(object sender, EventArgs e)
+        {
+            WorldOrigin = new Point(interface2d.Width / 2, interface2d.Height / 2);
+
+            interface2d.Invalidate();
+        }
+
+        private void AddCube_Click(object sender, EventArgs e)
+        {
+            g.CreateCube(drawableObjects, treeView1, "Cube", prefabs.Cube_prefab(WorldOrigin));
+            interface2d.Invalidate();
+        }
+
         private void Form1_Resize(object sender, EventArgs e)
         {
-            CreateImage(interface2d.Width, interface2d.Height);
+            CreateImage(interface2d.Size);
             interface2d.Image = bmp;
             interface2d.Invalidate();
         }
 
         private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
         {
-            CreateImage(interface2d.Width, interface2d.Height);
+            CreateImage(interface2d.Size);
             interface2d.Image = bmp;
             interface2d.Invalidate();
         }
 
-        private void AddCube_Click(object sender, EventArgs e)
-        {
-            Vertex[] vertices = new Vertex[]
-            {
-               new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 0)),               // A
-               new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y, -100)),      // B
-               new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y + 100, -100)), // C
-               new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y + 100, -100)),      // D
-               new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y, 100)),             // E
-               new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y, 100)),       // F
-               new Vertex(new Vector3(WorldOrigin.X + 100, WorldOrigin.Y + 100, 100)), // G
-               new Vertex(new Vector3(WorldOrigin.X, WorldOrigin.Y + 100, 100))        // H
-            };
 
 
-            g.CreateCube(drawableObjects, treeView1, "Cube", vertices);
-            interface2d.Invalidate();
-        }
+        
     }
 }

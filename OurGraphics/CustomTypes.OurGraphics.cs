@@ -10,7 +10,6 @@ namespace OurGraphics
 {
     public static partial class GraphicsExtension
     {
-       
 
         public class Vector2
         {
@@ -31,7 +30,7 @@ namespace OurGraphics
             #region műveletek
             public static Vector2 operator +(Vector2 v1, Vector2 v2)
             {
-                return new Vector2(v1.X+v2.X, v1.Y+v2.Y);
+                return new Vector2(v1.X + v2.X, v1.Y + v2.Y);
             }
 
             public static Vector2 operator +(Vector2 v1, float scalar)
@@ -154,7 +153,6 @@ namespace OurGraphics
 
         public class Vector4
         {
-
             public float X { get; set; }
             public float Y { get; set; }
             public float Z { get; set; }
@@ -214,12 +212,12 @@ namespace OurGraphics
 
             public static implicit operator Vector4(Point p)
             {
-                return new Vector4(p.X, p.Y, 0,0);
+                return new Vector4(p.X, p.Y, 0, 0);
             }
 
             public static implicit operator Vector4(PointF p)
             {
-                return new Vector4(p.X, p.Y, 0,0);
+                return new Vector4(p.X, p.Y, 0, 0);
             }
 
             #endregion
@@ -229,7 +227,7 @@ namespace OurGraphics
         {
             private float[,] Values;
 
-            public Matrix4() 
+            public Matrix4()
             {
                 Values = new float[4, 4];
                 IdentityMatrix();
@@ -243,7 +241,7 @@ namespace OurGraphics
                 {
                     for (int j = 0; j < Values.GetLength(0); j++)
                     {
-                        this[i, j] = matrix[i,j];
+                        this[i, j] = matrix[i, j];
                     }
                 }
             }
@@ -274,14 +272,41 @@ namespace OurGraphics
                 set { Values[row, col] = value; }
             }
 
+            public static Matrix4 CreateRotationX(float angle)
+            {
+
+                Matrix4 rotation = new Matrix4();
+                rotation[1, 1] = (float)Math.Cos(angle);
+                rotation[1, 2] = -(float)Math.Sin(angle);
+                rotation[2, 1] = (float)Math.Sin(angle);
+                rotation[2, 2] = (float)Math.Cos(angle);
+                rotation[0, 0] = 1;
+                rotation[3, 3] = 1;
+                return rotation;
+            }
+
+            public static Matrix4 CreateRotationY(float angle)
+            {
+
+                Matrix4 rotation = new Matrix4();
+                rotation[0, 0] = (float)Math.Cos(angle);
+                rotation[0, 2] = (float)Math.Sin(angle);
+                rotation[2, 0] = -(float)Math.Sin(angle);
+                rotation[2, 2] = (float)Math.Cos(angle);
+                rotation[1, 1] = 1;
+                rotation[3, 3] = 1;
+                return rotation;
+            }
+
+
             public static Matrix4 operator +(Matrix4 a, Matrix4 b)
             {
                 Matrix4 result = new Matrix4();
-                for(int i = 0;i < 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        result[i,j] = a[i,j] + b[i,j];   
+                        result[i, j] = a[i, j] + b[i, j];
                     }
                 }
                 return result;
@@ -300,7 +325,7 @@ namespace OurGraphics
                             temp += a[i, k] * b[k, j];
 
                         }
-                        result[i,j] = temp;
+                        result[i, j] = temp;
                     }
                 }
                 return result;
@@ -339,7 +364,7 @@ namespace OurGraphics
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        result[j,i] = Values[i,j];
+                        result[j, i] = Values[i, j];
                     }
                 }
 

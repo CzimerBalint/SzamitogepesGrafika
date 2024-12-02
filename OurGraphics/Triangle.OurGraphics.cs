@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
 
 namespace OurGraphics
 {
@@ -14,16 +15,11 @@ namespace OurGraphics
             public Vertex B { get; set; }
             public Vertex C { get; set; }
 
-            public Triangle(Vertex a, Vertex b, Vertex c) : base("Triangle", a.Location)
+            public Triangle(Vertex[] vertices) : base("Triangle", vertices[0].Location)
             {
-                A = a;
-                B = b;
-                C = c;
-            }
-
-            public void SetName(string name)
-            {
-                Name = name;
+                A = vertices[0];
+                B = vertices[1];
+                C = vertices[2];
             }
 
             public override void Draw(Graphics g)
@@ -40,7 +36,6 @@ namespace OurGraphics
                 C.Move(deltaX, deltaY, deltaZ);
             }
 
-            // Új transzformációs metódus
             public override void Transform(Matrix4 transformation)
             {
                 A.Transform(transformation);
@@ -50,34 +45,7 @@ namespace OurGraphics
         }
         #endregion
 
-        #region Create Triangle
-        private static int triangleCount = 1;
-
-        public static void CreateTriangle(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point A, Point B, Point C)
-        {
-            var vertexA = CreateVertex(g, drawableObjects, treeView1, A, true);
-            var vertexB = CreateVertex(g, drawableObjects, treeView1, B, true);
-            var vertexC = CreateVertex(g, drawableObjects, treeView1, C, true);
-
-            var triangle = new Triangle(vertexA, vertexB, vertexC);
-
-            triangle.SetName($"Midpoint_Triangle{triangleCount++}");
-            vertexA.SetName("A");
-            vertexB.SetName("B");
-            vertexC.SetName("C");
-
-            drawableObjects.Add(triangle);
-
-            TreeNode parent = new TreeNode($"{triangle.Name}");
-            TreeNode child1 = new TreeNode($"{vertexA.Name}");
-            TreeNode child2 = new TreeNode($"{vertexB.Name}");
-            TreeNode child3 = new TreeNode($"{vertexC.Name}");
-            parent.Nodes.Add(child1);
-            parent.Nodes.Add(child2);
-            parent.Nodes.Add(child3);
-
-            treeView1.Nodes.Add(parent);
-        }
+        #region Triangle Counter
         #endregion
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="Line.OurGraphics.cs" />
     <Compile Include="Object.OurGraphics.cs" />
     <Compile Include="OurGraphics.cs" />
+    <Compile Include="Prefabs.cs" />
     <Compile Include="Projections.OurGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.OurGraphics.cs" />

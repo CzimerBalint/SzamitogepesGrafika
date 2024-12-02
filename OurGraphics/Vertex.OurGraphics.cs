@@ -47,16 +47,15 @@ namespace OurGraphics
         #region Create Vertex
         private static int vertexCount = 1;
 
-        public static Vertex CreateVertex(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Point pos, bool isPartOfLine = false)
+        public static Vertex CreateVertex(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Vector3 location, bool isPartOfLine = false)
         {
-            Vertex vertex = new Vertex(pos)
+            Vertex vertex = new Vertex(location)
             {
                 Name = $"Vertex{vertexCount++}"
             };
 
             drawableObjects.Add(vertex);
 
- 
             if (!isPartOfLine)
             {
                 TreeNode parent = new TreeNode($"{vertex.Name}");
@@ -77,7 +76,6 @@ namespace OurGraphics
             // Az eltávolítandó vertekszeket kiszedjük
             foreach (var vertex in verticesToRemove)
             {
-
                 treeView1.Nodes.Clear();
                 drawableObjects.Remove(vertex);
 
@@ -88,15 +86,7 @@ namespace OurGraphics
             {
                 item.Draw(bitmapGraphics);
             }
-
-
         }
-
-
-
-
-
-
         #endregion
     }
 }
