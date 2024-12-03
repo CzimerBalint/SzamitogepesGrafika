@@ -276,11 +276,11 @@ namespace OurGraphics
             {
 
                 Matrix4 rotation = new Matrix4();
+                rotation[0, 0] = 1;
                 rotation[1, 1] = (float)Math.Cos(angle);
                 rotation[1, 2] = -(float)Math.Sin(angle);
                 rotation[2, 1] = (float)Math.Sin(angle);
                 rotation[2, 2] = (float)Math.Cos(angle);
-                rotation[0, 0] = 1;
                 rotation[3, 3] = 1;
                 return rotation;
             }
@@ -290,15 +290,27 @@ namespace OurGraphics
 
                 Matrix4 rotation = new Matrix4();
                 rotation[0, 0] = (float)Math.Cos(angle);
+                rotation[1, 1] = 1;
                 rotation[0, 2] = (float)Math.Sin(angle);
                 rotation[2, 0] = -(float)Math.Sin(angle);
                 rotation[2, 2] = (float)Math.Cos(angle);
-                rotation[1, 1] = 1;
                 rotation[3, 3] = 1;
                 return rotation;
             }
 
+            public static Matrix4 CreateTranslation(float x, float y, float z)
+            {
+                Matrix4 translation = new Matrix4();
+                translation[0, 0] = 1;
+                translation[1, 1] = 1;
+                translation[2, 2] = 1;
+                translation[3, 3] = 1;
 
+                translation[0, 3] = x;
+                translation[1, 3] = y;
+                translation[2, 3] = z;
+                return translation;
+            }
             public static Matrix4 operator +(Matrix4 a, Matrix4 b)
             {
                 Matrix4 result = new Matrix4();

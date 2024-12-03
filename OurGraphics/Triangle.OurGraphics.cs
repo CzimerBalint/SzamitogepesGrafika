@@ -44,8 +44,5 @@ namespace OurGraphics
             }
         }
         #endregion
-
-        #region Triangle Counter
-        #endregion
     }
 }

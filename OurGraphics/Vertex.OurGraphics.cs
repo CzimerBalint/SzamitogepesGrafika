@@ -14,6 +14,7 @@ namespace OurGraphics
         {
             public bool IsSelected { get; set; }
 
+
             public Vertex(Vector3 location) : base("Vertex", location)
             {
             }
@@ -41,28 +42,6 @@ namespace OurGraphics
             {
                 Location = new Vector3(Location.X + deltaX, Location.Y + deltaY, Location.Z + deltaZ);
             }
-        }
-        #endregion
-
-        #region Create Vertex
-        private static int vertexCount = 1;
-
-        public static Vertex CreateVertex(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Vector3 location, bool isPartOfLine = false)
-        {
-            Vertex vertex = new Vertex(location)
-            {
-                Name = $"Vertex{vertexCount++}"
-            };
-
-            drawableObjects.Add(vertex);
-
-            if (!isPartOfLine)
-            {
-                TreeNode parent = new TreeNode($"{vertex.Name}");
-                treeView1.Nodes.Add(parent);
-            }
-
-            return vertex;
         }
         #endregion
 

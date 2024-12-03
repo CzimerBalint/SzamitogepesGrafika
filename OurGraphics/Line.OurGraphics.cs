@@ -14,12 +14,21 @@ namespace OurGraphics
             public Vertex End { get; set; }
             private LineDrawingAlgo DrawingAlgo { get; set; }
 
+            public Line(Vertex[] vertices, LineDrawingAlgo drawingAlgo) : base("Line", vertices[0].Location)
+            {
+                Start = vertices[0];
+                End = vertices[1];
+                DrawingAlgo = drawingAlgo;
+            }
+
             public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base("Line", start.Location)
             {
                 Start = start;
                 End = end;
                 DrawingAlgo = drawingAlgo;
             }
+
+
 
             public override void Draw(Graphics g)
             {
@@ -48,32 +57,6 @@ namespace OurGraphics
                 Start.Transform(transformation);
                 End.Transform(transformation);
             }
-        }
-        #endregion
-
-        #region Create Line
-        private static int lineCount = 1;
-
-        public static Line CreateLine(this Graphics g, List<DrawableObject> drawableObjects, TreeView treeView1, Vertex start, Vertex end, LineDrawingAlgo drawingAlgo)
-        {
-            Line line = new Line(start, end, drawingAlgo)
-            {
-                Name = $"Line{lineCount++}"
-            };
-
-            drawableObjects.Add(start);
-            drawableObjects.Add(end);
-            drawableObjects.Add(line);
-
-            TreeNode parent = new TreeNode($"{line.Name}");
-            TreeNode child1 = new TreeNode($"{line.Start.Name}");
-            TreeNode child2 = new TreeNode($"{line.End.Name}");
-            parent.Nodes.Add(child1);
-            parent.Nodes.Add(child2);
-
-            treeView1.Nodes.Add(parent);
-
-            return line;
         }
         #endregion
     }

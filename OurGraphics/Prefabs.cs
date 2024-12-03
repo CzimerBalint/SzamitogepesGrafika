@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static OurGraphics.GraphicsExtension;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace OurGraphics
 {
@@ -12,17 +14,30 @@ namespace OurGraphics
     {
         public class Prefabs
         {
+            private static int vertexCount = 1;
+
+            private static int MidPointCount = 1;
+            private static int DDACount = 1;
             private static int triangleCount = 1;
-            public static int rectangleCount = 1;
-            public static int squareCount = 1;
-            public static int deltoidCount = 1;
-            public static int parallelogramCount = 1;
+            private static int rectangleCount = 1;
+            private static int squareCount = 1;
+            private static int deltoidCount = 1;
+            private static int parallelogramCount = 1;
+            private static int ellipseCount = 1;
+
+            private static int cubeCount = 1;
+            private static int tetraederCount = 1;
+            private static int cylinderCount = 1;
+            private static int ConeCount = 1;
+
+
+
 
             private List<DrawableObject> DrawableObjects { get; set; }
-            private TreeView TreeView1 { get; set; }
+            private System.Windows.Forms.TreeView TreeView1 { get; set; }
 
 
-            public Prefabs(List<DrawableObject> drawableObjects, TreeView treeView1)
+            public Prefabs(List<DrawableObject> drawableObjects, System.Windows.Forms.TreeView treeView1)
             {
                 DrawableObjects = drawableObjects;
                 TreeView1 = treeView1;
@@ -30,7 +45,9 @@ namespace OurGraphics
 
 
             #region 3D
-            public Vertex[] Cube_prefab(PointF wo)
+
+            #region Cube
+            public Cube CreateCube(PointF wo)
             {
                 Vertex[] vertices = new Vertex[]
                 {
@@ -44,14 +61,240 @@ namespace OurGraphics
                    new Vertex(new Vector3(wo.X, wo.Y + 100, 100))        // H
                 };
 
-                return vertices;
+                Cube cube = new Cube(vertices);
+
+                cube.SetName($"Cube{cubeCount++}");
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i].SetName($"Vertex{i}");
+                }
+
+                DrawableObjects.Add(cube);
+                DrawableObjects.AddRange(vertices);
+
+                TreeNode parent = new TreeNode(cube.Name);
+
+                TreeNode[] children = new TreeNode[]
+                {
+                    new TreeNode(vertices[0].Name),
+                    new TreeNode(vertices[1].Name),
+                    new TreeNode(vertices[2].Name),
+                    new TreeNode(vertices[3].Name),
+                    new TreeNode(vertices[4].Name),
+                    new TreeNode(vertices[5].Name),
+                    new TreeNode(vertices[6].Name),
+                    new TreeNode(vertices[7].Name)
+                };
+
+                parent.Nodes.AddRange(children);
+                TreeView1.Nodes.Add(parent);
+
+                return cube;
 
             }
             #endregion
 
+            #region Tetraeder
+            public Tetraeder CreateTetra(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+               {
+                   new Vertex(new Vector3(wo.X, wo.Y, 0)),              // A
+                   new Vertex(new Vector3(wo.X+100, wo.Y, 0)),          // B
+                   new Vertex(new Vector3(wo.X, wo.Y+100, 0)),          // C
+                   new Vertex(new Vector3(wo.X, wo.Y, 100)),            // D
+                  
+               };
+
+                Tetraeder tetraeder = new Tetraeder(vertices);
+
+                tetraeder.SetName($"Tetraeder{tetraederCount++}");
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i].SetName($"Vertex{i}");
+                }
+
+                DrawableObjects.Add(tetraeder);
+                DrawableObjects.AddRange(vertices);
+
+                TreeNode parent = new TreeNode(tetraeder.Name);
+
+                TreeNode[] children = new TreeNode[]
+                {
+                    new TreeNode(vertices[0].Name),
+                    new TreeNode(vertices[1].Name),
+                    new TreeNode(vertices[2].Name),
+                    new TreeNode(vertices[3].Name),
+                   
+                };
+
+                parent.Nodes.AddRange(children);
+                TreeView1.Nodes.Add(parent);
+
+                return tetraeder;
+
+            }
+            #endregion
+
+            #region Cylinder
+            public Cylinder CreateCylinder(PointF wo)
+            {
+                Vertex[] Bottomvertices = new Vertex[16];
+                Vertex[] TopVertices = new Vertex[16];
+                float angleIncrement = 360.0f / 16;
+                float angle = 0.0f;
+
+                float radius = 100;
+                float height = 200;
+
+                for (int i = 0; i < 16; i++)
+                {
+                    float x = wo.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
+                    float y = wo.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
+                    Bottomvertices[i] = new Vertex(new Vector3(x, y, 0)) {Name = $"AlapVertex{i}" };
+                    TopVertices[i] = new Vertex(new Vector3(x, y, height)) {Name = $"TopVertex{i}" };
+                    angle += angleIncrement;
+                }
+                Cylinder cylinder = new Cylinder(Bottomvertices,TopVertices,wo, radius, height)
+                { 
+                    Name = $"Henger{cylinderCount++}"
+                };
+
+                DrawableObjects.Add(cylinder);
+                DrawableObjects.AddRange(Bottomvertices);
+                DrawableObjects.AddRange(TopVertices);
+
+                TreeNode parent = new TreeNode(cylinder.Name);
+                for (int i = 0; i < 16; i++)
+                {
+                    parent.Nodes.Add(new TreeNode(Bottomvertices[i].Name));
+                    parent.Nodes.Add(new TreeNode(TopVertices[i].Name));
+                }
+                TreeView1.Nodes.Add(parent);
+
+
+                return cylinder;
+
+            }
+
+            #endregion
+
+
+            #region Cone
+            public Cone CreateCone(PointF wo)
+            {
+                float angleIncrement = 360.0f / 16;
+                float angle = 0.0f;
+
+                float radius = 100;
+                float height = 200;
+
+                Vertex[] BottomVertices = new Vertex[16];
+                Vertex TopVertex = new Vertex(new Vector3(wo.X, wo.Y, height)){ Name = "ConeTop" };
+
+
+                for (int i = 0; i < 16; i++)
+                {
+                    float x = wo.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
+                    float y = wo.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
+                    BottomVertices[i] = new Vertex(new Vector3(x, y, 0)) { Name = $"BaseVertex{i}" };
+                    angle += angleIncrement;
+                }
+
+                Cone cone = new Cone(BottomVertices,TopVertex,wo, radius, height)
+                {
+                    Name = $"Kúp{ConeCount++}"
+                };
+
+                DrawableObjects.Add(cone);
+                DrawableObjects.AddRange(BottomVertices);
+                DrawableObjects.Add(TopVertex);
+
+                TreeNode parent = new TreeNode(cone.Name);
+                for (int i = 0; i < 16; i++)
+                {
+                    parent.Nodes.Add(new TreeNode(BottomVertices[i].Name));
+                }
+                parent.Nodes.Add(new TreeNode(TopVertex.Name));
+                TreeView1.Nodes.Add(parent);
+
+
+                return cone;
+
+            }
+            #endregion
+            #endregion
+
             #region 2D
 
-            #region triangle
+            #region DDA
+
+            public Line CreateDDA(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+                {
+                    new Vertex(new Vector3(wo.X, wo.Y,0)),
+                    new Vertex(new Vector3(wo.X + 100, wo.Y,0)),
+
+                };
+
+                var DDA = new Line(vertices,LineDrawingAlgo.DDA)
+                {
+                    Name = $"DDA_Line{DDACount++}"
+                };
+
+                DrawableObjects.Add(vertices[0]);
+                DrawableObjects.Add(vertices[1]);
+                DrawableObjects.Add(DDA);
+
+                TreeNode parent = new TreeNode($"{DDA.Name}");
+                TreeNode child1 = new TreeNode($"{DDA.Start.Name}");
+                TreeNode child2 = new TreeNode($"{DDA.End.Name}");
+                parent.Nodes.Add(child1);
+                parent.Nodes.Add(child2);
+
+                TreeView1.Nodes.Add(parent);
+
+               
+                return DDA;
+            }
+
+            #endregion
+
+            #region MidPoint
+            public Line CreateMidPoint(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+                {
+                    new Vertex(new Vector3(wo.X, wo.Y,0)),
+                    new Vertex(new Vector3(wo.X + 100, wo.Y,0)),
+
+                };
+
+                var MidPoint = new Line(vertices, LineDrawingAlgo.Midpoint)
+                {
+                    Name = $"MidPoint_Line{MidPointCount++}"
+                };
+
+                DrawableObjects.Add(vertices[0]);
+                DrawableObjects.Add(vertices[1]);
+                DrawableObjects.Add(MidPoint);
+
+                TreeNode parent = new TreeNode($"{MidPoint.Name}");
+                TreeNode child1 = new TreeNode($"{MidPoint.Start.Name}");
+                TreeNode child2 = new TreeNode($"{MidPoint.End.Name}");
+                parent.Nodes.Add(child1);
+                parent.Nodes.Add(child2);
+
+                TreeView1.Nodes.Add(parent);
+
+
+                return MidPoint;
+            }
+
+            #endregion
+
+            #region Triangle
             public Triangle CreateTriangle(PointF wo)
             {
                 Vertex[] vertices = new Vertex[]
@@ -247,8 +490,104 @@ namespace OurGraphics
             #endregion
 
             #region Circle
+            public Ellipse CreateCircle(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+                {
+                    new Vertex(new Vector3(wo.X,wo.Y,0)),
+                    new Vertex(new Vector3(wo.X+100,wo.Y,0)),
+                    new Vertex(new Vector3(wo.X,wo.Y+100,0)),
+                };
+
+                // Create the ellipse
+                Ellipse circle = new Ellipse(vertices)
+                {
+                    Name = $"Circle{ellipseCount++}"
+                };
+
+                // Add ellipse to drawable objects
+                DrawableObjects.Add(circle);
+                DrawableObjects.AddRange(vertices);
+
+                // Create tree view structure
+                TreeNode parent = new TreeNode($"{circle.Name}");
+
+                TreeNode centerNode = new TreeNode($"Közép");
+                TreeNode majorRadiusNode = new TreeNode($"X méret");
+                TreeNode minorRadiusNode = new TreeNode($"Y méret");
+
+                // Add nodes to tree view
+                parent.Nodes.Add(centerNode);
+                parent.Nodes.Add(majorRadiusNode);
+                parent.Nodes.Add(minorRadiusNode);
+
+                TreeView1.Nodes.Add(parent);
+
+                return circle;
+            }
+
+
             #endregion
 
+            #region Ellipse
+
+            public Ellipse CreateEllipse(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+                {
+                    new Vertex(new Vector3(wo.X,wo.Y,0)),
+                    new Vertex(new Vector3(wo.X+150,wo.Y,0)),
+                    new Vertex(new Vector3(wo.X,wo.Y+100,0)),
+                };
+
+                // Create the ellipse
+                Ellipse ellipse = new Ellipse(vertices)
+                {
+                    Name = $"Ellipse{ellipseCount++}"
+                };
+
+                // Add ellipse to drawable objects
+                DrawableObjects.Add(ellipse);
+                DrawableObjects.AddRange(vertices);
+
+                // Create tree view structure
+                TreeNode parent = new TreeNode($"{ellipse.Name}");
+
+                TreeNode centerNode = new TreeNode($"Közép");
+                TreeNode majorRadiusNode = new TreeNode($"X méret");
+                TreeNode minorRadiusNode = new TreeNode($"Y méret");
+
+                // Add nodes to tree view
+                parent.Nodes.Add(centerNode);
+                parent.Nodes.Add(majorRadiusNode);
+                parent.Nodes.Add(minorRadiusNode);
+
+                TreeView1.Nodes.Add(parent);
+
+                return ellipse;
+            }
+            #endregion
+
+
+            #endregion
+
+            #region 1D
+
+            #region Vertex
+
+            public Vertex CreateVertex(PointF wo)
+            {
+                Vertex vertex = new Vertex(new Vector3(wo.X, wo.Y, 0))
+                {
+                    Name = $"Vertex{vertexCount++}"
+                };
+
+                DrawableObjects.Add(vertex);
+                TreeView1.Nodes.Add(new TreeNode(vertex.Name));
+                return vertex;
+            }
+
+            #endregion
 
             #endregion
         }

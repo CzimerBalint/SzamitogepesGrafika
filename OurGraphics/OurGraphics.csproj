@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Circle.OurGraphics.cs" />
+    <Compile Include="Cone.OurGraphics.cs" />
+    <Compile Include="Cylinder.OurGraphics.cs" />
+    <Compile Include="Ellipse.OurGraphics.cs" />
     <Compile Include="Cube.OurGraphics.cs" />
     <Compile Include="CustomTypes.OurGraphics.cs" />
     <Compile Include="Line.OurGraphics.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Projections.OurGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.OurGraphics.cs" />
+    <Compile Include="Tetraeder.OurGraphics.cs" />
     <Compile Include="Triangle.OurGraphics.cs" />
     <Compile Include="Vertex.OurGraphics.cs" />
     <Compile Include="WorldSpace.OurGraphics.cs" />

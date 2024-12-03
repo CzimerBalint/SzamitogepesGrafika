@@ -155,6 +155,81 @@ namespace OurGraphics
             g.AritmeticCircle(pen, center.Location, r.Location);
         }
 
+        public static void EllipsePoints(this Graphics g, Pen pen, Point center, int x, int y)
+        {
+            g.DrawPixel(pen, center.X + x, center.Y + y);
+            g.DrawPixel(pen, center.X + x, center.Y - y);
+            g.DrawPixel(pen, center.X - x, center.Y + y);
+            g.DrawPixel(pen, center.X - x, center.Y - y);
+        }
+
+        public static void DrawEllipse(this Graphics g, Pen pen, Vertex center, Vertex majorRadius, Vertex minorRadius)
+        {
+            // Kiszámítjuk a tengelyek hosszát a középponttól
+            float a = Math.Abs(majorRadius.Location.X - center.Location.X);
+            float b = Math.Abs(minorRadius.Location.Y - center.Location.Y);
+
+            // Major és minor sugárhelyzet kiszámítása az ellipszis mentén
+            float majorAngle = (float)Math.Atan2(majorRadius.Location.Y - center.Location.Y, majorRadius.Location.X - center.Location.X);
+            float minorAngle = (float)Math.Atan2(minorRadius.Location.Y - center.Location.Y, minorRadius.Location.X - center.Location.X);
+
+            // Az új helyzeteket a középpont és a sugár segítségével számítjuk ki, hogy mindig az ellipszis mentén legyenek
+            majorRadius.Location = new PointF(
+                center.Location.X + a * (float)Math.Cos(majorAngle),
+                center.Location.Y
+            );
+
+            minorRadius.Location = new PointF(
+                center.Location.X,
+                center.Location.Y + b * (float)Math.Sin(minorAngle)
+            );
+
+            Point centerPoint = center.Location;
+
+            int x = 0;
+            int y = (int)b;
+            float d1 = b * b - a * a * b + 0.25f * a * a;
+
+            g.EllipsePoints(pen, centerPoint, x, y);
+
+            while ((a * a * (y - 0.5)) > (b * b * (x + 1)))
+            {
+                if (d1 < 0)
+                {
+                    d1 += b * b * (2 * x + 3);
+                }
+                else
+                {
+                    d1 += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
+                    y--;
+                }
+                x++;
+                g.EllipsePoints(pen, centerPoint, x, y);
+            }
+
+            float d2 = b * b * (x + 0.5f) * (x + 0.5f) + a * a * (y - 1) * (y - 1) - a * a * b * b;
+
+            while (y > 0)
+            {
+                if (d2 < 0)
+                {
+                    d2 += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
+                    x++;
+                }
+                else
+                {
+                    d2 += a * a * (-2 * y + 3);
+                }
+                y--;
+                g.EllipsePoints(pen, centerPoint, x, y);
+            }
+        }
+
+
+
+
+
+
         public static void FillS4(this Bitmap bmp, int x, int y, Color background, Color fillColor)
         {
             int[] array = new int[4] { 0, 1, 0, -1 };

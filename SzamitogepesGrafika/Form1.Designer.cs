@@ -40,7 +40,31 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.chk_LiveFill = new System.Windows.Forms.CheckBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.ColorSelector = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.trackBar4 = new System.Windows.Forms.TrackBar();
+            this.trackBar5 = new System.Windows.Forms.TrackBar();
+            this.trackBar6 = new System.Windows.Forms.TrackBar();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +100,11 @@
             this.Option_Parallelogram = new System.Windows.Forms.ToolStripMenuItem();
             this.Option3D = new System.Windows.Forms.ToolStripMenuItem();
             this.AddCube = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTetraederToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hengerHozzáadásaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addConeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -93,6 +121,22 @@
             this.splitContainer2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ColorSelector)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -194,16 +238,175 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.chk_LiveFill);
+            this.tabPage2.Controls.Add(this.splitContainer3);
             resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // chk_LiveFill
+            // splitContainer3
             // 
-            resources.ApplyResources(this.chk_LiveFill, "chk_LiveFill");
-            this.chk_LiveFill.Name = "chk_LiveFill";
-            this.chk_LiveFill.UseVisualStyleBackColor = true;
+            this.splitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.splitContainer3, "splitContainer3");
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.ColorSelector);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel2);
+            // 
+            // ColorSelector
+            // 
+            resources.ApplyResources(this.ColorSelector, "ColorSelector");
+            this.ColorSelector.Name = "ColorSelector";
+            this.ColorSelector.TabStop = false;
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.tableLayoutPanel3);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.textBox4, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.textBox5, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.label5, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.textBox6, 1, 4);
+            this.tableLayoutPanel3.Controls.Add(this.trackBar4, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.trackBar5, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.trackBar6, 0, 5);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // textBox4
+            // 
+            resources.ApplyResources(this.textBox4, "textBox4");
+            this.textBox4.Name = "textBox4";
+            // 
+            // textBox5
+            // 
+            resources.ApplyResources(this.textBox5, "textBox5");
+            this.textBox5.Name = "textBox5";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // textBox6
+            // 
+            resources.ApplyResources(this.textBox6, "textBox6");
+            this.textBox6.Name = "textBox6";
+            // 
+            // trackBar4
+            // 
+            this.tableLayoutPanel3.SetColumnSpan(this.trackBar4, 2);
+            resources.ApplyResources(this.trackBar4, "trackBar4");
+            this.trackBar4.Name = "trackBar4";
+            // 
+            // trackBar5
+            // 
+            this.tableLayoutPanel3.SetColumnSpan(this.trackBar5, 2);
+            resources.ApplyResources(this.trackBar5, "trackBar5");
+            this.trackBar5.Name = "trackBar5";
+            // 
+            // trackBar6
+            // 
+            this.tableLayoutPanel3.SetColumnSpan(this.trackBar6, 2);
+            resources.ApplyResources(this.trackBar6, "trackBar6");
+            this.trackBar6.Name = "trackBar6";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.trackBar1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.trackBar2, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.trackBar3, 0, 5);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            // 
+            // textBox2
+            // 
+            resources.ApplyResources(this.textBox2, "textBox2");
+            this.textBox2.Name = "textBox2";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // textBox3
+            // 
+            resources.ApplyResources(this.textBox3, "textBox3");
+            this.textBox3.Name = "textBox3";
+            // 
+            // trackBar1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.trackBar1, 2);
+            resources.ApplyResources(this.trackBar1, "trackBar1");
+            this.trackBar1.Name = "trackBar1";
+            // 
+            // trackBar2
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.trackBar2, 2);
+            resources.ApplyResources(this.trackBar2, "trackBar2");
+            this.trackBar2.Name = "trackBar2";
+            // 
+            // trackBar3
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.trackBar3, 2);
+            resources.ApplyResources(this.trackBar3, "trackBar3");
+            this.trackBar3.Name = "trackBar3";
             // 
             // menuStrip1
             // 
@@ -426,7 +629,10 @@
             // Option3D
             // 
             this.Option3D.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddCube});
+            this.AddCube,
+            this.addTetraederToolStripMenuItem,
+            this.hengerHozzáadásaToolStripMenuItem,
+            this.addConeToolStripMenuItem});
             this.Option3D.Name = "Option3D";
             resources.ApplyResources(this.Option3D, "Option3D");
             // 
@@ -435,6 +641,24 @@
             this.AddCube.Name = "AddCube";
             resources.ApplyResources(this.AddCube, "AddCube");
             this.AddCube.Click += new System.EventHandler(this.AddCube_Click);
+            // 
+            // addTetraederToolStripMenuItem
+            // 
+            this.addTetraederToolStripMenuItem.Name = "addTetraederToolStripMenuItem";
+            resources.ApplyResources(this.addTetraederToolStripMenuItem, "addTetraederToolStripMenuItem");
+            this.addTetraederToolStripMenuItem.Click += new System.EventHandler(this.AddTetraeder_Click);
+            // 
+            // hengerHozzáadásaToolStripMenuItem
+            // 
+            this.hengerHozzáadásaToolStripMenuItem.Name = "hengerHozzáadásaToolStripMenuItem";
+            resources.ApplyResources(this.hengerHozzáadásaToolStripMenuItem, "hengerHozzáadásaToolStripMenuItem");
+            this.hengerHozzáadásaToolStripMenuItem.Click += new System.EventHandler(this.hengerHozzáadásaToolStripMenuItem_Click);
+            // 
+            // addConeToolStripMenuItem
+            // 
+            this.addConeToolStripMenuItem.Name = "addConeToolStripMenuItem";
+            resources.ApplyResources(this.addConeToolStripMenuItem, "addConeToolStripMenuItem");
+            this.addConeToolStripMenuItem.Click += new System.EventHandler(this.addConeToolStripMenuItem_Click);
             // 
             // AboutMenuItem
             // 
@@ -471,7 +695,24 @@
             this.splitContainer2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ColorSelector)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -525,9 +766,37 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckBox chk_LiveFill;
         private System.Windows.Forms.ToolStripMenuItem Option3D;
         private System.Windows.Forms.ToolStripMenuItem AddCube;
+        private System.Windows.Forms.ToolStripMenuItem addTetraederToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hengerHozzáadásaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addConeToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.TrackBar trackBar5;
+        private System.Windows.Forms.TrackBar trackBar6;
+        private System.Windows.Forms.PictureBox ColorSelector;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 
