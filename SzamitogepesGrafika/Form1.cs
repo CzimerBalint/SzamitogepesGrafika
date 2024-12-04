@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
@@ -24,7 +25,11 @@ namespace SzamitogepesGrafika
         private bool MBM_isDown = false; // MBM mouse button Middle
         private Point MBM_first;
         private Point MBM_last;
-        
+
+        //filehandle
+        private string fileContent = string.Empty;
+        private string filePath = string.Empty;
+
 
 
 
@@ -414,6 +419,37 @@ namespace SzamitogepesGrafika
         {
             Cone cone = prefabs.CreateCone(WorldOrigin);
             interface2d.Invalidate();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "Wavefront file (*.obj)|*.obj";
+            openFileDialog1.FilterIndex = 0;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName;
+                var fileStream = openFileDialog1.OpenFile();
+
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    fileContent = reader.ReadToEnd();
+                }
+            }
+           
+
+        }
+
+        private void LoadOBJ(string fileContent)
+        {
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
