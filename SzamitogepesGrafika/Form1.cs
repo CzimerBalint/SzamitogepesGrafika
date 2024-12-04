@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -423,6 +424,18 @@ namespace SzamitogepesGrafika
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           
+            LoadOBJ();
+
+        }
+
+        private void LoadOBJ()
+        {
+            List<Vertex> vertices = new List<Vertex>();
+            string objName = string.Empty;
+            
+
+
             openFileDialog1.InitialDirectory = "c:\\";
             openFileDialog1.Filter = "Wavefront file (*.obj)|*.obj";
             openFileDialog1.FilterIndex = 0;
@@ -432,18 +445,61 @@ namespace SzamitogepesGrafika
             {
                 filePath = openFileDialog1.FileName;
                 var fileStream = openFileDialog1.OpenFile();
+                List<double> test = new List<double>();
 
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
-                    fileContent = reader.ReadToEnd();
+                    while (!reader.EndOfStream)
+                    {
+                        fileContent = reader.ReadLine();
+                        if (fileContent.StartsWith("o "))
+                        {
+                            string[] asd = fileContent.Split(new string[] { "o " }, StringSplitOptions.None);
+                            objName = asd[1];
+                            MessageBox.Show(objName);
+
+                        }
+                        if (fileContent.StartsWith("v "))
+                        {
+
+                            string[] asd = fileContent.Split(new string[] { "v " }, StringSplitOptions.None);
+                            string[] coords = asd[1].Replace('.',',').Split(' ');
+                            //Debug.WriteLine(coords[0]);
+                            //Debug.WriteLine(coords[1]);
+                            //Debug.WriteLine(coords[2]);
+                            float x = float.Parse(coords[0]);
+                            float y = float.Parse(coords[1]);
+                            float z = float.Parse(coords[2]);
+                            //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
+                            vertices.Add(new Vertex(new Vector3(x * 100, y * 100, z * 100)));
+                        }
+                        if (fileContent.StartsWith("vn "))
+                        {
+                            string[] asd = fileContent.Split(new string[] { "vn " }, StringSplitOptions.None);
+                        }
+                        if (fileContent.StartsWith("vt "))
+                        {
+                            string[] asd = fileContent.Split(new string[] { "vt " }, StringSplitOptions.None);
+                        }
+                        if (fileContent.StartsWith("f "))
+                        {
+                            string[] asd = fileContent.Split(new string[] { "f " }, StringSplitOptions.None);
+
+                        }
+                    }
+                    foreach (Vertex item in vertices)
+                    {
+                        drawableObjects.Add(item);
+                        treeView1.Nodes.Add(item.Name);
+                    }
+                    interface2d.Invalidate();
+
                 }
+               
             }
-           
 
-        }
 
-        private void LoadOBJ(string fileContent)
-        {
+            
 
         }
 
