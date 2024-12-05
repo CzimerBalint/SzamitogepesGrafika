@@ -433,6 +433,7 @@ namespace SzamitogepesGrafika
         {
             List<Vertex> vertices = new List<Vertex>();
             string objName = string.Empty;
+            int vertCounter = 0;
             
 
 
@@ -470,8 +471,9 @@ namespace SzamitogepesGrafika
                             float x = float.Parse(coords[0]);
                             float y = float.Parse(coords[1]);
                             float z = float.Parse(coords[2]);
+                            vertCounter++;
                             //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
-                            vertices.Add(new Vertex(new Vector3(x * 100, y * 100, z * 100)));
+                            vertices.Add(new Vertex(new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}"});
                         }
                         if (fileContent.StartsWith("vn "))
                         {
@@ -484,6 +486,16 @@ namespace SzamitogepesGrafika
                         if (fileContent.StartsWith("f "))
                         {
                             string[] asd = fileContent.Split(new string[] { "f " }, StringSplitOptions.None);
+                            string[] coords = asd[1].Split(' ','/');
+                            for (int i = 0; i < coords.Length; i++)
+                            {
+                                Debug.WriteLine(coords[i]);
+                                //g.MidPoint(Pens.Black, coords[i], coords[i+1]);
+                            }
+                            //float x = float.Parse(coords[0]);
+                            //float y = float.Parse(coords[1]);
+                            //float z = float.Parse(coords[2]);
+                            //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
 
                         }
                     }
