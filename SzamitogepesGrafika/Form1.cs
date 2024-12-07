@@ -425,7 +425,9 @@ namespace SzamitogepesGrafika
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
            
-            LoadOBJ();
+            //LoadOBJ();
+            //interface2d.Invalidate();
+
 
         }
 
@@ -446,7 +448,8 @@ namespace SzamitogepesGrafika
             {
                 filePath = openFileDialog1.FileName;
                 var fileStream = openFileDialog1.OpenFile();
-                List<double> test = new List<double>();
+                List<string> test = new List<string>();
+
 
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
@@ -473,7 +476,7 @@ namespace SzamitogepesGrafika
                             float z = float.Parse(coords[2]);
                             vertCounter++;
                             //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
-                            vertices.Add(new Vertex(new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}"});
+                            vertices.Add(new Vertex(WorldOrigin - new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}"});
                         }
                         if (fileContent.StartsWith("vn "))
                         {
@@ -487,33 +490,67 @@ namespace SzamitogepesGrafika
                         {
                             string[] asd = fileContent.Split(new string[] { "f " }, StringSplitOptions.None);
                             string[] coords = asd[1].Split(' ','/');
-                            for (int i = 0; i < coords.Length; i++)
+                            string concatenated = "";
+                            for (int i = 0; i < coords.Length; i+=3)
                             {
-                                Debug.WriteLine(coords[i]);
-                                //g.MidPoint(Pens.Black, coords[i], coords[i+1]);
+                                concatenated += coords[i];
+                                if (i + 3 < coords.Length) // Csak akkor ad hozzá vesszőt, ha nem az utolsó elem
+                                {
+                                    concatenated += ",";
+                                }
                             }
-                            //float x = float.Parse(coords[0]);
-                            //float y = float.Parse(coords[1]);
-                            //float z = float.Parse(coords[2]);
-                            //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
+                            string a = concatenated+";";
+                            test.Add(a);
+                            Debug.WriteLine(a); // Debug output az ellenőrzéshez
 
                         }
                     }
-                    foreach (Vertex item in vertices)
+                    foreach (var item in vertices)
                     {
                         drawableObjects.Add(item);
                         treeView1.Nodes.Add(item.Name);
                     }
-                    interface2d.Invalidate();
+                    List<Vertex> vertices2 = new List<Vertex>();
+
+                    foreach (var item in test)
+                    {
+                        string[] b = item.Split(';', ','); // Szétválasztjuk az elemeket
+                        vertices2.Clear(); // Töröljük az előző iteráció elemeit
+                        for (int i = 0; i < b.Length; i++)
+                        {
+                            for (int j = 0; j < vertices.Count; j++) // Nincs -3, az összes vertexet végigmegy
+                            {
+                                if (b[i] == vertices[j].Name) // Ha egyezik a `test` elem a `vertices` Name-jével
+                                {
+                                    vertices2.Add(vertices[j]); // Hozzáadjuk az aktuális vertexet
+                                    break; // Megtaláltuk az elemet, nem kell tovább keresni
+                                }
+                            }
+                        }
+
+                        // Ellenőrizzük, hogy elegendő vertex van az összekötéshez
+                        if (vertices2.Count >= 4)
+                        {
+                            // Körkörös összekötés az első és az utolsó között
+                            vertices2.Add(vertices2[0]); // Az első elemet hozzáadjuk a lista végéhez
+
+                            using (Graphics g = interface2d.CreateGraphics())
+                            {
+                                Rect tmp = new Rect(vertices2.ToArray());
+                                drawableObjects.Add(tmp);
+                            }
+                        }
+                    }
+
 
                 }
-               
+
             }
 
 
             
 
-        }
+        } //TODO sok javítás
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
