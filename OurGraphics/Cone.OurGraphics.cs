@@ -10,15 +10,16 @@ namespace OurGraphics
         public class Cone : DrawableObject
         {
             public Vertex[] Bottom { get; set; }
-            Vertex Top { get; set; }
-
+            public Vertex Top { get; set; }
+            public Vertex Origin { get; set; }
             public float Height { get; set; }
 
-            public Cone(Vertex[] bottmVerts, Vertex top,PointF origin, float radius, float height): base("Cylinder", new Vector3(origin.X, origin.Y, 0))
+            public Cone(Vertex[] bottmVerts, Vertex top, Vertex origin, float radius, float height): base("Cylinder", origin.Location)
             {
                 Height = height;
                 Bottom = bottmVerts;
                 Top = top;
+                Origin = origin;
 
                 GenerateVertices(origin, radius);
             }
@@ -28,7 +29,7 @@ namespace OurGraphics
                 Name = name;
             }
 
-            private void GenerateVertices(PointF origin, float radius)
+            private void GenerateVertices(Vertex origin, float radius)
             {
                 float angleIncrement = 360.0f / 16;
                 float angle = 0.0f;
@@ -36,8 +37,8 @@ namespace OurGraphics
                 for (int i = 0; i < 16; i++)
                 {
                     // Az alsó kör csúcsai
-                    float x = origin.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
-                    float y = origin.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
+                    float x = origin.Location.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
+                    float y = origin.Location.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
                     Bottom[i] = new Vertex(new Vector3(x, y, 0));
                     angle += angleIncrement;
                 }
@@ -70,6 +71,8 @@ namespace OurGraphics
                
                 Top.Move(deltaX, deltaY, deltaZ);
 
+                Origin.Move(deltaX, deltaY, deltaZ);
+
             }
 
             // Új transzformációs metódus
@@ -80,10 +83,18 @@ namespace OurGraphics
                     vertex.Transform(transformation);
                 }
 
-               Top.Transform(transformation);
+                Top.Transform(transformation);
+
+                Origin.Transform(transformation);
+            }
+
+            public override Vector4 GetCenter()
+            {
+               return Origin.Location;
             }
         }
 
+       
 
 
 

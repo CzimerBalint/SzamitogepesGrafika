@@ -225,11 +225,6 @@ namespace OurGraphics
             }
         }
 
-
-
-
-
-
         public static void FillS4(this Bitmap bmp, int x, int y, Color background, Color fillColor)
         {
             int[] array = new int[4] { 0, 1, 0, -1 };

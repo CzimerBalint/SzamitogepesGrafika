@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,7 @@ namespace OurGraphics
             #region Cube
             public Cube CreateCube(PointF wo)
             {
+                Vertex center = new Vertex(new Vector3(0, 0, 0));
                 Vertex[] vertices = new Vertex[]
                 {
                    new Vertex(new Vector3(wo.X, wo.Y, 0)),               // A
@@ -58,32 +60,45 @@ namespace OurGraphics
                    new Vertex(new Vector3(wo.X, wo.Y, 100)),             // E
                    new Vertex(new Vector3(wo.X + 100, wo.Y, 100)),       // F
                    new Vertex(new Vector3(wo.X + 100, wo.Y + 100, 100)), // G
-                   new Vertex(new Vector3(wo.X, wo.Y + 100, 100))        // H
+                   new Vertex(new Vector3(wo.X, wo.Y + 100, 100)),       // H
                 };
 
-                Cube cube = new Cube(vertices);
+
+                foreach (Vertex v in vertices)
+                {
+                    center.Location += v.Location; 
+                }
+                center.Location /= vertices.Length;
+
+                Vertex[] tmp = new Vertex[vertices.Length+1];
+                Array.Copy(vertices, tmp, vertices.Length);
+                tmp[tmp.Length-1] = center;
+
+                Cube cube = new Cube(tmp);
 
                 cube.SetName($"Cube{cubeCount++}");
-                for (int i = 0; i < vertices.Length; i++)
+                for (int i = 0; i < tmp.Length; i++)
                 {
-                    vertices[i].SetName($"Vertex{i}");
+                    tmp[i].SetName($"Vertex{i}");
                 }
+                center.SetName("Center");
 
                 DrawableObjects.Add(cube);
-                DrawableObjects.AddRange(vertices);
+                DrawableObjects.AddRange(tmp);
 
                 TreeNode parent = new TreeNode(cube.Name);
 
                 TreeNode[] children = new TreeNode[]
                 {
-                    new TreeNode(vertices[0].Name),
-                    new TreeNode(vertices[1].Name),
-                    new TreeNode(vertices[2].Name),
-                    new TreeNode(vertices[3].Name),
-                    new TreeNode(vertices[4].Name),
-                    new TreeNode(vertices[5].Name),
-                    new TreeNode(vertices[6].Name),
-                    new TreeNode(vertices[7].Name)
+                    new TreeNode(tmp[0].Name),
+                    new TreeNode(tmp[1].Name),
+                    new TreeNode(tmp[2].Name),
+                    new TreeNode(tmp[3].Name),
+                    new TreeNode(tmp[4].Name),
+                    new TreeNode(tmp[5].Name),
+                    new TreeNode(tmp[6].Name),
+                    new TreeNode(tmp[7].Name),
+                    new TreeNode(tmp[8].Name)
                 };
 
                 parent.Nodes.AddRange(children);
@@ -97,34 +112,47 @@ namespace OurGraphics
             #region Tetraeder
             public Tetraeder CreateTetra(PointF wo)
             {
+                Vertex center = new Vertex(new Vector3(0,0,0));
                 Vertex[] vertices = new Vertex[]
-               {
+                {
                    new Vertex(new Vector3(wo.X, wo.Y, 0)),              // A
                    new Vertex(new Vector3(wo.X+100, wo.Y, 0)),          // B
                    new Vertex(new Vector3(wo.X, wo.Y+100, 0)),          // C
                    new Vertex(new Vector3(wo.X, wo.Y, 100)),            // D
                   
-               };
+                };
 
-                Tetraeder tetraeder = new Tetraeder(vertices);
+                foreach (Vertex v in vertices)
+                {
+                    center.Location += v.Location;
+                }
+                center.Location /= vertices.Length;
+
+                Vertex[] tmp = new Vertex[vertices.Length + 1];
+                Array.Copy(vertices, tmp, vertices.Length);
+                tmp[vertices.Length] = center;
+
+                Tetraeder tetraeder = new Tetraeder(tmp);
 
                 tetraeder.SetName($"Tetraeder{tetraederCount++}");
-                for (int i = 0; i < vertices.Length; i++)
+                for (int i = 0; i < tmp.Length; i++)
                 {
-                    vertices[i].SetName($"Vertex{i}");
+                    tmp[i].SetName($"Vertex{i}");
                 }
+                center.SetName("Center");
 
                 DrawableObjects.Add(tetraeder);
-                DrawableObjects.AddRange(vertices);
+                DrawableObjects.AddRange(tmp);
 
                 TreeNode parent = new TreeNode(tetraeder.Name);
 
                 TreeNode[] children = new TreeNode[]
                 {
-                    new TreeNode(vertices[0].Name),
-                    new TreeNode(vertices[1].Name),
-                    new TreeNode(vertices[2].Name),
-                    new TreeNode(vertices[3].Name),
+                    new TreeNode(tmp[0].Name),
+                    new TreeNode(tmp[1].Name),
+                    new TreeNode(tmp[2].Name),
+                    new TreeNode(tmp[3].Name),
+                    new TreeNode(tmp[4].Name),
                    
                 };
 
@@ -141,28 +169,35 @@ namespace OurGraphics
             {
                 Vertex[] Bottomvertices = new Vertex[16];
                 Vertex[] TopVertices = new Vertex[16];
+                Vertex center = new Vertex(new Vector3(0, 0, 0));
                 float angleIncrement = 360.0f / 16;
                 float angle = 0.0f;
 
-                float radius = 100;
-                float height = 200;
+                float radius = 200;
+                float height = 100;
 
                 for (int i = 0; i < 16; i++)
                 {
                     float x = wo.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
-                    float y = wo.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
-                    Bottomvertices[i] = new Vertex(new Vector3(x, y, 0)) {Name = $"AlapVertex{i}" };
-                    TopVertices[i] = new Vertex(new Vector3(x, y, height)) {Name = $"TopVertex{i}" };
+                    float z = wo.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0); // float z mert nekem az y a függőleges
+                    Bottomvertices[i] = new Vertex(new Vector3(x, 0, z)) {Name = $"AlapVertex{i}" };
+                    TopVertices[i] = new Vertex(new Vector3(x, height, z)) {Name = $"TopVertex{i}" };
                     angle += angleIncrement;
+                    
                 }
-                Cylinder cylinder = new Cylinder(Bottomvertices,TopVertices,wo, radius, height)
+
+                center.Location = new Vector3(wo.X,height*2,wo.Y);
+
+                Cylinder cylinder = new Cylinder(Bottomvertices,TopVertices,center, radius, height)
                 { 
                     Name = $"Henger{cylinderCount++}"
                 };
+                center.SetName("Center");
 
                 DrawableObjects.Add(cylinder);
                 DrawableObjects.AddRange(Bottomvertices);
                 DrawableObjects.AddRange(TopVertices);
+                DrawableObjects.Add(center);
 
                 TreeNode parent = new TreeNode(cylinder.Name);
                 for (int i = 0; i < 16; i++)
@@ -170,6 +205,7 @@ namespace OurGraphics
                     parent.Nodes.Add(new TreeNode(Bottomvertices[i].Name));
                     parent.Nodes.Add(new TreeNode(TopVertices[i].Name));
                 }
+                parent.Nodes.Add(center.Name);
                 TreeView1.Nodes.Add(parent);
 
 
@@ -201,7 +237,7 @@ namespace OurGraphics
                     angle += angleIncrement;
                 }
 
-                Cone cone = new Cone(BottomVertices,TopVertex,wo, radius, height)
+                Cone cone = new Cone(BottomVertices,TopVertex,new Vertex(wo), radius, height)
                 {
                     Name = $"Kúp{ConeCount++}"
                 };

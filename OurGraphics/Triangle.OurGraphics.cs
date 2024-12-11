@@ -42,6 +42,11 @@ namespace OurGraphics
                 B.Transform(transformation);
                 C.Transform(transformation);
             }
+
+            public override Vector4 GetCenter()
+            {
+                return (A.Location + B.Location+C.Location)/3;
+            }
         }
         #endregion
     }

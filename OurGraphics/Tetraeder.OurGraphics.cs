@@ -12,14 +12,16 @@ namespace OurGraphics
             public Vertex B { get; set; }
             public Vertex C { get; set; }
             public Vertex D { get; set; }
+            public Vertex Origin { get; set; }
 
 
-            public Tetraeder(Vertex[] vertices) : base("Tetraeder", vertices[0].Location)
+            public Tetraeder(Vertex[] vertices) : base("Tetraeder", vertices[4].Location)
             {
                 A = vertices[0];
                 B = vertices[1];
                 C = vertices[2];
                 D = vertices[3];
+                Origin = vertices[4];
 ;
             }
 
@@ -42,8 +44,6 @@ namespace OurGraphics
                 g.MidPoint(pen, D, B);
                 g.MidPoint(pen, D, C);
                 
-
-
             }
 
             public override void Move(float deltaX, float deltaY, float deltaZ)
@@ -52,6 +52,7 @@ namespace OurGraphics
                 B.Move(deltaX, deltaY, deltaZ);
                 C.Move(deltaX, deltaY, deltaZ);
                 D.Move(deltaX, deltaY, deltaZ);
+                Origin.Move(deltaX, deltaY, deltaZ);
 
             }
 
@@ -61,6 +62,12 @@ namespace OurGraphics
                 B.Transform(transformation);
                 C.Transform(transformation);
                 D.Transform(transformation);
+                Origin.Transform(transformation);
+            }
+
+            public override Vector4 GetCenter()
+            {
+                return (A.Location+B.Location+C.Location+D.Location)/ 4;
             }
         }
 

@@ -13,13 +13,15 @@ namespace OurGraphics
         {
             public Vertex[] Bottom {  get; set; }
             public Vertex[] Top {  get; set; }
+            public Vertex Origin {  get; set; }
             public float Height { get; set; }
 
-            public Cylinder(Vertex[] bottomVerts, Vertex[] topVerts, PointF origin, float height, float radius): base("Cylinder", new Vector3(origin.X, origin.Y, 0))
+            public Cylinder(Vertex[] bottomVerts, Vertex[] topVerts, Vertex origin, float height, float radius): base("Cylinder", origin.Location)
             {
                 Height = height;
                 Bottom = bottomVerts;
                 Top = topVerts;
+                Origin = origin;
 
                 GenerateVertices(origin, radius, height);
             }
@@ -29,7 +31,7 @@ namespace OurGraphics
                 Name = name;
             }
 
-            private void GenerateVertices(PointF origin, float radius, float height)
+            private void GenerateVertices(Vertex origin, float radius, float height)
             {
                 float angleIncrement = 360.0f / 16;
                 float angle = 0.0f;
@@ -37,8 +39,8 @@ namespace OurGraphics
                 for (int i = 0; i < 16; i++)
                 {
                     // Az alsó kör csúcsai
-                    float x = origin.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
-                    float y = origin.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
+                    float x = origin.Location.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
+                    float y = origin.Location.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0);
                     Bottom[i] = new Vertex(new Vector3(x, y, 0));
 
                     // A felső kör csúcsai (magasabb z koordinátával)
@@ -52,7 +54,7 @@ namespace OurGraphics
             public override void Draw(Graphics g)
             {
                 Pen pen = Pens.Black;
-                /* Desperate voltam hogy kiderítsem a hibát megvan 👍 https://tenor.com/view/dead-gif-5848418847127216186
+                /* Desperate voltam hogy kiderítsem a hibát megvan 👍 https://tenor.com/view/dead-gif-5848418847127216186 2024.12.04 2:36 😭
                 g.MidPoint(pen, Bottom[0], Bottom[1]);
                 g.MidPoint(pen, Bottom[1], Bottom[2]);
                 g.MidPoint(pen, Bottom[2], Bottom[3]);
@@ -117,6 +119,8 @@ namespace OurGraphics
                 {
                     Top[i].Move(deltaX, deltaY, deltaZ);
                 }
+
+                Origin.Move(deltaX, deltaY, deltaZ);
             }
            
             // Új transzformációs metódus
@@ -131,6 +135,12 @@ namespace OurGraphics
                 {
                     vertex.Transform(transformation);
                 }
+                Origin.Transform(transformation);
+            }
+
+            public override Vector4 GetCenter()
+            {
+                return Origin.Location;
             }
         }
 

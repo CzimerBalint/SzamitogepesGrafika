@@ -27,9 +27,6 @@ namespace OurGraphics
                 End = end;
                 DrawingAlgo = drawingAlgo;
             }
-
-
-
             public override void Draw(Graphics g)
             {
                 switch (DrawingAlgo)
@@ -56,6 +53,11 @@ namespace OurGraphics
             {
                 Start.Transform(transformation);
                 End.Transform(transformation);
+            }
+
+            public override Vector4 GetCenter()
+            {
+                return (Start.Location + End.Location)/2;
             }
         }
         #endregion

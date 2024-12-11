@@ -42,6 +42,13 @@ namespace OurGraphics
             {
                 Location = new Vector3(Location.X + deltaX, Location.Y + deltaY, Location.Z + deltaZ);
             }
+
+            public override Vector4 GetCenter()
+            {
+                return new Vector4(Location.X,Location.Y,Location.Z,1);
+            }
+
+          
         }
         #endregion
 
@@ -65,6 +72,8 @@ namespace OurGraphics
             {
                 item.Draw(bitmapGraphics);
             }
+
+            drawableObjects.Clear(); 
         }
         #endregion
     }

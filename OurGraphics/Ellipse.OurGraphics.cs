@@ -39,6 +39,11 @@ namespace OurGraphics
                 MajorRadius.Transform(transformation);
                 MinorRadius.Transform(transformation);
             }
+
+            public override Vector4 GetCenter()
+            {
+                return Center.Location;
+            }
         }
         #endregion
     }

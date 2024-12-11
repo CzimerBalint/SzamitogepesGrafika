@@ -124,6 +124,13 @@ namespace OurGraphics
             {
                 return new Vector3(v1.X * scalar, v1.Y * scalar, v1.Z * scalar);
             }
+
+            public static Vector3 operator /(Vector3 v1, float scalar)
+            {
+                return new Vector3(v1.X / scalar, v1.Y / scalar, v1.Z / scalar);
+            }
+
+
             #endregion
 
             #region impicit konverzió
@@ -147,7 +154,10 @@ namespace OurGraphics
             {
                 return new Vector3(p.X, p.Y, 0);
             }
-
+            public static implicit operator Vector3(Vector4 vector)
+            {
+                return new Vector3(vector.X, vector.Y, vector.Z);
+            }
             #endregion
         }
 
@@ -158,6 +168,17 @@ namespace OurGraphics
             public float Z { get; set; }
             public float W { get; set; }
 
+
+            public Vector4()
+            {
+                X = 0;
+                Y = 0;
+                Z = 0;
+                W = 1;
+            }
+
+
+
             public Vector4(float x, float y, float z, float w)
             {
                 X = x;
@@ -165,6 +186,8 @@ namespace OurGraphics
                 Z = z;
                 W = w;
             }
+
+           
 
             public override string ToString()
             {
@@ -220,6 +243,13 @@ namespace OurGraphics
                 return new Vector4(p.X, p.Y, 0, 0);
             }
 
+            public static implicit operator Vector4(Vector3 vector)
+            {
+                return new Vector4(vector.X, vector.Y, vector.Z, 1);
+            }
+
+            
+
             #endregion
         }
 
@@ -230,39 +260,42 @@ namespace OurGraphics
             public Matrix4()
             {
                 Values = new float[4, 4];
-                IdentityMatrix();
+                FillZero();
             }
 
-            public Matrix4(Matrix4 matrix)
+            public void FillZero()
             {
-                this.Values = new float[4, 4];
-
-                for (int i = 0; i < Values.GetLength(0); i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    for (int j = 0; j < Values.GetLength(0); j++)
+                    for (int j = 0; j < 4; j++)
                     {
-                        this[i, j] = matrix[i, j];
+                        this[i, j] = 0;
                     }
                 }
             }
 
-            public void IdentityMatrix()
+            public Matrix4 IdentityMatrix()
             {
+
+                Matrix4 result = new Matrix4();
+
                 for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
                     {
                         if (i == j)
                         {
-                            this[i, j] = 1;
+                            result[i, j] = 1;
 
                         }
                         else
                         {
-                            this[i, j] = 0;
+                            result[i, j] = 0;
                         }
                     }
                 }
+
+                return result;
             }
 
 
@@ -275,28 +308,38 @@ namespace OurGraphics
             public static Matrix4 CreateRotationX(float angle)
             {
 
-                Matrix4 rotation = new Matrix4();
-                rotation[0, 0] = 1;
+                Matrix4 rotation = new Matrix4().IdentityMatrix();
                 rotation[1, 1] = (float)Math.Cos(angle);
                 rotation[1, 2] = -(float)Math.Sin(angle);
                 rotation[2, 1] = (float)Math.Sin(angle);
                 rotation[2, 2] = (float)Math.Cos(angle);
-                rotation[3, 3] = 1;
                 return rotation;
             }
 
             public static Matrix4 CreateRotationY(float angle)
             {
 
-                Matrix4 rotation = new Matrix4();
+                Matrix4 rotation = new Matrix4().IdentityMatrix();
                 rotation[0, 0] = (float)Math.Cos(angle);
-                rotation[1, 1] = 1;
                 rotation[0, 2] = (float)Math.Sin(angle);
                 rotation[2, 0] = -(float)Math.Sin(angle);
                 rotation[2, 2] = (float)Math.Cos(angle);
-                rotation[3, 3] = 1;
                 return rotation;
             }
+
+
+            public static Matrix4 CreateRotationZ(float angle)
+            {
+
+                Matrix4 rotation = new Matrix4().IdentityMatrix();
+                rotation[0, 0] = (float)Math.Cos(angle);
+                rotation[0, 1] = (float)-Math.Sin(angle);
+                rotation[1, 0] = (float)Math.Sin(angle);
+                rotation[1, 1] = (float)Math.Cos(angle);
+                return rotation;
+            }
+
+
 
             public static Matrix4 CreateTranslation(float x, float y, float z)
             {

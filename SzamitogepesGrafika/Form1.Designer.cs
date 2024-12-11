@@ -90,6 +90,7 @@
             this.Option_Lines = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_DDA = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_MidPoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.splines = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Primitives = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Aritmetic_Circle = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_MidPointCircle = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,6 +194,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.interface2d);
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Resize += new System.EventHandler(this.splitContainer1_Panel1_Resize);
             // 
             // splitContainer1.Panel2
@@ -220,10 +222,12 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.treeView1);
+            resources.ApplyResources(this.splitContainer2.Panel1, "splitContainer2.Panel1");
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
+            resources.ApplyResources(this.splitContainer2.Panel2, "splitContainer2.Panel2");
             // 
             // treeView1
             // 
@@ -254,10 +258,12 @@
             // splitContainer3.Panel1
             // 
             this.splitContainer3.Panel1.Controls.Add(this.ColorSelector);
+            resources.ApplyResources(this.splitContainer3.Panel1, "splitContainer3.Panel1");
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel2);
+            resources.ApplyResources(this.splitContainer3.Panel2, "splitContainer3.Panel2");
             // 
             // ColorSelector
             // 
@@ -530,6 +536,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Option_Vertex,
             this.Option_Lines,
+            this.splines,
             this.Option_Primitives,
             this.Option3D});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -574,6 +581,11 @@
             this.Option_MidPoint.Name = "Option_MidPoint";
             resources.ApplyResources(this.Option_MidPoint, "Option_MidPoint");
             this.Option_MidPoint.Click += new System.EventHandler(this.Option_MidPoint_Click);
+            // 
+            // splines
+            // 
+            this.splines.Name = "splines";
+            resources.ApplyResources(this.splines, "splines");
             // 
             // Option_Primitives
             // 
@@ -678,10 +690,13 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStripContainer1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
@@ -807,6 +822,7 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem splines;
     }
 }
 

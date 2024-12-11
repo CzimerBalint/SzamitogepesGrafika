@@ -31,6 +31,13 @@ namespace SzamitogepesGrafika
         private string fileContent = string.Empty;
         private string filePath = string.Empty;
 
+        //rotation
+        private bool isXDown;
+        private bool isYDown;
+        private bool isZDown;
+
+
+
 
 
 
@@ -45,8 +52,6 @@ namespace SzamitogepesGrafika
             prefabs = new Prefabs(drawableObjects,treeView1);
 
             CreateColorSelect(ColorSelector.Size);
-
-
 
         }
 
@@ -150,7 +155,6 @@ namespace SzamitogepesGrafika
         }
 
         #endregion
-
 
         #region tetraeder
         private void AddTetraeder_Click(object sender, EventArgs e)
@@ -264,73 +268,67 @@ namespace SzamitogepesGrafika
 
             if (MBM_isDown)
             {
+                int deltaX = e.Location.X - MBM_last.X;
+                int deltaY = e.Location.Y - MBM_last.Y;
+
                 if (Control.ModifierKeys == Keys.Shift)
                 {
                     // Mozgatás jobbra/balra/le/fel, ha a Shift lenyomva van
-                    int deltaX = e.Location.X - MBM_first.X;
-                    int deltaY = e.Location.Y - MBM_first.Y;
+                    int deltaMoveX = e.Location.X - MBM_first.X;
+                    int deltaMoveY = e.Location.Y - MBM_first.Y;
+
+                    Debug.WriteLine("Shift held down - moving objects");
 
                     foreach (var drawable in drawableObjects)
                     {
-                        drawable.Move(deltaX, deltaY, 0);
+                        drawable.Move(deltaMoveX, deltaMoveY, 0);
                     }
 
                     MBM_first = e.Location;
-                }                
+                }
                 else
                 {
-
-
-                    /* int befogo2 = MBM_first.Y - e.Y; 
-                     int befogo = MBM_first.X - e.X;
-
-                     double atfogo = Math.Sqrt(Math.Pow(MBM_first.X - e.X, 2) + Math.Pow(e.Y, 2));     // sqrt((mbm.x - e.x)^2 + (mbm.y - e.y)^2)
-                     double angleX = Math.Asin(befogo / atfogo);
-
-                     double atfogo2 = Math.Sqrt(Math.Pow(MBM_first.Y - e.Y, 2) + Math.Pow(e.X, 2));     // sqrt((mbm.x - e.x)^2 + (mbm.y - e.y)^2)
-                     double angleY = Math.Acos(befogo2 / atfogo2);*/
-                    int deltaX = e.X - MBM_last.X;
-                    int deltaY = e.Y - MBM_last.Y;
-
-                    // Érzékenységi faktor a forgatáshoz
-                    float sensitivity = 0.01f;
-
-                    // Forgási szögek kiszámítása az X és Y tengelyek körül
+                    // Forgási szögek kiszámítása
+                    float sensitivity = 0.017f;
                     float angleX = deltaY * sensitivity;
                     float angleY = deltaX * sensitivity;
 
-                    // Forgatási mátrixok létrehozása
-                    Matrix4 rotationX = Matrix4.CreateRotationX(angleX);
-                    Matrix4 rotationY = Matrix4.CreateRotationY(angleY);
+                    // Forgatási mátrix inicializálása
+                    Matrix4 rotation = new Matrix4().IdentityMatrix();
 
-                    // Összesített forgatási mátrix
-                    Matrix4 rotation = rotationX * rotationY;
-
-                    // Pivotpont beállítása (pl. az objektum középpontja)
-                    Vector3 pivot = WorldOrigin; // Állítsd be az objektum középpontját, ha más kell
-
-                    // Transzláció az origóba
-                    Matrix4 translateToOrigin = Matrix4.CreateTranslation(-pivot.X, -pivot.Y, -pivot.Z);
-
-                    // Visszatranszláció
-                    Matrix4 translateBack = Matrix4.CreateTranslation(pivot.X, pivot.Y, pivot.Z);
-
-                    // Kombinált transzformáció a pivot körül
-                    Matrix4 combinedTransformation = translateBack * rotation * translateToOrigin;
+                    // Forgatási tengely kiválasztása
+                    if (isXDown)
+                    {
+                        rotation = Matrix4.CreateRotationX(angleX);
+                    }
+                    else if (isYDown)
+                    {
+                        rotation = Matrix4.CreateRotationY(angleY);
+                    }
+                    else if (isZDown)
+                    {
+                        float angleZ = (deltaX + deltaY) * sensitivity;
+                        rotation = Matrix4.CreateRotationZ(angleZ);
+                    }
 
                     // Alkalmazás az összes rajzolható objektumra
                     foreach (var drawable in drawableObjects)
                     {
-                        drawable.Transform(combinedTransformation);
+                        
+                        drawable.Transform(rotation);
                     }
 
-                    // Frissítsd az MBM_last pozíciót az aktuális egérpozícióra
-                    MBM_last = e.Location;
+                    
                 }
 
-                interface2d.Invalidate();
+                // Frissítsd az MBM_last pozíciót az aktuális egérpozícióra
+                MBM_last = e.Location;
             }
+
+
+            interface2d.Invalidate();
         }
+        
 
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
         {
@@ -409,6 +407,7 @@ namespace SzamitogepesGrafika
             interface2d.Image = bmp;
             interface2d.Invalidate();
         }
+
 
         private void hengerHozzáadásaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -555,6 +554,38 @@ namespace SzamitogepesGrafika
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.X)
+            {
+                isXDown = true;
+            }
+            if (e.KeyCode == Keys.Y)
+            {
+                isYDown = true;
+            }
+            if (e.KeyCode == Keys.Z)
+            {
+                isZDown = true;
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.X)
+            {
+                isXDown = !true; //2024.12.10 1:56
+            }
+            if (e.KeyCode == Keys.Y)
+            {
+                isYDown = !true;
+            }
+            if (e.KeyCode == Keys.Z)
+            {
+                isZDown = !true;
+            }
         }
     }
 }

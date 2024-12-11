@@ -49,6 +49,7 @@
     <Compile Include="Ellipse.OurGraphics.cs" />
     <Compile Include="Cube.OurGraphics.cs" />
     <Compile Include="CustomTypes.OurGraphics.cs" />
+    <Compile Include="hermite.cs" />
     <Compile Include="Line.OurGraphics.cs" />
     <Compile Include="Object.OurGraphics.cs" />
     <Compile Include="OurGraphics.cs" />

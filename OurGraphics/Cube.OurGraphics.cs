@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace OurGraphics
             public Vertex F { get; set; }
             public Vertex G { get; set; }
             public Vertex H { get; set; }
+            public Vertex Origin { get; set; }
 
             public Cube(Vertex[] vertices) : base("Cube", vertices[0].Location)
             {
@@ -27,6 +29,7 @@ namespace OurGraphics
                 F = vertices[5];
                 G = vertices[6];
                 H = vertices[7];
+                Origin = vertices[8];
             }
 
             public void SetName(string name)
@@ -52,6 +55,7 @@ namespace OurGraphics
                 g.MidPoint(pen, F, G);
                 g.MidPoint(pen, G, H);
                 g.MidPoint(pen, H, E);
+                
             }
 
             public override void Move(float deltaX, float deltaY, float deltaZ)
@@ -64,6 +68,7 @@ namespace OurGraphics
                 F.Move(deltaX, deltaY, deltaZ);
                 G.Move(deltaX, deltaY, deltaZ);
                 H.Move(deltaX, deltaY, deltaZ);
+                Origin.Move(deltaX, deltaY, deltaZ);
             }
 
             // Új transzformációs metódus
@@ -77,6 +82,12 @@ namespace OurGraphics
                 F.Transform(transformation);
                 G.Transform(transformation);
                 H.Transform(transformation);
+                Origin.Transform(transformation);
+            }
+
+            public override Vector4 GetCenter()
+            {
+                return (A.Location + B.Location + C.Location + D.Location + E.Location + F.Location + G.Location + H.Location) / 8;
             }
         }
 
