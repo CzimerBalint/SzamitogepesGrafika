@@ -14,14 +14,20 @@ namespace OurGraphics
             public Vertex End { get; set; }
             private LineDrawingAlgo DrawingAlgo { get; set; }
 
-            public Line(Vertex[] vertices, LineDrawingAlgo drawingAlgo) : base("Line", vertices[0].Location)
+            public Line(Vertex[] vertices, LineDrawingAlgo drawingAlgo) : base("Line", vertices[0].Location, new List<Vector4>())
             {
                 Start = vertices[0];
                 End = vertices[1];
                 DrawingAlgo = drawingAlgo;
+
+                OriginalLocations = new List<Vector4>()
+                {
+                    Start.Location, 
+                    End.Location
+                };
             }
 
-            public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base("Line", start.Location)
+            public Line(Vertex start, Vertex end, LineDrawingAlgo drawingAlgo) : base("Line", start.Location, new List<Vector4>())
             {
                 Start = start;
                 End = end;
@@ -58,6 +64,12 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return (Start.Location + End.Location)/2;
+            }
+
+            public override void ResetTransform()
+            {
+                Start.Location = OriginalLocations[0];
+                End.Location = OriginalLocations[1];
             }
         }
         #endregion

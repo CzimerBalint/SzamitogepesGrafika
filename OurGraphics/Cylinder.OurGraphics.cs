@@ -16,13 +16,21 @@ namespace OurGraphics
             public Vertex Origin {  get; set; }
             public float Height { get; set; }
 
-            public Cylinder(Vertex[] bottomVerts, Vertex[] topVerts, Vertex origin, float height, float radius): base("Cylinder", origin.Location)
+            public Cylinder(Vertex[] bottomVerts, Vertex[] topVerts, Vertex origin, float height, float radius): base("Cylinder", origin.Location, new List<Vector4>())
             {
                 Height = height;
                 Bottom = bottomVerts;
                 Top = topVerts;
                 Origin = origin;
 
+
+                OriginalLocations = new List<Vector4>();
+                for (int i = 0; i < Top.Length; i++)
+                {
+                    OriginalLocations.Add(Top[i].Location);
+                    OriginalLocations.Add(Bottom[i].Location);
+                }
+                
                 GenerateVertices(origin, radius, height);
             }
 
@@ -141,6 +149,15 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return Origin.Location;
+            }
+
+            public override void ResetTransform()
+            {
+                for (int i = 0; i < Top.Length; i++)
+                {
+                    Top[i].Location = OriginalLocations[i];
+                    Bottom[i].Location = OriginalLocations[i];
+                }
             }
         }
 

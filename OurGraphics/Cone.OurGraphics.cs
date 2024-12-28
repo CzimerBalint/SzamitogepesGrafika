@@ -14,14 +14,32 @@ namespace OurGraphics
             public Vertex Origin { get; set; }
             public float Height { get; set; }
 
-            public Cone(Vertex[] bottmVerts, Vertex top, Vertex origin, float radius, float height): base("Cylinder", origin.Location)
+            public Cone(Vertex[] bottmVerts, Vertex top, Vertex origin, float radius, float height): base("Cylinder", origin.Location, new List<Vector4> ())
             {
-                Height = height;
-                Bottom = bottmVerts;
                 Top = top;
                 Origin = origin;
+                Bottom = bottmVerts;
+                Height = height;
+
+                OriginalLocations = new List<Vector4>();
+                OriginalLocations.Add(Top.Location);
+                OriginalLocations.Add(Origin.Location);
+                for (int i = 0; i < Bottom.Length; i++) 
+                {
+                    OriginalLocations.Add(Bottom[i].Location);
+                }
 
                 GenerateVertices(origin, radius);
+            }
+
+            public override void ResetTransform()
+            {
+                Top.Location = OriginalLocations[0];
+                Origin.Location = OriginalLocations[1];
+                for (int i = 0; i < Bottom.Length; i++)// itt lehet 2-től kell majd
+                {
+                    Bottom[i].Location = OriginalLocations[i];
+                }
             }
 
             public void SetName(string name)

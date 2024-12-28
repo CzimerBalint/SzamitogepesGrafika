@@ -15,8 +15,12 @@ namespace OurGraphics
             public bool IsSelected { get; set; }
 
 
-            public Vertex(Vector3 location) : base("Vertex", location)
+            public Vertex(Vector3 location) : base("Vertex", location, new List<Vector4>())
             {
+                OriginalLocations = new List<Vector4>()
+                {
+                    location
+                };
             }
 
             public void SetName(string name)
@@ -48,7 +52,10 @@ namespace OurGraphics
                 return new Vector4(Location.X,Location.Y,Location.Z,1);
             }
 
-          
+            public override void ResetTransform()
+            {
+                Location = OriginalLocations[0];
+            }
         }
         #endregion
 

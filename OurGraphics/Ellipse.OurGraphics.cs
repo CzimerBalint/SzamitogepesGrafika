@@ -14,11 +14,19 @@ namespace OurGraphics
             public Vertex MajorRadius { get; set; }
             public Vertex MinorRadius { get; set; }
 
-            public Ellipse(Vertex[] vertices) : base("Ellipse", vertices[0].Location)
+            public Ellipse(Vertex[] vertices) : base("Ellipse", vertices[0].Location, new List<Vector4>())
             {
                 Center = vertices[0];
                 MajorRadius = vertices[1];
                 MinorRadius = vertices[2];
+
+                OriginalLocations = new List<Vector4>()
+                {
+                    Center.Location,
+                    MajorRadius.Location,
+                    MinorRadius.Location,
+
+                };
             }
 
             public override void Draw(Graphics g)
@@ -43,6 +51,13 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return Center.Location;
+            }
+
+            public override void ResetTransform()
+            {
+                Center.Location = OriginalLocations[0];
+                MajorRadius.Location = OriginalLocations[1];
+                MinorRadius.Location = OriginalLocations[2];
             }
         }
         #endregion

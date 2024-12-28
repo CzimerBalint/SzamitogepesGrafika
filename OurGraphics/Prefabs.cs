@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace OurGraphics
 {
@@ -35,12 +34,14 @@ namespace OurGraphics
 
 
             private List<DrawableObject> DrawableObjects { get; set; }
+            private List<DrawableObject> GuideObjects { get; set; }
             private System.Windows.Forms.TreeView TreeView1 { get; set; }
 
 
-            public Prefabs(List<DrawableObject> drawableObjects, System.Windows.Forms.TreeView treeView1)
+            public Prefabs(List<DrawableObject> drawableObjects, List<DrawableObject> guideObjects, System.Windows.Forms.TreeView treeView1)
             {
                 DrawableObjects = drawableObjects;
+                GuideObjects = guideObjects;
                 TreeView1 = treeView1;
             }
 
@@ -215,7 +216,6 @@ namespace OurGraphics
 
             #endregion
 
-
             #region Cone
             public Cone CreateCone(PointF wo)
             {
@@ -256,6 +256,34 @@ namespace OurGraphics
 
 
                 return cone;
+
+            }
+            #endregion
+
+            #region AxisGuide
+            public AxisGuide CreateAxisGuide(PointF wo)
+            {
+                Vertex[] vertices = new Vertex[]
+                {
+                   new Vertex(new Vector3(wo.X, wo.Y, 0 )),          // A Közép
+
+                   //Pozitív
+                   new Vertex(new Vector3(wo.X + 50, wo.Y, 0)),     // B
+                   new Vertex(new Vector3(wo.X, wo.Y - 50, 0)),     // C
+                   new Vertex(new Vector3(wo.X, wo.Y, 50)),         // D
+
+                   //Negatív
+                   new Vertex(new Vector3(wo.X - 50, wo.Y, 0)),     // E
+                   new Vertex(new Vector3(wo.X, wo.Y + 50, 0)),     // F
+                   new Vertex(new Vector3(wo.X, wo.Y, -50)),        // G
+
+                };
+
+                AxisGuide axisGuide = new AxisGuide(vertices);
+
+                GuideObjects.Add(axisGuide);
+
+                return axisGuide;
 
             }
             #endregion

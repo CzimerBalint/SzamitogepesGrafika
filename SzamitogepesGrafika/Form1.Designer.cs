@@ -108,6 +108,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.resetRotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -538,7 +539,8 @@
             this.Option_Lines,
             this.splines,
             this.Option_Primitives,
-            this.Option3D});
+            this.Option3D,
+            this.resetRotationToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
@@ -685,6 +687,12 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // resetRotationToolStripMenuItem
+            // 
+            this.resetRotationToolStripMenuItem.Name = "resetRotationToolStripMenuItem";
+            resources.ApplyResources(this.resetRotationToolStripMenuItem, "resetRotationToolStripMenuItem");
+            this.resetRotationToolStripMenuItem.Click += new System.EventHandler(this.resetRotationToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -823,6 +831,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem splines;
+        private System.Windows.Forms.ToolStripMenuItem resetRotationToolStripMenuItem;
     }
 }
 

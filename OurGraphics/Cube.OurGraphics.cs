@@ -19,7 +19,7 @@ namespace OurGraphics
             public Vertex H { get; set; }
             public Vertex Origin { get; set; }
 
-            public Cube(Vertex[] vertices) : base("Cube", vertices[0].Location)
+            public Cube(Vertex[] vertices) : base("Cube", vertices[0].Location, new List<Vector4>())
             {
                 A = vertices[0];
                 B = vertices[1];
@@ -30,6 +30,19 @@ namespace OurGraphics
                 G = vertices[6];
                 H = vertices[7];
                 Origin = vertices[8];
+
+
+                OriginalLocations = new List<Vector4>() 
+                {
+                    A.Location,
+                    B.Location,
+                    C.Location,
+                    D.Location,
+                    E.Location,
+                    F.Location,
+                    G.Location,
+                    H.Location
+                };
             }
 
             public void SetName(string name)
@@ -88,6 +101,18 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return (A.Location + B.Location + C.Location + D.Location + E.Location + F.Location + G.Location + H.Location) / 8;
+            }
+
+            public override void ResetTransform()
+            {
+                A.Location = OriginalLocations[0];
+                B.Location = OriginalLocations[1];
+                C.Location = OriginalLocations[2];
+                D.Location = OriginalLocations[3];
+                E.Location = OriginalLocations[4];
+                F.Location = OriginalLocations[5];
+                G.Location = OriginalLocations[6];
+                H.Location = OriginalLocations[7];
             }
         }
 

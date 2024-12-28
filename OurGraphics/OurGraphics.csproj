@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AxisGuide.cs" />
     <Compile Include="Cone.OurGraphics.cs" />
     <Compile Include="Cylinder.OurGraphics.cs" />
     <Compile Include="Ellipse.OurGraphics.cs" />

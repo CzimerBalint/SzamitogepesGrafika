@@ -15,11 +15,16 @@ namespace OurGraphics
             public Vertex B { get; set; }
             public Vertex C { get; set; }
 
-            public Triangle(Vertex[] vertices) : base("Triangle", vertices[0].Location)
+            public Triangle(Vertex[] vertices) : base("Triangle", vertices[0].Location, new List<Vector4>())
             {
                 A = vertices[0];
                 B = vertices[1];
                 C = vertices[2];
+
+                OriginalLocations = new List<Vector4>()
+                {
+                    A.Location, B.Location, C.Location
+                };
             }
 
             public override void Draw(Graphics g)
@@ -46,6 +51,13 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return (A.Location + B.Location+C.Location)/3;
+            }
+
+            public override void ResetTransform()
+            {
+                A.Location = OriginalLocations[0];
+                B.Location = OriginalLocations[1];
+                C.Location = OriginalLocations[2];
             }
         }
         #endregion

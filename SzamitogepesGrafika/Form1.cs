@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
 
@@ -13,16 +11,23 @@ namespace SzamitogepesGrafika
 {
     public partial class Form1 : Form
     {
+
+        //Graphics
         public Graphics g;
-        public Point WorldOrigin;
         public Prefabs prefabs;
         public List<DrawableObject> drawableObjects;
-        private Vertex selectedVertex = null;
-        private Point lastMousePos;
+        public List<DrawableObject> guideObjects;
         public Bitmap bmp;
         public Bitmap ColorImg;
+
+
+        public Vector3 WorldOrigin;
+        private Vertex selectedVertex = null;
         private List<Vertex> selectedVertices = new List<Vertex>();
 
+
+        //Mouse
+        private Point lastMousePos;
         private bool MBM_isDown = false; // MBM mouse button Middle
         private Point MBM_first;
         private Point MBM_last;
@@ -32,12 +37,16 @@ namespace SzamitogepesGrafika
         private string filePath = string.Empty;
 
         //rotation
+        private Matrix4 rotation;
         private bool isXDown;
         private bool isYDown;
         private bool isZDown;
 
+        private AxisGuide axisGuide;
 
-
+        private float angleX;
+        private float angleY;
+        private float angleZ;
 
 
 
@@ -48,8 +57,9 @@ namespace SzamitogepesGrafika
             WorldOrigin = new Point(interface2d.Width / 2, interface2d.Height / 2);
 
             drawableObjects = new List<DrawableObject>();
+            guideObjects = new List<DrawableObject>();
 
-            prefabs = new Prefabs(drawableObjects,treeView1);
+            prefabs = new Prefabs(drawableObjects,guideObjects, treeView1);
 
             CreateColorSelect(ColorSelector.Size);
 
@@ -57,6 +67,12 @@ namespace SzamitogepesGrafika
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            interface2d.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(interface2d, true, null);
+
+            createAxisGuide();
+            rotation = new Matrix4().IdentityMatrix();
+
             CreateImage(splitContainer1.Panel1.Size);
             interface2d.Image = bmp;
             ColorSelector.Image = ColorImg;
@@ -64,6 +80,21 @@ namespace SzamitogepesGrafika
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
         }
+
+        #region AxisGuide
+
+        private void createAxisGuide()
+        {
+            int offsetX = 100;
+            PointF fixPlace = new PointF(interface2d.Size.Width - offsetX, WorldOrigin.Y / 6);
+            axisGuide = prefabs.CreateAxisGuide(fixPlace); 
+
+        }
+
+
+        #endregion
+
+
 
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
@@ -97,7 +128,7 @@ namespace SzamitogepesGrafika
 
         private void Option_MidPoint_Click(object sender, EventArgs e)
         {
-            Line MP = prefabs.CreateMidPoint(WorldOrigin); //MP as MidPoint
+            Line MP = prefabs.CreateMidPoint(WorldOrigin);
             interface2d.Invalidate();
         }
         #endregion
@@ -118,7 +149,7 @@ namespace SzamitogepesGrafika
         }
 
         private void Option_Square_Click(object sender, EventArgs e)
-        {   
+        {
             Rect square = prefabs.CreateSquare(WorldOrigin);
             drawableObjects.Add(square);
             interface2d.Invalidate();
@@ -126,7 +157,7 @@ namespace SzamitogepesGrafika
 
         private void Option_Deltoid_Click(object sender, EventArgs e)
         {
-            
+
             Rect deltoid = prefabs.CreateDeltoid(WorldOrigin);
             drawableObjects.Add(deltoid);
             interface2d.Invalidate();
@@ -246,6 +277,10 @@ namespace SzamitogepesGrafika
             {
                 drawable.Draw(g);
             }
+            foreach (var guide in guideObjects)
+            {
+                guide.Draw(g);
+            }
         }
 
 
@@ -253,8 +288,6 @@ namespace SzamitogepesGrafika
         {
             toolStripStatusLabel1.Text = $"ScreenSpace: {e.Location}";
             toolStripStatusLabel2.Text = $"Worldspace: {g.objectToWorldOrigin(WorldOrigin, e.Location)}";
-
-           
 
             if (selectedVertex != null)
             {
@@ -277,8 +310,6 @@ namespace SzamitogepesGrafika
                     int deltaMoveX = e.Location.X - MBM_first.X;
                     int deltaMoveY = e.Location.Y - MBM_first.Y;
 
-                    Debug.WriteLine("Shift held down - moving objects");
-
                     foreach (var drawable in drawableObjects)
                     {
                         drawable.Move(deltaMoveX, deltaMoveY, 0);
@@ -288,15 +319,12 @@ namespace SzamitogepesGrafika
                 }
                 else
                 {
-                    // Forgási szögek kiszámítása
                     float sensitivity = 0.017f;
-                    float angleX = deltaY * sensitivity;
-                    float angleY = deltaX * sensitivity;
+                    angleX = deltaX * sensitivity;
+                    angleY = deltaY * sensitivity;
 
-                    // Forgatási mátrix inicializálása
-                    Matrix4 rotation = new Matrix4().IdentityMatrix();
+                    //Matrix4 rotation = new Matrix4().IdentityMatrix();
 
-                    // Forgatási tengely kiválasztása
                     if (isXDown)
                     {
                         rotation = Matrix4.CreateRotationX(angleX);
@@ -307,18 +335,21 @@ namespace SzamitogepesGrafika
                     }
                     else if (isZDown)
                     {
-                        float angleZ = (deltaX + deltaY) * sensitivity;
+                        angleZ = (deltaX + deltaY) * sensitivity;
                         rotation = Matrix4.CreateRotationZ(angleZ);
                     }
 
-                    // Alkalmazás az összes rajzolható objektumra
+                    // összes drawable forgatása a c# szerinti {0,0} ban és majd a képerő közepére transzfomrálás
                     foreach (var drawable in drawableObjects)
                     {
-                        
-                        drawable.Transform(rotation);
+                        drawable.Transform(Matrix4.Translate(drawable.Location) * rotation * Matrix4.Translate(-drawable.Location));
+                    }
+                    foreach (var guide in guideObjects)
+                    {
+                        guide.Transform(Matrix4.Translate(guide.Location) * rotation * Matrix4.Translate(-guide.Location));
                     }
 
-                    
+
                 }
 
                 // Frissítsd az MBM_last pozíciót az aktuális egérpozícióra
@@ -328,7 +359,7 @@ namespace SzamitogepesGrafika
 
             interface2d.Invalidate();
         }
-        
+
 
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
         {
@@ -392,8 +423,6 @@ namespace SzamitogepesGrafika
             interface2d.Invalidate();
         }
 
-       
-
         private void Form1_Resize(object sender, EventArgs e)
         {
             CreateImage(interface2d.Size);
@@ -423,7 +452,7 @@ namespace SzamitogepesGrafika
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
             //LoadOBJ();
             //interface2d.Invalidate();
 
@@ -435,7 +464,7 @@ namespace SzamitogepesGrafika
             List<Vertex> vertices = new List<Vertex>();
             string objName = string.Empty;
             int vertCounter = 0;
-            
+
 
 
             openFileDialog1.InitialDirectory = "c:\\";
@@ -466,7 +495,7 @@ namespace SzamitogepesGrafika
                         {
 
                             string[] asd = fileContent.Split(new string[] { "v " }, StringSplitOptions.None);
-                            string[] coords = asd[1].Replace('.',',').Split(' ');
+                            string[] coords = asd[1].Replace('.', ',').Split(' ');
                             //Debug.WriteLine(coords[0]);
                             //Debug.WriteLine(coords[1]);
                             //Debug.WriteLine(coords[2]);
@@ -475,7 +504,7 @@ namespace SzamitogepesGrafika
                             float z = float.Parse(coords[2]);
                             vertCounter++;
                             //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
-                            vertices.Add(new Vertex(WorldOrigin - new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}"});
+                            vertices.Add(new Vertex(WorldOrigin - new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}" });
                         }
                         if (fileContent.StartsWith("vn "))
                         {
@@ -488,9 +517,9 @@ namespace SzamitogepesGrafika
                         if (fileContent.StartsWith("f "))
                         {
                             string[] asd = fileContent.Split(new string[] { "f " }, StringSplitOptions.None);
-                            string[] coords = asd[1].Split(' ','/');
+                            string[] coords = asd[1].Split(' ', '/');
                             string concatenated = "";
-                            for (int i = 0; i < coords.Length; i+=3)
+                            for (int i = 0; i < coords.Length; i += 3)
                             {
                                 concatenated += coords[i];
                                 if (i + 3 < coords.Length) // Csak akkor ad hozzá vesszőt, ha nem az utolsó elem
@@ -498,7 +527,7 @@ namespace SzamitogepesGrafika
                                     concatenated += ",";
                                 }
                             }
-                            string a = concatenated+";";
+                            string a = concatenated + ";";
                             test.Add(a);
                             Debug.WriteLine(a); // Debug output az ellenőrzéshez
 
@@ -547,7 +576,7 @@ namespace SzamitogepesGrafika
             }
 
 
-            
+
 
         } //TODO sok javítás
 
@@ -576,16 +605,26 @@ namespace SzamitogepesGrafika
         {
             if (e.KeyCode == Keys.X)
             {
-                isXDown = !true; //2024.12.10 1:56
+                isXDown = false; //2024.12.10 1:56
             }
             if (e.KeyCode == Keys.Y)
             {
-                isYDown = !true;
+                isYDown = false;
             }
             if (e.KeyCode == Keys.Z)
             {
-                isZDown = !true;
+                isZDown = false;
             }
+        }
+
+        private void resetRotationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            axisGuide.ResetTransform();
+            foreach (DrawableObject drawable in drawableObjects)
+            {
+                drawable.ResetTransform();
+            }
+            interface2d.Invalidate();
         }
     }
 }

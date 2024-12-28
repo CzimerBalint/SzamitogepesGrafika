@@ -15,14 +15,18 @@ namespace OurGraphics
             public Vertex Origin { get; set; }
 
 
-            public Tetraeder(Vertex[] vertices) : base("Tetraeder", vertices[4].Location)
+            public Tetraeder(Vertex[] vertices) : base("Tetraeder", vertices[4].Location, new List<Vector4>())
             {
                 A = vertices[0];
                 B = vertices[1];
                 C = vertices[2];
                 D = vertices[3];
                 Origin = vertices[4];
-;
+
+                OriginalLocations = new List<Vector4>()
+                {
+                    A.Location, B.Location, C.Location, D.Location, Origin.Location
+                };
             }
 
             public void SetName(string name)
@@ -68,6 +72,15 @@ namespace OurGraphics
             public override Vector4 GetCenter()
             {
                 return (A.Location+B.Location+C.Location+D.Location)/ 4;
+            }
+
+            public override void ResetTransform()
+            {
+                A.Location = OriginalLocations[0];
+                B.Location = OriginalLocations[1];
+                C.Location = OriginalLocations[2];
+                D.Location = OriginalLocations[3];
+                Origin.Location = OriginalLocations[4];
             }
         }
 

@@ -16,14 +16,14 @@ namespace OurGraphics
             Midpoint,
         }
 
-        public static void DrawPixel(this Graphics g, Pen pen, float x, float y)
+        public static void DrawPixel(this Graphics g, Pen pen, float x, float y, float width = 0.5f, float height = 0.5f)
         {
-            g.DrawRectangle(pen, x, y, 0.5f, 0.5f);
-
+            g.DrawRectangle(pen, x, y, width, height);
         }
-        public static void DrawPixel(this Graphics g, Color color, float x, float y)
+
+        public static void DrawPixel(this Graphics g, Color color, float x, float y, float width = 0.5f, float height = 0.5f)
         {
-            g.DrawRectangle(new Pen(color), x, y, 0.5f, 0.5f);
+            g.DrawRectangle(new Pen(color), x, y, width, height);
         }
 
         public static void DDA(this Graphics g, Pen pen, float x0, float y0, float x1, float y1)
@@ -113,6 +113,71 @@ namespace OurGraphics
         {
             g.MidPoint(pen, (int)start.Location.X, (int)start.Location.Y, (int)end.Location.X, (int)end.Location.Y);
         }
+
+        public static void AxisGuideMP(this Graphics g, Pen pen, int x0, int y0, int x1, int y1)
+        {
+            bool isSteep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+
+            if (isSteep)
+            {
+                int temp = x0;
+                x0 = y0;
+                y0 = temp;
+
+                temp = x1;
+                x1 = y1;
+                y1 = temp;
+            }
+
+            if (x0 > x1)
+            {
+                int temp = x0;
+                x0 = x1;
+                x1 = temp;
+
+                temp = y0;
+                y0 = y1;
+                y1 = temp;
+            }
+
+            int dx = x1 - x0;
+            int dy = Math.Abs(y1 - y0);
+            int error = dx / 2;  // Initial error term
+
+            int yStep = (y0 < y1) ? 1 : -1;  // Step direction for y
+            int y = y0;
+
+            // Loop through the points from x0 to x1
+            for (int x = x0; x <= x1; x++)
+            {
+                // If the line is steep, we need to swap back the x and y when drawing
+                if (isSteep)
+                {
+                    g.DrawPixel(pen, y, x,3f,3f);  // Draw swapped if steep
+                }
+                else
+                {
+                    g.DrawPixel(pen, x, y,3f,3f);  // Draw normally if not steep
+
+                }
+
+                error -= dy;
+                if (error < 0)
+                {
+                    y += yStep;  // Move y based on the step direction
+                    error += dx;  // Adjust the error term
+                }
+
+            }
+
+        }
+        
+        public static void AxisGuideMP(this Graphics g, Pen pen, Vertex start, Vertex end)
+        {
+            g.AxisGuideMP(pen, (int)start.Location.X, (int)start.Location.Y, (int)end.Location.X, (int)end.Location.Y);
+        }
+
+
 
         public static void CirclePoints(this Graphics g, Pen pen, Point center, int x, int y)
         {

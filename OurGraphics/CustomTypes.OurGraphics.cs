@@ -115,6 +115,11 @@ namespace OurGraphics
                 return new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
             }
 
+            public static Vector3 operator -(Vector3 v1)
+            {
+                return new Vector3(-v1.X, -v1.Y, -v1.Z);
+            }
+
             public static float operator *(Vector3 v1, Vector3 v2)
             {
                 return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z);
@@ -208,6 +213,11 @@ namespace OurGraphics
             public static Vector4 operator -(Vector4 v1, Vector4 v2)
             {
                 return new Vector4(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z, v1.W - v2.W);
+            }
+
+            public static Vector4 operator -(Vector4 v1)
+            {
+                return new Vector4(-v1.X, -v1.Y, -v1.Z, v1.W);
             }
 
             public static float operator *(Vector4 v1, Vector4 v2)
@@ -341,19 +351,22 @@ namespace OurGraphics
 
 
 
-            public static Matrix4 CreateTranslation(float x, float y, float z)
+            public static Matrix4 Translate(float x, float y, float z)
             {
-                Matrix4 translation = new Matrix4();
-                translation[0, 0] = 1;
-                translation[1, 1] = 1;
-                translation[2, 2] = 1;
-                translation[3, 3] = 1;
-
+                Matrix4 translation = new Matrix4().IdentityMatrix();
+               
                 translation[0, 3] = x;
                 translation[1, 3] = y;
                 translation[2, 3] = z;
                 return translation;
             }
+
+            public static Matrix4 Translate(Vector3 coords)
+            {
+                return Translate(coords.X, coords.Y, coords.Z);
+            }
+
+
             public static Matrix4 operator +(Matrix4 a, Matrix4 b)
             {
                 Matrix4 result = new Matrix4();
@@ -362,6 +375,19 @@ namespace OurGraphics
                     for (int j = 0; j < 4; j++)
                     {
                         result[i, j] = a[i, j] + b[i, j];
+                    }
+                }
+                return result;
+            }
+
+            public static Matrix4 operator -(Matrix4 a, Matrix4 b)
+            {
+                Matrix4 result = new Matrix4();
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        result[i, j] = a[i, j] - b[i, j];
                     }
                 }
                 return result;
