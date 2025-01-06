@@ -41,30 +41,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.ColorSelector = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.trackBar4 = new System.Windows.Forms.TrackBar();
-            this.trackBar5 = new System.Windows.Forms.TrackBar();
-            this.trackBar6 = new System.Windows.Forms.TrackBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,13 +53,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Option_Vertex = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,11 +75,14 @@
             this.addTetraederToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hengerHozzáadásaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetRotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.resetRotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BrightnessBar = new System.Windows.Forms.TrackBar();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -129,19 +103,13 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ColorSelector)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BrightnessBar)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -258,164 +226,34 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.ColorSelector);
+            this.splitContainer3.Panel1.Controls.Add(this.splitContainer4);
             resources.ApplyResources(this.splitContainer3.Panel1, "splitContainer3.Panel1");
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel2);
+            this.splitContainer3.Panel2.Controls.Add(this.panel1);
             resources.ApplyResources(this.splitContainer3.Panel2, "splitContainer3.Panel2");
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.splitContainer4, "splitContainer4");
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.ColorSelector);
             // 
             // ColorSelector
             // 
+            this.ColorSelector.BackColor = System.Drawing.Color.White;
+            this.ColorSelector.Cursor = System.Windows.Forms.Cursors.Cross;
             resources.ApplyResources(this.ColorSelector, "ColorSelector");
             this.ColorSelector.Name = "ColorSelector";
             this.ColorSelector.TabStop = false;
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.tableLayoutPanel3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.label4, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.textBox4, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.textBox5, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.label5, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 4);
-            this.tableLayoutPanel3.Controls.Add(this.textBox6, 1, 4);
-            this.tableLayoutPanel3.Controls.Add(this.trackBar4, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.trackBar5, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.trackBar6, 0, 5);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // textBox4
-            // 
-            resources.ApplyResources(this.textBox4, "textBox4");
-            this.textBox4.Name = "textBox4";
-            // 
-            // textBox5
-            // 
-            resources.ApplyResources(this.textBox5, "textBox5");
-            this.textBox5.Name = "textBox5";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // textBox6
-            // 
-            resources.ApplyResources(this.textBox6, "textBox6");
-            this.textBox6.Name = "textBox6";
-            // 
-            // trackBar4
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.trackBar4, 2);
-            resources.ApplyResources(this.trackBar4, "trackBar4");
-            this.trackBar4.Name = "trackBar4";
-            // 
-            // trackBar5
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.trackBar5, 2);
-            resources.ApplyResources(this.trackBar5, "trackBar5");
-            this.trackBar5.Name = "trackBar5";
-            // 
-            // trackBar6
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.trackBar6, 2);
-            resources.ApplyResources(this.trackBar6, "trackBar6");
-            this.trackBar6.Name = "trackBar6";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.trackBar1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.trackBar2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.trackBar3, 0, 5);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // textBox1
-            // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            // 
-            // textBox2
-            // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // textBox3
-            // 
-            resources.ApplyResources(this.textBox3, "textBox3");
-            this.textBox3.Name = "textBox3";
-            // 
-            // trackBar1
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.trackBar1, 2);
-            resources.ApplyResources(this.trackBar1, "trackBar1");
-            this.trackBar1.Name = "trackBar1";
-            // 
-            // trackBar2
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.trackBar2, 2);
-            resources.ApplyResources(this.trackBar2, "trackBar2");
-            this.trackBar2.Name = "trackBar2";
-            // 
-            // trackBar3
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.trackBar3, 2);
-            resources.ApplyResources(this.trackBar3, "trackBar3");
-            this.trackBar3.Name = "trackBar3";
+            this.ColorSelector.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ColorSelector_MouseDown);
+            this.ColorSelector.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ColorSelector_MouseMove);
+            this.ColorSelector.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ColorSelector_MouseUp);
             // 
             // menuStrip1
             // 
@@ -445,6 +283,7 @@
             // 
             resources.ApplyResources(this.newToolStripMenuItem, "newToolStripMenuItem");
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -467,6 +306,7 @@
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -477,55 +317,15 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.selectAllToolStripMenuItem});
+            this.selectAllToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            resources.ApplyResources(this.undoToolStripMenuItem, "undoToolStripMenuItem");
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            resources.ApplyResources(this.redoToolStripMenuItem, "redoToolStripMenuItem");
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
-            // 
-            // cutToolStripMenuItem
-            // 
-            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            // 
-            // copyToolStripMenuItem
-            // 
-            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            // 
-            // pasteToolStripMenuItem
-            // 
-            resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             // 
             // selectAllToolStripMenuItem
             // 
@@ -678,6 +478,12 @@
             resources.ApplyResources(this.addConeToolStripMenuItem, "addConeToolStripMenuItem");
             this.addConeToolStripMenuItem.Click += new System.EventHandler(this.addConeToolStripMenuItem_Click);
             // 
+            // resetRotationToolStripMenuItem
+            // 
+            this.resetRotationToolStripMenuItem.Name = "resetRotationToolStripMenuItem";
+            resources.ApplyResources(this.resetRotationToolStripMenuItem, "resetRotationToolStripMenuItem");
+            this.resetRotationToolStripMenuItem.Click += new System.EventHandler(this.resetRotationToolStripMenuItem_Click);
+            // 
             // AboutMenuItem
             // 
             this.AboutMenuItem.Name = "AboutMenuItem";
@@ -687,11 +493,28 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // resetRotationToolStripMenuItem
+            // BrightnessBar
             // 
-            this.resetRotationToolStripMenuItem.Name = "resetRotationToolStripMenuItem";
-            resources.ApplyResources(this.resetRotationToolStripMenuItem, "resetRotationToolStripMenuItem");
-            this.resetRotationToolStripMenuItem.Click += new System.EventHandler(this.resetRotationToolStripMenuItem_Click);
+            this.BrightnessBar.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.BrightnessBar, "BrightnessBar");
+            this.BrightnessBar.LargeChange = 2;
+            this.BrightnessBar.Maximum = 255;
+            this.BrightnessBar.Name = "BrightnessBar";
+            this.BrightnessBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.BrightnessBar.Value = 255;
+            this.BrightnessBar.Scroll += new System.EventHandler(this.BrightnessBar_Scroll);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.BrightnessBar);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -730,22 +553,15 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ColorSelector)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BrightnessBar)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -763,13 +579,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Option_Vertex;
@@ -803,35 +612,16 @@
         private System.Windows.Forms.ToolStripMenuItem hengerHozzáadásaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addConeToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.TrackBar trackBar3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TrackBar trackBar4;
-        private System.Windows.Forms.TrackBar trackBar5;
-        private System.Windows.Forms.TrackBar trackBar6;
         private System.Windows.Forms.PictureBox ColorSelector;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem splines;
         private System.Windows.Forms.ToolStripMenuItem resetRotationToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TrackBar BrightnessBar;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

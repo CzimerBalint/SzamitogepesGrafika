@@ -19,7 +19,7 @@ namespace OurGraphics
             public Vertex H { get; set; }
             public Vertex Origin { get; set; }
 
-            public Cube(Vertex[] vertices) : base("Cube", vertices[0].Location, new List<Vector4>())
+            public Cube(Vertex[] vertices) : base("Cube", vertices[8].Location, new List<Vector4>())
             {
                 A = vertices[0];
                 B = vertices[1];
@@ -41,7 +41,9 @@ namespace OurGraphics
                     E.Location,
                     F.Location,
                     G.Location,
-                    H.Location
+                    H.Location,
+                    Origin.Location,
+
                 };
             }
 
@@ -113,6 +115,7 @@ namespace OurGraphics
                 F.Location = OriginalLocations[5];
                 G.Location = OriginalLocations[6];
                 H.Location = OriginalLocations[7];
+                Origin.Location = OriginalLocations[8];
             }
         }
 

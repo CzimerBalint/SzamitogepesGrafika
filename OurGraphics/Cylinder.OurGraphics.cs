@@ -24,7 +24,11 @@ namespace OurGraphics
                 Origin = origin;
 
 
-                OriginalLocations = new List<Vector4>();
+                OriginalLocations = new List<Vector4>()
+                {
+                    Origin.Location
+                };
+                
                 for (int i = 0; i < Top.Length; i++)
                 {
                     OriginalLocations.Add(Top[i].Location);
@@ -153,6 +157,7 @@ namespace OurGraphics
 
             public override void ResetTransform()
             {
+                Origin.Location = OriginalLocations[0];
                 for (int i = 0; i < Top.Length; i++)
                 {
                     Top[i].Location = OriginalLocations[i];

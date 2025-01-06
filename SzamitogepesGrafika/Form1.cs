@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
@@ -18,7 +19,6 @@ namespace SzamitogepesGrafika
         public List<DrawableObject> drawableObjects;
         public List<DrawableObject> guideObjects;
         public Bitmap bmp;
-        public Bitmap ColorImg;
 
 
         public Vector3 WorldOrigin;
@@ -48,6 +48,12 @@ namespace SzamitogepesGrafika
         private float angleY;
         private float angleZ;
 
+        //Colors
+        private int brightness = 255;
+        private Color SelectedColor;
+        public Bitmap ColorImg;
+        private bool ContainsCursor = false;
+
 
 
         public Form1()
@@ -61,9 +67,11 @@ namespace SzamitogepesGrafika
 
             prefabs = new Prefabs(drawableObjects,guideObjects, treeView1);
 
-            CreateColorSelect(ColorSelector.Size);
+
 
         }
+
+       
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -72,6 +80,7 @@ namespace SzamitogepesGrafika
 
             createAxisGuide();
             rotation = new Matrix4().IdentityMatrix();
+            CreateColorSelect();
 
             CreateImage(splitContainer1.Panel1.Size);
             interface2d.Image = bmp;
@@ -93,8 +102,6 @@ namespace SzamitogepesGrafika
 
 
         #endregion
-
-
 
         #region Vertex
         private void Option_Add_Vertex_Click(object sender, EventArgs e)
@@ -214,58 +221,113 @@ namespace SzamitogepesGrafika
 
         }
 
-        private void CreateColorSelect(Size size)
+
+
+        //Color Selector
+        private void CreateColorSelect()
         {
-            ColorImg = new Bitmap(size.Width, size.Height);
+            ColorImg = new Bitmap(splitContainer4.Panel1.Width, splitContainer4.Panel1.Height);
+            Color color = new Color();
+
             for (int x = 0; x < ColorImg.Width; x++)
             {
                 for (int y = 0; y < ColorImg.Height; y++)
                 {
-                    // Hue (árnyalat) az X tengely alapján (0-360)
+                    // X tengely: árnyalat (Hue), Y tengely: telítettség (Saturation)
                     double hue = (double)x / ColorImg.Width * 360.0;
+                    double saturation = (double)y / ColorImg.Height;
+                    double value = (double)brightness / 255.0;
 
-                    // Saturation (telítettség) az Y tengely alapján (0-1)
-                    double saturation = 1.0 - (double)y / ColorImg.Height;
+                    // Szín konvertálása HSV-ből RGB-be
+                    color = ColorFromHSV(hue, saturation, value);
 
-                    // Fényerő konstans (maximum érték)
-                    double value = 1.0;
-
-                    // Szín kiszámítása
-                    Color color = ColorFromHSV(hue, saturation, value);
-
-                    // Pixel színezése a bitmapen
                     ColorImg.SetPixel(x, y, color);
                 }
             }
+            ColorSelector.Image = ColorImg;
 
         }
 
-        public static Color ColorFromHSV(double hue, double saturation, double value)
+        private Color ColorFromHSV(double hue, double saturation, double value)
         {
             int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
             double f = hue / 60 - Math.Floor(hue / 60);
 
-            value *= 255;
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - saturation));
-            int q = Convert.ToInt32(value * (1 - f * saturation));
-            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+            value = value * 255;
+            int v = Clamp((int)value, 0, 255);
+            int p = Clamp((int)(value * (1 - saturation)), 0, 255);
+            int q = Clamp((int)(value * (1 - f * saturation)), 0, 255);
+            int t = Clamp((int)(value * (1 - (1 - f) * saturation)), 0, 255);
 
             switch (hi)
             {
-                case 0:
-                    return Color.FromArgb(255, v, t, p);
-                case 1:
-                    return Color.FromArgb(255, q, v, p);
-                case 2:
-                    return Color.FromArgb(255, p, v, t);
-                case 3:
-                    return Color.FromArgb(255, p, q, v);
-                case 4:
-                    return Color.FromArgb(255, t, p, v);
-                default:
-                    return Color.FromArgb(255, v, p, q);
+                case 0: return Color.FromArgb(v, t, p);
+                case 1: return Color.FromArgb(q, v, p);
+                case 2: return Color.FromArgb(p, v, t);
+                case 3: return Color.FromArgb(p, q, v);
+                case 4: return Color.FromArgb(t, p, v);
+                default: return Color.FromArgb(v, p, q);
             }
+        }
+        
+        private int Clamp(int value, int min, int max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+
+        private void BrightnessBar_Scroll(object sender, EventArgs e)
+        {
+            Color color = new Color();
+            brightness = BrightnessBar.Value;
+
+            color = Color.FromArgb(brightness, brightness, brightness);
+
+            panel1.BackColor = color;
+            CreateColorSelect();
+        }
+
+        private void ColorSelector_MouseDown(object sender, MouseEventArgs e)
+        {
+
+            
+        }
+
+        private void ColorSelector_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (ContainsCursor)
+            {
+                SelectedColor = ColorImg.GetPixel(e.X, e.Y);
+                splitContainer4.Panel2.BackColor = SelectedColor;
+                
+            }
+
+            
+        }
+
+        private void ColorSelector_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (e.X >= 0 && e.X < ColorImg.Width && e.Y >= 0 && e.Y < ColorImg.Height)
+            {
+                ContainsCursor = true;
+            }
+            else
+            {
+                ContainsCursor = false;
+            }
+            
+        }
+
+        private Color InvertColor(Color color)
+        {
+            int invR = 255 - SelectedColor.R;
+            int invG = 255 - SelectedColor.G;
+            int invB = 255 - SelectedColor.B;
+
+            return Color.FromArgb(invR, invG, invB);
+                
         }
 
 
@@ -282,7 +344,6 @@ namespace SzamitogepesGrafika
                 guide.Draw(g);
             }
         }
-
 
         private void interface2d_MouseMove(object sender, MouseEventArgs e)
         {
@@ -360,7 +421,6 @@ namespace SzamitogepesGrafika
             interface2d.Invalidate();
         }
 
-
         private void interface2d_MouseDown(object sender, MouseEventArgs e)
         {
             switch (e.Button)
@@ -397,7 +457,7 @@ namespace SzamitogepesGrafika
                     break;
 
                 case MouseButtons.Right:
-                    bmp.FillS4(e.Location.X, e.Location.Y, bmp.GetPixel(e.X, e.Y), Color.Aqua);//set color
+                    bmp.FillS4(e.Location.X, e.Location.Y, bmp.GetPixel(e.X, e.Y), SelectedColor);//set color
                     interface2d.Invalidate();
                     break;
 
@@ -453,8 +513,8 @@ namespace SzamitogepesGrafika
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //LoadOBJ();
-            //interface2d.Invalidate();
+            LoadOBJ();
+            interface2d.Invalidate();
 
 
         }
@@ -462,7 +522,7 @@ namespace SzamitogepesGrafika
         private void LoadOBJ()
         {
             List<Vertex> vertices = new List<Vertex>();
-            string objName = string.Empty;
+            List<Rect> Faces = new List<Rect>();
             int vertCounter = 0;
 
 
@@ -476,7 +536,10 @@ namespace SzamitogepesGrafika
             {
                 filePath = openFileDialog1.FileName;
                 var fileStream = openFileDialog1.OpenFile();
+               
                 List<string> test = new List<string>();
+                List<string> names = new List<string>();
+                List<TreeNode> Parents = new List<TreeNode>();
 
 
                 using (StreamReader reader = new StreamReader(fileStream))
@@ -487,8 +550,7 @@ namespace SzamitogepesGrafika
                         if (fileContent.StartsWith("o "))
                         {
                             string[] asd = fileContent.Split(new string[] { "o " }, StringSplitOptions.None);
-                            objName = asd[1];
-                            MessageBox.Show(objName);
+                            names.Add(asd[1]);
 
                         }
                         if (fileContent.StartsWith("v "))
@@ -529,46 +591,26 @@ namespace SzamitogepesGrafika
                             }
                             string a = concatenated + ";";
                             test.Add(a);
-                            Debug.WriteLine(a); // Debug output az ellenőrzéshez
+                            //Debug.WriteLine(a); // Debug output az ellenőrzéshez
 
                         }
                     }
+
+                    foreach (string name in names)
+                    {
+                        Parents.Add(new TreeNode(name));
+                    }
+
+
                     foreach (var item in vertices)
                     {
                         drawableObjects.Add(item);
-                        treeView1.Nodes.Add(item.Name);
                     }
-                    List<Vertex> vertices2 = new List<Vertex>();
+                    treeView1.Nodes.AddRange(Parents.ToArray());
 
-                    foreach (var item in test)
-                    {
-                        string[] b = item.Split(';', ','); // Szétválasztjuk az elemeket
-                        vertices2.Clear(); // Töröljük az előző iteráció elemeit
-                        for (int i = 0; i < b.Length; i++)
-                        {
-                            for (int j = 0; j < vertices.Count; j++) // Nincs -3, az összes vertexet végigmegy
-                            {
-                                if (b[i] == vertices[j].Name) // Ha egyezik a `test` elem a `vertices` Name-jével
-                                {
-                                    vertices2.Add(vertices[j]); // Hozzáadjuk az aktuális vertexet
-                                    break; // Megtaláltuk az elemet, nem kell tovább keresni
-                                }
-                            }
-                        }
+                    
 
-                        // Ellenőrizzük, hogy elegendő vertex van az összekötéshez
-                        if (vertices2.Count >= 4)
-                        {
-                            // Körkörös összekötés az első és az utolsó között
-                            vertices2.Add(vertices2[0]); // Az első elemet hozzáadjuk a lista végéhez
-
-                            using (Graphics g = interface2d.CreateGraphics())
-                            {
-                                Rect tmp = new Rect(vertices2.ToArray());
-                                drawableObjects.Add(tmp);
-                            }
-                        }
-                    }
+                    
 
 
                 }
@@ -603,9 +645,11 @@ namespace SzamitogepesGrafika
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
+            //2024.12.10 1:56
+
             if (e.KeyCode == Keys.X)
             {
-                isXDown = false; //2024.12.10 1:56
+                isXDown = false; 
             }
             if (e.KeyCode == Keys.Y)
             {
@@ -626,5 +670,72 @@ namespace SzamitogepesGrafika
             }
             interface2d.Invalidate();
         }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SelectedColor = InvertColor(SelectedColor);
+            splitContainer4.Panel2.BackColor = SelectedColor;
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateImage(splitContainer1.Panel1.Size);
+            axisGuide.ResetTransform();
+            treeView1.Nodes.Clear();
+            drawableObjects.Clear();
+            SelectedColor = Color.White;
+            splitContainer4.Panel2.BackColor = SelectedColor;
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            saveFileDialog1.InitialDirectory = "c:\\";
+            saveFileDialog1.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+            saveFileDialog1.FilterIndex = 0;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Formátum kiválasztása a fájlkiterjesztés alapján
+                string extension = System.IO.Path.GetExtension(saveFileDialog1.FileName).ToLower();
+                ImageFormat format = ImageFormat.Png; // Alapértelmezett
+
+                switch (extension)
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        format = ImageFormat.Jpeg;
+                        break;
+                    case ".bmp":
+                        format = ImageFormat.Bmp;
+                        break;
+                    case ".png":
+                        format = ImageFormat.Png;
+                        break;
+                    default:
+                        MessageBox.Show("Ismeretlen fájlformátum! PNG formátum mentve.");
+                        break;
+                }
+
+                // Bitmap mentése a kiválasztott formátumban
+                try
+                {
+                    bmp.Save(saveFileDialog1.FileName, format);
+                    MessageBox.Show("Kép sikeresen elmentve!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hiba történt a mentés során: " + ex.Message);
+                }
+            }
+
+        }
     }
 }
+
