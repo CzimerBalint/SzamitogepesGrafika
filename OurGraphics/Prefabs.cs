@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
@@ -67,13 +68,13 @@ namespace OurGraphics
 
                 foreach (Vertex v in vertices)
                 {
-                    center.Location += v.Location; 
+                    center.Location += v.Location;
                 }
                 center.Location /= vertices.Length;
 
-                Vertex[] tmp = new Vertex[vertices.Length+1];
+                Vertex[] tmp = new Vertex[vertices.Length + 1];
                 Array.Copy(vertices, tmp, vertices.Length);
-                tmp[tmp.Length-1] = center;
+                tmp[tmp.Length - 1] = center;
 
                 Cube cube = new Cube(tmp);
 
@@ -113,7 +114,7 @@ namespace OurGraphics
             #region Tetraeder
             public Tetraeder CreateTetra(PointF wo)
             {
-                Vertex center = new Vertex(new Vector3(0,0,0));
+                Vertex center = new Vertex(new Vector3(0, 0, 0));
                 Vertex[] vertices = new Vertex[]
                 {
                    new Vertex(new Vector3(wo.X, wo.Y, 0)),              // A
@@ -154,7 +155,7 @@ namespace OurGraphics
                     new TreeNode(tmp[2].Name),
                     new TreeNode(tmp[3].Name),
                     new TreeNode(tmp[4].Name),
-                   
+
                 };
 
                 parent.Nodes.AddRange(children);
@@ -170,27 +171,27 @@ namespace OurGraphics
             {
                 Vertex[] Bottomvertices = new Vertex[16];
                 Vertex[] TopVertices = new Vertex[16];
-                Vertex center = new Vertex(new Vector3(0, 0, 0));
                 float angleIncrement = 360.0f / 16;
                 float angle = 0.0f;
 
                 float radius = 200;
                 float height = 100;
 
+                Vertex center = new Vertex(new Vector3(wo.X, wo.Y, height));
+
                 for (int i = 0; i < 16; i++)
                 {
                     float x = wo.X + radius * (float)Math.Cos(angle * Math.PI / 180.0);
                     float z = wo.Y + radius * (float)Math.Sin(angle * Math.PI / 180.0); // float z mert nekem az y a függőleges
-                    Bottomvertices[i] = new Vertex(new Vector3(x, 0, z)) {Name = $"AlapVertex{i}" };
-                    TopVertices[i] = new Vertex(new Vector3(x, height, z)) {Name = $"TopVertex{i}" };
+                    Bottomvertices[i] = new Vertex(new Vector3(x, 0, z)) { Name = $"AlapVertex{i}" };
+                    TopVertices[i] = new Vertex(new Vector3(x, height, z)) { Name = $"TopVertex{i}" };
                     angle += angleIncrement;
-                    
+
                 }
 
-                center.Location = new Vector3(wo.X,height*2,wo.Y);
 
-                Cylinder cylinder = new Cylinder(Bottomvertices,TopVertices,center, radius, height)
-                { 
+                Cylinder cylinder = new Cylinder(Bottomvertices, TopVertices, center, radius, height)
+                {
                     Name = $"Henger{cylinderCount++}"
                 };
                 center.SetName("Center");
@@ -226,7 +227,7 @@ namespace OurGraphics
                 float height = 200;
 
                 Vertex[] BottomVertices = new Vertex[16];
-                Vertex TopVertex = new Vertex(new Vector3(wo.X, wo.Y, height)){ Name = "ConeTop" };
+                Vertex TopVertex = new Vertex(new Vector3(wo.X, wo.Y, height)) { Name = "ConeTop" };
 
 
                 for (int i = 0; i < 16; i++)
@@ -237,7 +238,7 @@ namespace OurGraphics
                     angle += angleIncrement;
                 }
 
-                Cone cone = new Cone(BottomVertices,TopVertex,new Vertex(wo), radius, height)
+                Cone cone = new Cone(BottomVertices, TopVertex, new Vertex(wo), radius, height)
                 {
                     Name = $"Kúp{ConeCount++}"
                 };
@@ -258,6 +259,37 @@ namespace OurGraphics
                 return cone;
 
             }
+            #endregion
+
+            #region FaceBuilder
+
+            public FaceBuilder Face(Vector3 wo, List<Vector3> locations, string[] ConnectionOrder)
+            {
+                Vertex center = new Vertex(new Vector3(0,0,0));
+                List<Vertex> temp = new List<Vertex>();
+                foreach (Vector3 v in locations)
+                {
+                    temp.Add(new Vertex(new Vector3(wo.X + v.X*100,
+                                                    wo.Y + v.Y*100,
+                                                    wo.Z + v.Z*100)));//ha a lustaság fája ordítanék de szerencsére nem fáj ez pedig működik
+                }
+                
+                foreach (Vertex v in temp)
+                {
+                    center.Location += v.Location;
+                }
+                center.Location /= temp.Count;
+
+                temp.Add(center);   
+
+                FaceBuilder face = new FaceBuilder(temp, ConnectionOrder);
+                
+                DrawableObjects.Add(face);
+                DrawableObjects.AddRange(temp);
+
+                return face;
+            } 
+
             #endregion
 
             #region AxisGuide
@@ -287,6 +319,12 @@ namespace OurGraphics
 
             }
             #endregion
+
+
+           
+
+
+
             #endregion
 
             #region 2D

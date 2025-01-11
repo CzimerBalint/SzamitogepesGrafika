@@ -177,8 +177,7 @@ namespace OurGraphics
             g.AxisGuideMP(pen, (int)start.Location.X, (int)start.Location.Y, (int)end.Location.X, (int)end.Location.Y);
         }
 
-
-
+      
         public static void CirclePoints(this Graphics g, Pen pen, Point center, int x, int y)
         {
             g.DrawPixel(pen, center.X + x, center.Y + y);

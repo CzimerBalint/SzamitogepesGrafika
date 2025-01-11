@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using static OurGraphics.GraphicsExtension;
 
@@ -67,8 +69,6 @@ namespace SzamitogepesGrafika
 
             prefabs = new Prefabs(drawableObjects,guideObjects, treeView1);
 
-
-
         }
 
        
@@ -88,6 +88,8 @@ namespace SzamitogepesGrafika
 
             toolStripStatusLabel1.Text = "ScreenSpace: {X=NaN,Y=NaN}";
             toolStripStatusLabel2.Text = "Worldspace: {X=NaN,Y=NaN}";
+
+            
         }
 
         #region AxisGuide
@@ -335,6 +337,8 @@ namespace SzamitogepesGrafika
         {
             g = e.Graphics;
 
+            
+
             foreach (var drawable in drawableObjects)
             {
                 drawable.Draw(g);
@@ -343,6 +347,7 @@ namespace SzamitogepesGrafika
             {
                 guide.Draw(g);
             }
+            
         }
 
         private void interface2d_MouseMove(object sender, MouseEventArgs e)
@@ -400,6 +405,16 @@ namespace SzamitogepesGrafika
                         rotation = Matrix4.CreateRotationZ(angleZ);
                     }
 
+                    foreach (var drawable in drawableObjects)
+                    {
+                        drawable.Transform(Matrix4.Translate(drawable.GetCenter()) * rotation * Matrix4.Translate(-drawable.GetCenter()));
+                    }
+                    foreach (var guide in guideObjects)
+                    {
+                        guide.Transform(Matrix4.Translate(guide.GetCenter()) * rotation * Matrix4.Translate(-guide.GetCenter()));
+                        
+                    }
+                    /*
                     // összes drawable forgatása a c# szerinti {0,0} ban és majd a képerő közepére transzfomrálás
                     foreach (var drawable in drawableObjects)
                     {
@@ -409,11 +424,12 @@ namespace SzamitogepesGrafika
                     {
                         guide.Transform(Matrix4.Translate(guide.Location) * rotation * Matrix4.Translate(-guide.Location));
                     }
-
+                    */
 
                 }
+                
 
-                // Frissítsd az MBM_last pozíciót az aktuális egérpozícióra
+                //MBM_last = aktuális egérpozícióra
                 MBM_last = e.Location;
             }
 
@@ -473,6 +489,11 @@ namespace SzamitogepesGrafika
             selectedVertex = null;
             MBM_last = new Point(e.X, e.Y);
             MBM_isDown = false;
+            foreach (var guide in guideObjects)
+            {
+                guide.ResetTransform();
+
+            }
         }
         #endregion
 
@@ -521,10 +542,7 @@ namespace SzamitogepesGrafika
 
         private void LoadOBJ()
         {
-            List<Vertex> vertices = new List<Vertex>();
-            List<Rect> Faces = new List<Rect>();
-            int vertCounter = 0;
-
+            List<Vector3> verticesLocation = new List<Vector3>();
 
 
             openFileDialog1.InitialDirectory = "c:\\";
@@ -564,9 +582,8 @@ namespace SzamitogepesGrafika
                             float x = float.Parse(coords[0]);
                             float y = float.Parse(coords[1]);
                             float z = float.Parse(coords[2]);
-                            vertCounter++;
                             //Console.WriteLine($"X: {x:F6}, Y: {y:F6}, Z: {z:F6}");
-                            vertices.Add(new Vertex(WorldOrigin - new Vector3(x * 100, y * 100, z * 100)) { Name = $"{vertCounter}" });
+                            verticesLocation.Add(new Vector3(x,y,z));
                         }
                         if (fileContent.StartsWith("vn "))
                         {
@@ -580,19 +597,10 @@ namespace SzamitogepesGrafika
                         {
                             string[] asd = fileContent.Split(new string[] { "f " }, StringSplitOptions.None);
                             string[] coords = asd[1].Split(' ', '/');
-                            string concatenated = "";
-                            for (int i = 0; i < coords.Length; i += 3)
-                            {
-                                concatenated += coords[i];
-                                if (i + 3 < coords.Length) // Csak akkor ad hozzá vesszőt, ha nem az utolsó elem
-                                {
-                                    concatenated += ",";
-                                }
-                            }
-                            string a = concatenated + ";";
-                            test.Add(a);
-                            //Debug.WriteLine(a); // Debug output az ellenőrzéshez
+                            //List<Vertex> faceVertices = coords.Where((c, i) => i % 3 == 0).Select(c => verticesLocation[int.Parse(c) - 1]).ToList();
 
+                            FaceBuilder face = prefabs.Face(WorldOrigin, verticesLocation, coords);
+                            
                         }
                     }
 
@@ -601,18 +609,10 @@ namespace SzamitogepesGrafika
                         Parents.Add(new TreeNode(name));
                     }
 
-
-                    foreach (var item in vertices)
-                    {
-                        drawableObjects.Add(item);
-                    }
                     treeView1.Nodes.AddRange(Parents.ToArray());
 
-                    
-
-                    
-
-
+                    if (reader.EndOfStream)
+                        reader.Close();
                 }
 
             }
